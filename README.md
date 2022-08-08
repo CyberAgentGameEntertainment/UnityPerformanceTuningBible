@@ -1,10 +1,12 @@
 <p align="center">
   <img width=350 src="Documentation/bible_logo.png" alt="UnityPerformanceTuningBible">
 </p>
-Unityのパフォーマンスチューニングに関するノウハウをまとめた書籍を作成するプロジェクトです。  
-本プロジェクトではmainブランチにプッシュを行うたびに、Github Actionsで電子書籍をビルドします。
 
-# 電子書籍のダウンロード方法
+# Unity Performance Tuning Bible
+Unityのパフォーマンスチューニングに関するノウハウをまとめた書籍を作成するプロジェクトです。  
+本プロジェクトはmainブランチにプッシュするたびに、Github Actionsで電子書籍をビルドします。
+
+## 電子書籍のダウンロード方法
 ダウンロードは以下の手順で行います。
 1. Actionsを選択します。
 
@@ -25,9 +27,9 @@ Unityのパフォーマンスチューニングに関するノウハウをまと
 </p>
 
 
-# 書籍の内容について
-文章に関する校正はプルリクエストをご活用ください。  
-また、内容に関するご意見はIssuesをご活用ください。
+## 書籍の内容について
+文章に関する校正はPull Requestをご活用ください。
+また、書籍の内容に関する提案などはIssuesをご活用ください。
 
 
 (C) 2022 CyberAgent, Inc.
