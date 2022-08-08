@@ -30,4 +30,5 @@
 文章に関する校正はPull Requestをご活用ください。  
 また、書籍の内容に関する提案などはIssuesをご活用ください。
 
+## Copyright
 (C) 2022 CyberAgent, Inc.
