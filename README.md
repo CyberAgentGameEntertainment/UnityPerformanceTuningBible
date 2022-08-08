@@ -1,4 +1,6 @@
-  <img width=500 src="Documentation/bible_logo.png" alt="UnityPerformanceTuningBible">
+<p align="center">
+  <img width=350 src="Documentation/bible_logo.png" alt="UnityPerformanceTuningBible">
+</p>
 Unityのパフォーマンスチューニングに関するノウハウをまとめた書籍を作成するプロジェクトです。  
 本プロジェクトではmainブランチにプッシュを行うたびに、Github Actionsで電子書籍をビルドします。
 
@@ -7,19 +9,19 @@ Unityのパフォーマンスチューニングに関するノウハウをまと
 1. Actionsを選択します。
 
 <p align="center">
-  <img width=500 src="Documentation/download_01.png" alt="Download Step 01">
+  <img width=800 src="Documentation/download_01.png" alt="Download Step 01">
 </p>
 
 2. 最新のWorkflowを選択します。
 
 <p align="center">
-  <img width=500 src="Documentation/download_02.png" alt="Download Step 02">
+  <img width=800 src="Documentation/download_02.png" alt="Download Step 02">
 </p>
 
 3. Artifactsから電子書籍をダウンロードします。
 
 <p align="center">
-  <img width=500 src="Documentation/download_03.png" alt="Download Step 03">
+  <img width=800 src="Documentation/download_03.png" alt="Download Step 03">
 </p>
 
 
