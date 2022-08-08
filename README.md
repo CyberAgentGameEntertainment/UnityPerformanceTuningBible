@@ -1,4 +1,4 @@
-  <img width=500 src="Documentation/logo.png" alt="UnityPerformanceTuningBible">
+  <img width=500 src="Documentation/bible_logo.png" alt="UnityPerformanceTuningBible">
 Unityのパフォーマンスチューニングに関するノウハウをまとめた書籍を作成するプロジェクトです。  
 本プロジェクトではmainブランチにプッシュを行うたびに、Github Actionsで電子書籍をビルドします。
 
