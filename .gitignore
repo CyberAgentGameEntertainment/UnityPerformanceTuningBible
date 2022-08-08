@@ -1,0 +1,12 @@
+node_modules/
+Gemfile.lock
+.sass-cache/
+
+articles/*.pdf
+articles/*.epub
+articles/*.html
+# articles/*.md
+articles/*.xml
+articles/*.txt
+
+.DS_Store

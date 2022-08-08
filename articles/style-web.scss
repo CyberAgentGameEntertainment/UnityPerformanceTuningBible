@@ -1,0 +1,87 @@
+/* stylesheet for Re:VIEW web */
+
+$cursor-top: 100px;
+$cursor-width: 40px;
+$side-width: 200px;
+$page-width: 800px;
+
+nav.side-content
+{
+
+    width: $side-width;
+    position: fixed;
+
+    h1.side-title
+    {
+        margin: 0;
+        padding: 0;
+        font-size: 1em;
+        border-top: none;
+    }
+
+    ul
+    {
+        list-style: none;
+    }
+}
+
+.book-body
+{
+    margin-left: $cursor-width + $side-width;
+    margin-right: $cursor-width;
+    position: relative;
+
+    .book-page
+    {
+        max-width: $page-width;
+        margin:0 auto;
+        padding: 32px 0 32px;
+    }
+
+    .book-navi
+    {
+        position: fixed;
+        top: 0;
+        min-width: $cursor-width;
+
+        a
+        {
+            text-decoration: none;
+        }
+    }
+
+    .book-prev
+    {
+        left: $side-width + 10px;
+    }
+    .book-next
+    {
+        right: 10px;
+    }
+
+    .book-cursor
+    {
+        height: 100vh;
+        text-align: center;
+        font-size: 32pt;
+        padding: $cursor-top 0 0 0;
+        color: #eee;
+    }
+    .book-cursor:hover
+    {
+        color: #333;
+    }
+
+}
+
+footer p
+{
+    margin-left: $side-width + $cursor-width;
+    text-align: center;
+}
+
+.cover-image img
+{
+    max-width: 100%;
+}
+
