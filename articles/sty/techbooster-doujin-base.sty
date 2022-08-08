@@ -1,0 +1,288 @@
+% review-base.sty, review-style.styの後のTechBooster固有の調整
+\makeatletter
+
+\newif\if@frontmatter \@frontmattertrue
+
+% 何もないページを作った際にヘッダなどを表示しないコマンド 
+% 参考: https://runebook.dev/ja/docs/latex/_005cclearpage-_0026-_005ccleardoublepage
+\let\origdoublepage\cleardoublepage
+\newcommand{\clearemptydoublepage}{\clearpage{\pagestyle{empty}\origdoublepage}}
+
+% コード
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{breakable}
+\renewenvironment{shaded}{
+  \vspace{\baselineskip}
+  \begin{tcolorbox}[breakable, enhanced jigsaw, colback=black!10!white, colframe=black!30!white]}
+  {\end{tcolorbox}}
+\renewenvironment{shadedb}{
+  \vspace{\baselineskip}
+  \begin{tcolorbox}[breakable, enhanced jigsaw, colback=black!80!white, colframe=black, colupper=white, sharp corners, rounded corners=southeast]}
+  {\end{tcolorbox}}
+
+%% サンプルコードをさらに小さく
+\renewenvironment{reviewemlist}{%
+  \medskip\footnotesize\begin{shaded}\ifdefined\reviewlistxkanjiskip\xkanjiskip=\reviewlistxkanjiskip\fi\setlength{\baselineskip}{1.2zw}\begin{alltt}}{%
+  \end{alltt}\end{shaded}}
+
+\renewenvironment{reviewlist}{%
+  \begin{shaded}\footnotesize\ifdefined\reviewlistxkanjiskip\xkanjiskip=\reviewlistxkanjiskip\fi\setlength{\baselineskip}{1.2zw}\begin{alltt}}{%
+  \end{alltt}\end{shaded}\par\vspace*{0.5zw}}
+
+\renewenvironment{reviewcmd}{%
+  \color{white}\medskip\footnotesize\begin{shadedb}\ifdefined\reviewlistxkanjiskip\xkanjiskip=\reviewlistxkanjiskip\fi\setlength{\baselineskip}{1.2zw}\begin{alltt}}{%
+  \end{alltt}\end{shadedb}}
+
+% ヘッダ・フッタの指定
+\fancyhead{}
+\fancyhead[LE]{\gtfamily\sffamily\bfseries\upshape \leftmark}
+\fancyhead[RO]{\gtfamily\sffamily\bfseries\upshape \rightmark}
+\renewcommand{\chaptermark}[1]{%
+  \if@mainmatter
+    \markboth{\prechaptername\ \thechapter\ \postchaptername~#1}{}
+  \else
+    \markboth{#1}{#1}
+  \fi}
+\fancyfoot{}
+\cfoot{\thepage}
+\renewcommand{\headrule}{\vspace{2pt}\hrulefill}
+
+\fancypagestyle{plainhead}{%
+  \fancyhead{}
+  \fancyfoot{}
+  \cfoot{}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}}
+
+\usepackage{fancyvrb}
+\VerbatimFootnotes
+
+\renewcommand{\captionsize}{\fontsize{9}{9}\selectfont}
+\newlength{\captionnumwidth}
+\setlength{\captionnumwidth}{6zw}
+%\newlength{\captionwidth}
+\setlength{\captionwidth}{\textwidth}
+\addtolength{\captionwidth}{-\captionnumwidth}
+\def\captionhead{\sffamily{\color{black!30!white}{▲}}}
+\long\def\@makecaption#1#2{%
+  \addvspace\abovecaptionskip
+  \buildcaption{!}{#1}{#2}
+  \vskip\belowcaptionskip
+}
+\long\def\buildcaption#1#2#3{%
+  \sbox\@tempboxa{\captionsize\sffamily #3}%
+  \ifdim \wd\@tempboxa <\captionwidth%
+    \def\capline{\captionsize\captionhead #2%
+                  \hskip1zw\relax\usebox{\@tempboxa}\mbox{}\relax}
+    \ifx#1!\relax\centerline{\capline}\else\noindent\capline\fi
+  \else
+    \noindent%
+    \parbox[t]{\captionnumwidth}{%
+      {\captionsize\captionhead #2%
+        \hskip1zw}}%
+    \parbox[t]{\captionwidth}{\captionsize\sffamily #3}
+  \fi
+}
+
+\long\def\listcaption#1:#2\relax{\buildcaption{}{#1}{#2}}
+
+\renewcommand{\reviewimagecaption}[1]{%
+  {\def\captionhead{\sffamily{\color{black!30!white}{▲}}}
+   \caption{#1}}}
+
+\renewcommand{\reviewtablecaption}[1]{%
+  {\def\captionhead{\sffamily{\color{black!30!white}{▼}}}
+   \caption{#1}}}
+
+\renewcommand{\reviewlistcaption}[1]{%
+  {\def\captionhead{\sffamily{\color{black!30!white}{▼}}}
+   \medskip{\listcaption#1\relax}\vspace*{-1.3zw}}}
+
+\renewcommand{\reviewsourcecaption}[1]{%
+  {\def\captionhead{\sffamily{\color{black!30!white}{▼}}}
+   \medskip{\listcaption#1\relax}\vspace*{-1.3zw}}}
+
+\renewcommand{\reviewemlistcaption}[1]{%
+  {\def\captionhead{\sffamily{\color{black!30!white}{▼}}}
+   \medskip{\buildcaption{}{}{#1}\relax}\vspace*{-1.3zw}}}
+
+\renewcommand{\reviewcmdcaption}[1]{%
+  {\def\captionhead{\sffamily{\color{black!30!white}{▼}}}
+   \medskip{\listcaption#1\relax}\vspace*{-1.3zw}}}
+
+\renewcommand{\reviewindepimagecaption}[1]{%
+  \begin{center}#1\end{center}}
+
+\renewcommand{\reviewboxcaption}[1]{%
+  {\def\captionhead{\sffamily{\color{black!30!white}{▼}}}
+   \medskip{\captionsize\captionhead #1}\vspace*{-1.3zw}}}
+
+\renewenvironment{reviewcolumn}[1][]{%
+     \vspace{\baselineskip}
+     \begin{tcolorbox}[colback=white,breakable,enhanced jigsaw,before upper={\parindent1zw}]
+     \reviewcolumnhead{}{#1}
+   }{%
+      \end{tcolorbox}
+     \vspace{\baselineskip}
+}
+
+\renewcommand{\reviewcolumnhead}[2]{%
+{\noindent\large\sffamily #2}
+\vspace{\baselineskip}}
+
+%%シングルクォート対応
+\usepackage{upquote}
+\xspcode`'=0
+
+% 見出し書体
+\renewcommand{\reviewtitlefont}{\gtfamily\sffamily\bfseries}
+
+% 既存命令のemptyページスタイルをパッチでplainheadに変更
+% ノンブルなし版を保持
+\let\includefullpagegraphicswithoutnmbl\includefullpagegraphics
+% 表紙画像にはwithoutnmbl版利用
+\if@reclscover
+  \ifdefined\review@coverfile% ファイル明示指定のときには何もしない
+  \else
+    \ifdefined\review@coverimage
+      \def\reviewcoverpagecont{% withoutnmbl版で再定義
+        \expandafter\includefullpagegraphicswithoutnmbl\expandafter[\review@coverimageoption]{\review@coverimage}
+        \cleardoublepage
+      }
+    \fi
+  \fi
+\fi
+
+\patchcmd{\includefullpagegraphics}{%
+{\thispagestyle{empty}\@includefullpagegraphics}
+}{%
+{\thispagestyle{plainhead}\@includefullpagegraphics}
+}
+{\message{succeeded to patch: includefullpagegraphics}}{\message{failed to patch: includefullpagegraphics}}
+
+\patchcmd{\oneblankpage}{%
+\thispagestyle{empty}%
+}{%
+\thispagestyle{plainhead}%
+}
+{\message{succeeded to patch: oneblankpage}}{\message{failed to patch: oneblankpage}}
+
+\def\cleardoublepage{%
+\clearpage%
+\if@twoside%
+   \ifodd \c@page \else \hbox{}\thispagestyle{plainhead}\newpage%
+           \if@twocolumn\hbox{}\thispagestyle{plainhead}\newpage\fi%
+   \fi%
+\fi%
+}
+\def\clearoddpage{\clearpage\if@twoside\ifodd\c@page
+  \hbox{}\thispagestyle{plainhead}\newpage\if@twocolumn\hbox{}\newpage\fi\fi\fi}
+
+\ifdefined\review@titlepage
+  \ifthenelse{\isundefined{\review@titlefile}}{%
+    \patchcmd{\reviewtitlepagecont}{%
+\thispagestyle{empty}%
+}{%
+\thispagestyle{plainhead}%
+}
+{\message{succeeded to patch: reviewtitlepagecont}}{\message{failed to patch: reviewtitlepagecont}}
+  }
+\fi
+
+%frontmatter定義のため上書き
+\renewcommand{\frontmatter}{
+  \pltx@cleartooddpage
+  \@frontmattertrue
+  \@mainmatterfalse
+  \pagenumbering{roman}}
+
+%frontmatter定義のため上書き
+\renewcommand{\backmatter}{
+  \if@openleft
+    \cleardoublepage
+  \else\if@openright
+    \clearemptydoublepage
+  \else
+    \clearpage
+  \fi\fi
+  \@frontmatterfalse
+  \@mainmatterfalse}
+
+% jsbookのmainmatterの内部oddpage処理を変更
+\renewcommand\mainmatter{%
+  \if@openleft
+    \cleardoublepage
+  \else\if@openright
+    \clearemptydoublepage
+  \else
+    \clearpage
+  \fi\fi
+  \@frontmatterfalse
+  \@mainmattertrue
+  \pagenumbering{arabic}}
+
+\renewcommand{\part}{
+  \if@openleft
+    \cleardoublepage
+  \else\if@openright
+    \clearemptydoublepage
+  \else
+    \clearpage
+  \fi\fi
+  \thispagestyle{empty}% 欧文用標準スタイルでは plain
+  \if@twocolumn
+    \onecolumn
+    \@restonecoltrue
+  \else
+    \@restonecolfalse
+  \fi
+  \null\vfil
+  \secdef\@part\@spart}
+
+\renewcommand{\chapter}{%
+\if@frontmatter\clearpage\else
+\if@openleft\cleardoublepage\else
+\if@openright\clearemptydoublepage\else\clearpage\fi\fi\fi
+\plainifnotempty % 元: \thispagestyle{plain}
+\global\@topnum\z@
+\if@english \@afterindentfalse \else \@afterindenttrue \fi
+\secdef
+  {\@omit@numberfalse\@chapter}%
+  {\@omit@numbertrue\@schapter}}
+
+% 奥付を必ず偶数開始
+\renewcommand{\reviewcolophon}[0]{\clearoddpage}
+
+\tracingpatches
+\ifdefined\review@colophon
+  \ifthenelse{\isundefined{\review@colophonfile}}{%
+    \patchcmd{\reviewcolophonpagecont}{%
+\thispagestyle{empty}%
+}{%
+\thispagestyle{plainhead}%
+}
+{\message{succeeded to patch: reviewcolophonpagecont}}{\message{failed to patch: reviewcolophonpagecont}}
+
+    \patchcmd{\reviewcolophonpagecont}{%日付後に1行アキ
+{\noindent\review@pubhistories}
+}{%
+{\noindent\review@pubhistories}
+\vspace{\Cvs}
+}
+{\message{succeeded to patch: reviewcolophonpagecont2}}{\message{failed to patch: reviewcolophonpagecont2}}
+  }
+\fi
+
+% 裏表紙
+\ifdefined\techbooster@coverimage
+  \ifdefined\review@coverimageoption\else%
+    \def\review@coverimageoption{}%
+  \fi
+  \ifrecls@coverfitpage%
+    \def\review@coverimageoption{width=\paperwidth,height=\paperheight}%
+  \fi
+  \def\reviewbackcovercont{%
+  \expandafter\includefullpagegraphicswithoutnmbl\expandafter[\review@coverimageoption]{\techbooster@coverimage}}%
+\fi
+
+\makeatother

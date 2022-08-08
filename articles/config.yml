@@ -1,0 +1,19 @@
+# 書籍版用の上書き設定
+
+# 継承元設定
+inherit: ["config-epub.yml"]
+
+# 書籍版を別のファイル名にしたい場合
+# bookname: ReVIEW-Template-ebook
+
+# 書籍版のみ印刷所を追記
+prt: 株式会社 日光企画
+
+# 自動生成される大扉ページを上書きするファイル。ファイル名を指定すると大扉として入る (PDFMaker向けにはLaTeXソース断片、EPUBMaker向けにはHTMLファイル)
+titlefile: title.tex
+
+# 裏表紙データファイル (PDFMaker向けにはLaTeXソース断片、EPUBMaker向けにはHTMLファイル)
+backcover: null
+
+# B5の設定(10pt 40文字×35行)
+texdocumentclass: ["review-jsbook", "media=print,paper=b5,serial_pagination=false,fontsize=10pt,baselineskip=15.4pt,line_length=40zw,number_of_lines=35,head_space=41mm,headsep=10mm,headheight=5mm,footskip=16mm"]

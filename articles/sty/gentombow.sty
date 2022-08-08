@@ -1,0 +1,747 @@
+%
+% gentombow.sty
+% written by Hironobu Yamashita (@aminophen)
+%
+% This package is part of the gentombow bundle.
+% https://github.com/aminophen/gentombow
+%
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{gentombow}
+    [2018/08/30 v0.9j Generate crop mark 'tombow']
+\def\pxgtmb@pkgname{gentombow}
+\@namedef{ver@pxgentombow.sty}{}% fake
+
+%% error status
+\chardef\pxgtmb@errlevel=\z@
+
+%% supported engines
+% case 2: pdfLaTeX etc.
+% case 1: pLaTeX2e <2018-04-01>+2 or older
+% case 0: pLaTeX2e <2018-05-20> or newer
+\ifx\pfmtversion\@undefined
+  \@ifpackageloaded{luatexja}{}{\chardef\pxgtmb@errlevel=\tw@}
+\fi
+\ifnum\pxgtmb@errlevel<\tw@
+  \ifx\@tombowreset@@paper\@undefined
+    \chardef\pxgtmb@errlevel=\@ne
+  \fi
+\fi
+\ifcase\pxgtmb@errlevel
+  \let\pxgtmb@sel@twoone\@gobble
+  \let\pxgtmb@sel@two@one\@gobbletwo
+  \let\pxgtmb@sel@two\@gobble
+\or
+  \let\pxgtmb@sel@twoone\@firstofone
+  \let\pxgtmb@sel@two@one\@secondoftwo
+  \let\pxgtmb@sel@two\@gobble
+\or
+  \let\pxgtmb@sel@twoone\@firstofone
+  \let\pxgtmb@sel@two@one\@firstoftwo
+  \let\pxgtmb@sel@two\@firstofone
+\else
+  \PackageError{\pxgtmb@pkgname}{%
+    This cannot happen!
+    Please report to package author}\@ehc
+  \expandafter\endinput
+\fi
+\@onlypreamble\pxgtmb@sel@twoone
+\@onlypreamble\pxgtmb@sel@two@one
+\@onlypreamble\pxgtmb@sel@two
+
+%%%%% EMULATION BEGIN
+
+% required for patching \@outputpage
+\pxgtmb@sel@twoone{\RequirePackage{etoolbox}}
+
+% patch \@outputpage
+\begingroup
+\def\pxgtmb@emu@status{0}
+\let\pxgtmb@emu@outputpage\@outputpage
+\pxgtmb@sel@two@one
+{%% case 2 begin
+ \patchcmd\pxgtmb@emu@outputpage % try first patch
+  {\reset@font\normalsize\normalsfcodes}%
+  {\@tombowreset@@paper
+   \reset@font\normalsize\normalsfcodes}%
+  {}{\def\pxgtmb@emu@status{1}}
+ \patchcmd\pxgtmb@emu@outputpage % try second patch
+  {\@begindvi \vskip \topmargin}%
+  {\@begindvi \@outputtombow \vskip \@@topmargin}%
+  {}{\def\pxgtmb@emu@status{1}}
+}%% case 2 end
+{%% case 1 begin
+ \patchcmd\pxgtmb@emu@outputpage % try patch
+  {%
+   \@@topmargin\topmargin
+   \iftombow
+     \@@paperwidth\paperwidth \advance\@@paperwidth 6mm\relax
+     \@@paperheight\paperheight \advance\@@paperheight 16mm\relax
+     \advance\@@topmargin 1in\relax \advance\@themargin 1in\relax
+   \fi
+   \reset@font\normalsize\normalsfcodes}
+  {\@tombowreset@@paper
+   \reset@font\normalsize\normalsfcodes}%
+  {}{\def\pxgtmb@emu@status{1}}
+}%% case 1 end
+% commit the change only when successful; otherwise
+% tombow feature is never enabled, exit right away
+\pxgtmb@sel@twoone
+{%% case 2 and 1 begin
+ \if 0\pxgtmb@emu@status\relax
+  \global\let\@outputpage\pxgtmb@emu@outputpage
+ \else
+  \PackageError{\pxgtmb@pkgname}{%
+    Failed in patching \string\@outputpage!\MessageBreak
+    Sorry, I can't proceed anymore...}\@ehc
+  \expandafter\expandafter\expandafter\endinput\expandafter
+ \fi
+}%% case 2 and 1 end
+\endgroup
+%
+
+% provides equivalent for plcore.ltx
+\pxgtmb@sel@two
+{%% case 2 begin
+\newif\iftombow \tombowfalse
+\newif\iftombowdate \tombowdatetrue
+\newdimen\@tombowwidth
+\setlength{\@tombowwidth}{.1\p@}
+}%% case 2 end
+\pxgtmb@sel@twoone
+{%% case 2 and 1 begin
+\setlength{\@tombowwidth}{.1\p@}
+\def\@tombowbleed{3mm}
+\def\@tombowcolor{\normalcolor}
+}%% case 2 and 1 end
+\pxgtmb@sel@two
+{%% case 2 begin
+\newbox\@TL\newbox\@Tl
+\newbox\@TC
+\newbox\@TR\newbox\@Tr
+\newbox\@BL\newbox\@Bl
+\newbox\@BC
+\newbox\@BR\newbox\@Br
+\newbox\@CL
+\newbox\@CR
+\font\@bannerfont=cmtt9
+\newtoks\@bannertoken
+\@bannertoken{}
+}%% case 2 end
+\pxgtmb@sel@twoone
+{%% case 2 and 1 begin
+\def\maketombowbox{% hide \yoko from all boxes
+  \setbox\@TL\hbox to\z@{\csname yoko\endcsname\hss
+      \vrule width\dimexpr 10mm+\@tombowbleed\relax height\@tombowwidth depth\z@
+      \vrule height10mm width\@tombowwidth depth\z@
+      \iftombowdate
+        \raise4pt\hbox to\z@{\hskip5mm\@bannerfont\the\@bannertoken\hss}%
+      \fi}%
+  \setbox\@Tl\hbox to\z@{\csname yoko\endcsname\hss
+      \vrule width10mm height\@tombowwidth depth\z@
+      \vrule height\dimexpr 10mm+\@tombowbleed\relax width\@tombowwidth depth\z@}%
+  \setbox\@TC\hbox{\csname yoko\endcsname
+      \vrule width10mm height\@tombowwidth depth\z@
+      \vrule height10mm width\@tombowwidth depth\z@
+      \vrule width10mm height\@tombowwidth depth\z@}%
+  \setbox\@TR\hbox to\z@{\csname yoko\endcsname
+      \vrule height10mm width\@tombowwidth depth\z@
+      \vrule width\dimexpr 10mm+\@tombowbleed\relax height\@tombowwidth depth\z@\hss}%
+  \setbox\@Tr\hbox to\z@{\csname yoko\endcsname
+      \vrule height\dimexpr 10mm+\@tombowbleed\relax width\@tombowwidth depth\z@
+      \vrule width10mm height\@tombowwidth depth\z@\hss}%
+  \setbox\@BL\hbox to\z@{\csname yoko\endcsname\hss
+      \vrule width\dimexpr 10mm+\@tombowbleed\relax depth\@tombowwidth height\z@
+      \vrule depth10mm width\@tombowwidth height\z@}%
+  \setbox\@Bl\hbox to\z@{\csname yoko\endcsname\hss
+      \vrule width10mm depth\@tombowwidth height\z@
+      \vrule depth\dimexpr 10mm+\@tombowbleed\relax width\@tombowwidth height\z@}%
+  \setbox\@BC\hbox{\csname yoko\endcsname
+      \vrule width10mm depth\@tombowwidth height\z@
+      \vrule depth10mm width\@tombowwidth height\z@
+      \vrule width10mm depth\@tombowwidth height\z@}%
+  \setbox\@BR\hbox to\z@{\csname yoko\endcsname
+      \vrule depth10mm width\@tombowwidth height\z@
+      \vrule width\dimexpr 10mm+\@tombowbleed\relax depth\@tombowwidth height\z@\hss}%
+  \setbox\@Br\hbox to\z@{\csname yoko\endcsname
+      \vrule depth\dimexpr 10mm+\@tombowbleed\relax width\@tombowwidth height\z@
+      \vrule width10mm depth\@tombowwidth height\z@\hss}%
+  \setbox\@CL\hbox to\z@{\csname yoko\endcsname\hss
+      \vrule width10mm height.5\@tombowwidth depth.5\@tombowwidth
+      \vrule height10mm depth10mm width\@tombowwidth}%
+  \setbox\@CR\hbox to\z@{\csname yoko\endcsname
+      \vrule height10mm depth10mm width\@tombowwidth
+      \vrule height.5\@tombowwidth depth.5\@tombowwidth width10mm\hss}%
+}
+\def\@outputtombow{%
+  \iftombow
+  \vbox to\z@{\kern-\dimexpr 10mm+\@tombowbleed\relax\relax
+    \boxmaxdepth\maxdimen
+    \moveleft\@tombowbleed \vbox to\@@paperheight{%
+    \color@begingroup
+      \@tombowcolor
+      \hbox to\@@paperwidth{\hskip\@tombowbleed\relax
+         \copy\@TL\hfill\copy\@TC\hfill\copy\@TR\hskip\@tombowbleed}%
+      \kern-10mm
+      \hbox to\@@paperwidth{\copy\@Tl\hfill\copy\@Tr}%
+      \vfill
+      \hbox to\@@paperwidth{\copy\@CL\hfill\copy\@CR}%
+      \vfill
+      \hbox to\@@paperwidth{\copy\@Bl\hfill\copy\@Br}%
+      \kern-10mm
+      \hbox to\@@paperwidth{\hskip\@tombowbleed\relax
+         \copy\@BL\hfill\copy\@BC\hfill\copy\@BR\hskip\@tombowbleed}%
+    \color@endgroup
+    }\vss
+  }%
+  \fi
+}
+}%% case 2 and 1 end
+\pxgtmb@sel@two
+{%% case 2 begin
+\newdimen\@@paperheight
+\newdimen\@@paperwidth
+\newdimen\@@topmargin
+}%% case 2 end
+\pxgtmb@sel@twoone
+{%% case 2 and 1 begin
+\def\@tombowreset@@paper{%
+     \@@topmargin\topmargin
+     \iftombow
+       \@@paperwidth\paperwidth
+       \advance\@@paperwidth 2\dimexpr\@tombowbleed\relax
+       \@@paperheight\paperheight \advance\@@paperheight 10mm\relax
+       \advance\@@paperheight 2\dimexpr\@tombowbleed\relax
+       \advance\@@topmargin 1in\relax \advance\@themargin 1in\relax
+     \fi
+}
+}%% case 2 and 1 end
+\pxgtmb@sel@two
+{%% case 2 begin
+\newcount\hour
+\newcount\minute
+}%% case 2 end
+
+%%%%% EMULATION END
+
+%% import from jsclasses
+\hour\time \divide\hour by 60\relax
+\@tempcnta\hour \multiply\@tempcnta 60\relax
+\minute\time \advance\minute-\@tempcnta
+
+\ifnum\mag=\@m\else
+  % if BXjscls is detected and \mag != 1000,
+  % the layout will be definitely broken
+  \ifx\bxjs@param@mag\@undefined\else
+    \PackageError{\pxgtmb@pkgname}{%
+      It seems you are using Japanese `BXjscls'\MessageBreak
+      (bxjsarticle, bxjsbook, bxjsreport, etc.) or\MessageBreak
+      some derived class. Try adding `nomag' or\MessageBreak
+      `nomag*' to the class option list}\@ehc
+  \fi
+  % if \mag != 1000 and \inv@mag is defined, assume jsclasses-style \mag employment
+  \ifx\inv@mag\@undefined\else
+    % \pxgtmb@magscale is almost equivalent to \jsc@magscale (introduced around 2016)
+    % but defined only when \mag is actually employed
+    \begingroup
+      % calculation code borrowed from BXjscls
+      \@tempcnta=\mag
+      \advance\@tempcnta100000\relax
+      \def\pxgtmb@tempa#1#2#3#4\@nil{\@tempdima=#2#3.#4\p@}
+      \expandafter\pxgtmb@tempa\the\@tempcnta\@nil
+      \xdef\pxgtmb@magscale{\strip@pt\@tempdima}
+    \endgroup
+  \fi
+\fi
+
+%% this package will use tombo feature in pLaTeX kernel
+%  if tombow-related option is not included in class option list,
+%  show info and enable it now
+\iftombow\else
+  % if jsclasses is detected and \mag != 1000, it's too late
+  % -- When a size option other than `10pt' is specified,
+  %    jsclasses uses \mag and calculates \oddsidemargin and \topmargin
+  %    differently, depending on tombow status.
+  %    In order to force `jsclasses' to calculate correctly,
+  %    `tombow' or `tombo' is required as a class option.
+  %    ... or, you may add `nomag' or `nomag*' instead.
+  \ifx\pxgtmb@magscale\@undefined\else
+    \PackageError{\pxgtmb@pkgname}{%
+      It seems you are using Japanese `jsclasses'\MessageBreak
+      (jsarticle, jsbook, jsreport, etc.) or some\MessageBreak
+      derived class. Please add `tombow' or `tombo'\MessageBreak
+      to the class option list}\@ehc
+  \fi
+  % BXjscls is already checked above, no check here
+  \PackageInfo\pxgtmb@pkgname{tombow feature enabled by \pxgtmb@pkgname}
+\fi
+\tombowtrue %\tombowdatetrue %% enabled by tombowbanner option
+\setlength{\@tombowwidth}{.1\p@}%
+
+%% import from jsclasses
+\@bannertoken{%
+  \jobname\space(\number\year-\two@digits\month-\two@digits\day
+  \space\two@digits\hour:\two@digits\minute)}
+
+%% prepare dimension
+\ifx\stockwidth\@undefined  \newdimen\stockwidth  \fi
+\ifx\stockheight\@undefined \newdimen\stockheight \fi
+
+%% prepare flag
+\newif\ifpxgtmb@switch    \pxgtmb@switchfalse
+\newif\ifpxgtmb@landscape \pxgtmb@landscapefalse
+
+%% passed from class options
+%% should be declared first inside this package (least priority)
+\DeclareOption{tombow}{\tombowdatetrue}
+\DeclareOption{tombo}{\tombowdatefalse}
+\DeclareOption{mentuke}{\tombowdatefalse \setlength{\@tombowwidth}{\z@}}
+
+%% package options part 1
+\DeclareOption{tombowbanner}{\tombowdatetrue}
+\DeclareOption{notombowbanner}{\tombowdatefalse}
+\DeclareOption{tombowdate}{% obsolete since v0.9c (2018/01/11)
+  \PackageWarning{\pxgtmb@pkgname}{%
+    Option `tombowdate' is renamed;\MessageBreak
+    use `tombowbanner' instead}%
+  \tombowdatetrue}
+\DeclareOption{notombowdate}{% obsolete since v0.9c (2018/01/11)
+  \PackageWarning{\pxgtmb@pkgname}{%
+    Option `notombowdate' is renamed;\MessageBreak
+    use `notombowbanner' instead}%
+  \tombowdatefalse}
+
+%% register a list of candidate papersize
+%  * \pxgtmb@addpapersize[<tombowname>]{<papername>}{<shorter edge>}{<longer edge>}
+%      used for declaration of papersize.
+%      when no option is specified (that is, \ifpxgtmb@switch = \iffalse),
+%      also used for automatic stocksize determination.
+%      * if <tombowname> = \@empty, the next <papername> is assumed.
+%      * if <tombowname> = n, stocksize is set to papersize + 2in.
+\def\pxgtmb@addpapersize{\@ifnextchar[{\pxgtmb@addp@persize}{\pxgtmb@addp@persize[\@empty]}}
+\def\pxgtmb@addp@persize[#1]#2#3#4{%
+  % get current papersize and search through known standard in ascending order
+  \ifx\pxgtmb@guessedtombow\@empty
+  \ifx\pxgtmb@guessedpaper\@empty
+    % shorter edge -> \@tempdima, longer edge -> \@tempdimb
+    \ifdim\paperwidth>\paperheight\relax
+      \pxgtmb@landscapetrue
+      \@tempdima\paperheight \@tempdimb\paperwidth
+    \else
+      \pxgtmb@landscapefalse
+      \@tempdima\paperwidth  \@tempdimb\paperheight
+    \fi
+    % \@ovri and \@ovro are used temporarily (safe enough)
+    \@ovri=#3\relax
+    \@ovro=#4\relax
+    % when jsclasses-style \mag employment is assumed ...
+    \ifx\pxgtmb@magscale\@undefined\else
+      \@ovri=\inv@mag\@ovri\relax
+      \@ovro=\inv@mag\@ovro\relax
+    \fi
+    % compare
+    \ifdim\@tempdima=\@ovri\relax \ifdim\@tempdimb=\@ovro\relax
+      \def\pxgtmb@guessedpaper{#2}%
+      \ifx#1\@empty\else
+        \def\pxgtmb@guessedtombow{#1}%
+        \if n\pxgtmb@guessedtombow\else
+          \ExecuteOptions{tombow-#1}% package defaults to tombowdatetrue
+          \pxgtmb@switchfalse
+        \fi
+      \fi
+    \fi \fi
+  \else
+    \def\pxgtmb@guessedtombow{#2}% save for console message
+    \pxgtmb@setstock{#3}{#4}%      set stockwidth/height
+  \fi\fi
+  \DeclareOption{tombow-#2}{%
+    \pxgtmb@switchtrue
+    \tombowdatetrue
+    \pxgtmb@setstock{#3}{#4}%
+  }%
+  \DeclareOption{tombo-#2}{%
+    \pxgtmb@switchtrue
+    \tombowdatefalse
+    \pxgtmb@setstock{#3}{#4}%
+  }%
+  \DeclareOption{mentuke-#2}{%
+    \pxgtmb@switchtrue
+    \tombowdatefalse
+    \setlength{\@tombowwidth}{\z@}%
+    \pxgtmb@setstock{#3}{#4}%
+  }%
+}
+\def\pxgtmb@setstock#1#2{%
+  \ifpxgtmb@landscape
+    \setlength\stockwidth{#2}%
+    \setlength\stockheight{#1}%
+  \else
+    \setlength\stockwidth{#1}%
+    \setlength\stockheight{#2}%
+  \fi
+  % when jsclasses-style \mag employment is assumed ...
+  \ifx\pxgtmb@magscale\@undefined\else
+    \stockwidth=\inv@mag\stockwidth\relax
+    \stockheight=\inv@mag\stockheight\relax
+  \fi
+}%
+\@onlypreamble\pxgtmb@addpapersize
+\@onlypreamble\pxgtmb@addp@persize
+\@onlypreamble\pxgtmb@setstock
+
+%% initialize before search
+\def\pxgtmb@guessedpaper{}
+\def\pxgtmb@guessedtombow{}
+\@onlypreamble\pxgtmb@guessedpaper
+\@onlypreamble\pxgtmb@guessedtombow
+
+%% package options part 2
+%  ISO A series <=> JIS B series in the ascending order
+\pxgtmb@addpapersize{a10}{26mm}{37mm}
+\pxgtmb@addpapersize{b10}{32mm}{45mm}
+\pxgtmb@addpapersize{a9}{37mm}{52mm}
+\pxgtmb@addpapersize{b9}{45mm}{64mm}
+\pxgtmb@addpapersize{a8}{52mm}{74mm}
+\pxgtmb@addpapersize{b8}{64mm}{91mm}
+\pxgtmb@addpapersize{a7}{74mm}{105mm}
+\pxgtmb@addpapersize{b7}{91mm}{128mm}
+\pxgtmb@addpapersize{a6}{105mm}{148mm}
+\pxgtmb@addpapersize{b6}{128mm}{182mm}
+\pxgtmb@addpapersize{a5}{148mm}{210mm}
+\pxgtmb@addpapersize{b5}{182mm}{257mm}
+\pxgtmb@addpapersize{a4}{210mm}{297mm}
+\pxgtmb@addpapersize{b4}{257mm}{364mm}
+\pxgtmb@addpapersize{a3}{297mm}{420mm}
+\pxgtmb@addpapersize{b3}{364mm}{515mm}
+\pxgtmb@addpapersize{a2}{420mm}{594mm}
+\pxgtmb@addpapersize{b2}{515mm}{728mm}
+\pxgtmb@addpapersize{a1}{594mm}{841mm}
+\pxgtmb@addpapersize{b1}{728mm}{1030mm}
+\pxgtmb@addpapersize[n]{a0}{841mm}{1189mm}
+\pxgtmb@addpapersize[n]{b0}{1030mm}{1456mm}
+
+%% package options part 3
+%  ISO C series
+\pxgtmb@addpapersize[a9]{c10}{28mm}{40mm}
+\pxgtmb@addpapersize[a8]{c9}{40mm}{57mm}
+\pxgtmb@addpapersize[a7]{c8}{57mm}{81mm}
+\pxgtmb@addpapersize[a6]{c7}{81mm}{114mm}
+\pxgtmb@addpapersize[a5]{c6}{114mm}{162mm}
+\pxgtmb@addpapersize[a4]{c5}{162mm}{229mm}
+\pxgtmb@addpapersize[a3]{c4}{229mm}{354mm}
+\pxgtmb@addpapersize[a2]{c3}{324mm}{458mm}
+\pxgtmb@addpapersize[a1]{c2}{458mm}{648mm}
+\pxgtmb@addpapersize[a0]{c1}{648mm}{917mm}
+\pxgtmb@addpapersize[n]{c0}{917mm}{1297mm}
+%  misc
+\pxgtmb@addpapersize[b4]{a4j}{210mm}{297mm}
+\pxgtmb@addpapersize[b5]{a5j}{148mm}{210mm}
+\pxgtmb@addpapersize[a3]{b4j}{257mm}{364mm}
+\pxgtmb@addpapersize[a4]{b5j}{182mm}{257mm}
+\pxgtmb@addpapersize[b4]{a4var}{210mm}{283mm}
+\pxgtmb@addpapersize[a4]{b5var}{182mm}{230mm}
+\pxgtmb@addpapersize[a3]{letter}{8.5in}{11in}
+\pxgtmb@addpapersize[a3]{legal}{8.5in}{14in}
+\pxgtmb@addpapersize[a4]{executive}{7.25in}{10.5in}
+\pxgtmb@addpapersize[a5]{hagaki}{100mm}{148mm}
+
+%% package options part 4
+\def\pxgtmb@pdfbox@status{0}
+\DeclareOption{pdfbox}{\def\pxgtmb@pdfbox@status{1}}
+\DeclareOption{dvips}{\def\pxgtmb@driver{s}}
+\DeclareOption{dvipdfmx}{\def\pxgtmb@driver{m}}
+\DeclareOption{xetex}{\def\pxgtmb@driver{x}}
+\DeclareOption{pdftex}{\def\pxgtmb@driver{p}}
+\DeclareOption{luatex}{\def\pxgtmb@driver{l}}
+
+%% default options
+\ExecuteOptions{tombowbanner}% package defaults to tombowdatetrue
+\ProcessOptions
+
+%% display search result
+%  if any of explicit size option is specified, \ifpxgtmb@switch = \iftrue.
+%  otherwise, automatic size detection should be successful.
+\ifpxgtmb@switch\else
+  % check status
+  \@tempcnta=\z@\relax
+  \ifx\pxgtmb@guessedpaper\@empty
+    \advance\@tempcnta\@ne\relax
+  \fi
+  \ifx\pxgtmb@guessedtombow\@empty
+    \advance\@tempcnta\tw@\relax
+  \else\if n\pxgtmb@guessedtombow
+    \advance\@tempcnta\tw@\relax
+  \fi\fi
+  % message
+  \ifodd\@tempcnta
+    %\PackageWarningNoLine\pxgtmb@pkgname{%
+    %  No size option specified, and automatic papersize\MessageBreak
+    %  detection also failed}
+  \else
+    \typeout{***** Package \pxgtmb@pkgname\space detected \pxgtmb@guessedpaper paper. *****}
+  \fi
+  \ifnum\@tempcnta>\@ne\relax
+    \PackageWarningNoLine\pxgtmb@pkgname{%
+      Output size cannot be determined. Please add size\MessageBreak
+      option (e.g. `tombow-a4') to specify output size.\MessageBreak
+      Falling back to +1in ..}
+    \stockwidth\paperwidth   \advance\stockwidth 2in
+    \stockheight\paperheight \advance\stockheight 2in
+  \else
+    \typeout{***** Now the output size is automatically set to \pxgtmb@guessedtombow. *****}
+  \fi
+\fi
+
+%% warnings
+\ifdim\stockwidth<\paperwidth
+  \PackageWarningNoLine\pxgtmb@pkgname{%
+    \string\stockwidth\space is smaller than \string\paperwidth!\MessageBreak
+    Is this really what you want?}
+\fi
+\ifdim\stockheight<\paperheight
+  \PackageWarningNoLine\pxgtmb@pkgname{%
+    \string\stockheight\space is smaller than \string\paperheight!\MessageBreak
+    Is this really what you want?}
+\fi
+
+%% pdf "digital tombo" (driver-dependent)
+%  the box size calculation is delayed until \AtBeginDocument
+%  to allow users to change \@tombowbleed in the preamble
+\if 1\pxgtmb@pdfbox@status
+% convert pt -> bp
+\def\pxgtmb@PDF@setbp#1#2{%
+  \@tempdima=.996264#2\relax % 0.996264 = 72/72.27 (cf. 1in = 72.27pt = 72bp)
+  \@tempdima=\pxgtmb@magscale\@tempdima % adjustment for jsclasses-style \mag employment
+  \edef#1{\strip@pt\@tempdima}}
+% calculate and create pdf boxes
+\def\pxgtmb@PDF@calcbox{%
+  \begingroup
+  % provide fallback definition inside this group
+  \ifx\pxgtmb@magscale\@undefined
+    \def\pxgtmb@magscale{1}%
+  \fi
+  % set pdf boxes in bp unit
+  %\pxgtmb@PDF@setbp\pxgtmb@PDF@crop@ur@x\stockwidth
+  %\pxgtmb@PDF@setbp\pxgtmb@PDF@crop@ur@y\stockheight
+  \pxgtmb@PDF@setbp\pxgtmb@PDF@trim@ll@x{\dimexpr(\stockwidth-\paperwidth)/2}%
+  \pxgtmb@PDF@setbp\pxgtmb@PDF@trim@ll@y{\dimexpr(\stockheight-\paperheight)/2}%
+  \pxgtmb@PDF@setbp\pxgtmb@PDF@trim@ur@x{\dimexpr(\stockwidth+\paperwidth)/2}%
+  \pxgtmb@PDF@setbp\pxgtmb@PDF@trim@ur@y{\dimexpr(\stockheight+\paperheight)/2}%
+  \pxgtmb@PDF@setbp\pxgtmb@PDF@bleed@ll@x{\dimexpr(\stockwidth-\paperwidth)/2-\@tombowbleed}%
+  \pxgtmb@PDF@setbp\pxgtmb@PDF@bleed@ll@y{\dimexpr(\stockheight-\paperheight)/2-\@tombowbleed}%
+  \pxgtmb@PDF@setbp\pxgtmb@PDF@bleed@ur@x{\dimexpr(\stockwidth+\paperwidth)/2+\@tombowbleed}%
+  \pxgtmb@PDF@setbp\pxgtmb@PDF@bleed@ur@y{\dimexpr(\stockheight+\paperheight)/2+\@tombowbleed}%
+  \xdef\pxgtmb@PDF@CTM{%
+    %% CropBox: implicit (same as MediaBox, large paper size)
+    %/CropBox  [0 0 \pxgtmb@PDF@crop@ur@x\space \pxgtmb@PDF@crop@ur@y]
+    %% BleedBox: explicit (final paper size + surrounding \@tombowbleed)
+    \noexpand\pxgtmb@PDF@begin
+    /BleedBox [\pxgtmb@PDF@bleed@ll@x\space
+               \pxgtmb@PDF@bleed@ll@y\space
+               \pxgtmb@PDF@bleed@ur@x\space
+               \pxgtmb@PDF@bleed@ur@y] \noexpand\pxgtmb@PDF@end
+    %% TrimBox: explicit (final paper size)
+    \noexpand\pxgtmb@PDF@begin
+    /TrimBox  [\pxgtmb@PDF@trim@ll@x\space
+               \pxgtmb@PDF@trim@ll@y\space
+               \pxgtmb@PDF@trim@ur@x\space
+               \pxgtmb@PDF@trim@ur@y] \noexpand\pxgtmb@PDF@end
+    %% ArtBox: implicit
+  }%
+  \endgroup
+}
+%% supported drivers: dvips, dvipdfmx, XeTeX, pdfTeX, LuaTeX
+\ifnum0\ifx\pdfvariable\@undefined\else\the\outputmode\fi=0\relax
+\ifnum0\ifx\pdfpageattr\@undefined\else\the\pdfoutput\fi=0\relax
+  %% for DVI output or XeTeX
+  \ifx\XeTeXversion\@undefined
+    \chardef\pxgtmb@errlevel=\z@
+    % check graphics/graphicx/color status
+    \ifx\Gin@driver\@undefined
+      \ifx\pxgtmb@driver\@undefined % driver option unavailable
+        \PackageError{\pxgtmb@pkgname}{%
+          Option `pdfbox' is driver-dependent!\MessageBreak
+          Please add a driver option}\@ehc
+        \def\pxgtmb@driver{s}% fallback
+      \fi
+    \else
+      % check consistency
+      \def\pxgtmb@tempa{dvips.def}\ifx\Gin@driver\pxgtmb@tempa
+        \ifx\pxgtmb@driver\@undefined
+          \def\pxgtmb@driver{s}% pass
+        \else
+          \if s\pxgtmb@driver\else \chardef\pxgtmb@errlevel=\@ne \fi
+        \fi
+      \else\def\pxgtmb@tempa{dvipdfmx.def}\ifx\Gin@driver\pxgtmb@tempa
+        \ifx\pxgtmb@driver\@undefined
+          \def\pxgtmb@driver{m}% pass
+        \else
+          \if m\pxgtmb@driver\else \chardef\pxgtmb@errlevel=\@ne \fi
+        \fi
+      \else
+        \ifx\pxgtmb@driver\@undefined
+          \PackageError{\pxgtmb@pkgname}{%
+            Option `pdfbox' is driver-dependent!\MessageBreak
+            Please add a driver option}\@ehc
+          \def\pxgtmb@driver{s}% fallback
+        \fi
+      \fi\fi
+      \ifnum\pxgtmb@errlevel>\z@
+        \PackageWarningNoLine{\pxgtmb@pkgname}{%
+          Inconsistent driver option detected!\MessageBreak
+          Package `graphics' or `color' already\MessageBreak
+          loaded with different driver option}\@ehc
+      \fi
+    \fi
+  \else
+    \def\pxgtmb@driver{x}
+  \fi
+  % required for putting \special to every page
+  \ifx\pfmtname\@undefined
+    \RequirePackage{atbegshi}
+  \else
+    \IfFileExists{pxatbegshi.sty}
+                 {\RequirePackage{pxatbegshi}}
+                 {\RequirePackage{atbegshi}}
+  \fi
+  % do it
+  \if x\pxgtmb@driver
+    %% for XeTeX (similar to dvipdfmx, except for paper size)
+    \AtBeginDocument{%
+      \pxgtmb@PDF@calcbox
+      \def\pxgtmb@PDF@begin{}\def\pxgtmb@PDF@end{}%
+      \edef\pxgtmb@PDF@CTM{{pdf:put @thispage << \pxgtmb@PDF@CTM >>}}}
+    % force paper size
+    \pdfpagewidth\stockwidth \pdfpageheight\stockheight
+    % emit pdf boxes
+    \AtBeginShipout{\setbox\AtBeginShipoutBox=\vbox{%
+      \baselineskip\z@skip\lineskip\z@skip\lineskiplimit\z@
+      \expandafter\special\pxgtmb@PDF@CTM % here!
+      \copy\AtBeginShipoutBox}}
+  \else
+    \if s\pxgtmb@driver
+      %% for dvips
+      \AtBeginDocument{%
+        \pxgtmb@PDF@calcbox
+        \def\pxgtmb@PDF@begin{[ }\def\pxgtmb@PDF@end{/PAGE pdfmark }%
+        \edef\pxgtmb@PDF@CTM{{ps:SDict begin \pxgtmb@PDF@CTM end}}}
+    \else\if m\pxgtmb@driver
+      %% for dvipdfmx
+      \AtBeginDocument{%
+        \pxgtmb@PDF@calcbox
+        \def\pxgtmb@PDF@begin{}\def\pxgtmb@PDF@end{}%
+        \edef\pxgtmb@PDF@CTM{{pdf:put @thispage << \pxgtmb@PDF@CTM >>}}}
+    \else
+      %% for others (in case graphics option wrong)
+      \PackageError{\pxgtmb@pkgname}{Sorry, driver unsupported}\@ehc
+      \def\pxgtmb@PDF@CTM{{}}% dummy
+    \fi\fi
+    %% common
+    \begingroup
+      % when jsclasses-style \mag employment is assumed ...
+      % [Note] \special{papersize=<width>,<height>} accepts only non-true units
+      % and evaluates them as if they were true units!
+      \ifx\pxgtmb@magscale\@undefined\else
+        \stockwidth \pxgtmb@magscale\stockwidth
+        \stockheight\pxgtmb@magscale\stockheight
+      \fi
+      \xdef\pxgtmb@PDF@size{{papersize=\the\stockwidth,\the\stockheight}}
+    \endgroup
+    \AtBeginShipout{\setbox\AtBeginShipoutBox=\vbox{%
+      \baselineskip\z@skip\lineskip\z@skip\lineskiplimit\z@
+      % force paper size
+      \expandafter\special\pxgtmb@PDF@size
+      % emit pdf boxes
+      \expandafter\special\pxgtmb@PDF@CTM % here!
+      \copy\AtBeginShipoutBox}}
+  \fi
+\else
+  %% for pdfTeX
+  \def\pxgtmb@driver{p}
+  % force paper size
+  \pdfpagewidth\stockwidth \pdfpageheight\stockheight
+  % emit pdf boxes
+  \AtBeginDocument{%
+    \pxgtmb@PDF@calcbox
+    \def\pxgtmb@PDF@begin{}\def\pxgtmb@PDF@end{}%
+    \edef\pxgtmb@PDF@CTM{{\pxgtmb@PDF@CTM}}%
+    \expandafter\pdfpageattr\pxgtmb@PDF@CTM}
+\fi
+\else
+  %% for LuaTeX
+  \def\pxgtmb@driver{l}
+  % force paper size
+  \pagewidth\stockwidth \pageheight\stockheight
+  % emit pdf boxes
+  \AtBeginDocument{%
+    \pxgtmb@PDF@calcbox
+    \def\pxgtmb@PDF@begin{}\def\pxgtmb@PDF@end{}%
+    \edef\pxgtmb@PDF@CTM{pageattr{\pxgtmb@PDF@CTM}}%
+    \expandafter\pdfvariable\pxgtmb@PDF@CTM}
+\fi
+\fi
+
+%% make visible tombow box according to the current status of
+%% \@bannerfont, \@bannertoken, \@tombowwidth & \@tombowbleed
+\maketombowbox
+
+%% shift amount
+\hoffset .5\stockwidth
+\advance\hoffset -.5\paperwidth
+\advance\hoffset-1truein\relax
+\voffset .5\stockheight
+\advance\voffset -.5\paperheight
+\advance\voffset-1truein\relax
+
+%% user interface
+\newcommand{\settombowbanner}[1]{%
+  \iftombowdate\else
+    \PackageWarning{\pxgtmb@pkgname}{%
+      Package option `tombowbanner' is not effective.\MessageBreak
+      The banner may be discarded}%
+  \fi
+  \@bannertoken{#1}\maketombowbox}
+\newcommand{\settombowbannerfont}[1]{%
+  \font\@bannerfont=#1\relax \maketombowbox}
+\newcommand{\settombowwidth}[1]{%
+  \setlength{\@tombowwidth}{#1}\maketombowbox}
+\newcommand{\settombowbleed}[1]{%
+  \def\@tombowbleed{#1}\maketombowbox}
+\newcommand{\settombowcolor}[1]{%
+  \def\@tombowcolor{#1}}
+% forbid changing \@tombowbleed after \begin{document}
+% because pdf boxes are calculated only inside \AtBeginDocument
+\@onlypreamble\settombowbleed
+
+%% patch internal for pdfpages to work with tombow
+%% (tested on pdfpages 2017/10/31 v0.5l)
+%% Note the code is the same as that of pxpdfpages.sty,
+%% but reserved here since gentombow.sty can be used on
+%% any LaTeX format
+%% (cf. pxpdfpages.sty is restricted to (u)pLaTeX)
+\def\pxgtmb@patch@pdfpages{%
+  \RequirePackage{etoolbox}
+  \patchcmd{\AM@output}{%
+    \setlength{\@tempdima}{\AM@xmargin}%
+    \edef\AM@xmargin{\the\@tempdima}%
+    \setlength{\@tempdima}{\AM@ymargin}%
+    \edef\AM@ymargin{\the\@tempdima}%
+  }{%
+    \setlength{\@tempdima}{\AM@xmargin\iftombow+1in\fi}%
+    \edef\AM@xmargin{\the\@tempdima}%
+    \setlength{\@tempdima}{\AM@ymargin\iftombow-1in\fi}%
+    \edef\AM@ymargin{\the\@tempdima}%
+  }
+  {\PackageInfo{\pxgtmb@pkgname}{Patch for pdfpages applied}}
+  {\PackageWarningNoLine{\pxgtmb@pkgname}{Patch for pdfpages failed}}%
+}
+%% however, if running (u)pLaTeX, use pxpdfpages.sty if available
+\ifx\pfmtname\@undefined\else
+  \IfFileExists{pxpdfpages.sty}{%
+    \def\pxgtmb@patch@pdfpages{\RequirePackage{pxpdfpages}}%
+  }{}
+\fi
+%% do it
+\AtBeginDocument{\@ifpackageloaded{pdfpages}{\pxgtmb@patch@pdfpages}{}}
+
+\endinput

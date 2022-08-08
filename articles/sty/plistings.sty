@@ -1,0 +1,326 @@
+%
+% plistings.sty
+%
+% lltjp-listings.sty ベース，コード未整理
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{plistings}[2015/12/07 v0.10 Japanese support of listings package]
+
+%%%%%%%% Package options
+\DeclareOption*{\PassOptionsToPackage{\CurrentOption}{listings}}
+\ProcessOptions\relax
+\RequirePackage{listings,etoolbox}
+
+%%%%%%%% Japanese support
+%% whether letter-space in a fixed mode box is doubled or not
+\newif\if@ltj@lst@double
+\lst@Key{doubleletterspace}f[t]{\lstKV@SetIf{#1}\if@ltj@lst@double}
+
+% override \lst@FillFixed@
+\def\lst@FillFixed@#1{%
+  \ifx\@empty#1\else\ltj@lst@hss#1\expandafter\lst@FillFixed@\fi}
+\def\ltj@lst@hss@double{\lst@hss\lst@hss}
+
+% 最下層の処理
+\newif\if@ltj@lst@kanji
+\lst@AddToHook{InitVars}{\@ltj@lst@kanjifalse}
+
+\def\lst@AppendLetter{%
+    \ltj@lst@setletterflag\lst@Append}
+\def\lst@AppendOther{%
+    \lst@ifletter\lst@Output\lst@letterfalse\fi\@ltj@lst@kanjifalse
+    \futurelet\lst@lastother\lst@Append}
+
+\def\ltj@lst@setletterflag{%
+  \lst@ifletter
+    \if@ltj@lst@kanji\lst@Output\@ltj@lst@kanjifalse\fi
+  \else
+    \lst@lettertrue\if@ltj@lst@kanji\@ltj@lst@kanjifalse\else\lst@OutputOther\fi
+  \fi}
+
+\def\ltj@lst@setkanjiflag{%
+  \lst@ifletter
+    \lst@Output
+  \else
+    \if@ltj@lst@kanji\else\lst@OutputOther\fi\lst@lettertrue
+  \fi\@ltj@lst@kanjitrue}
+
+\def\ltj@lst@setopenflag{%
+  \lst@ifletter
+    \lst@letterfalse\lst@Output
+  \else
+    \if@ltj@lst@kanji\else\lst@OutputOther\fi
+  \fi\@ltj@lst@kanjitrue}
+
+\def\ltj@lst@setcloseflag{%
+  \lst@ifletter\else\lst@lettertrue\fi\@ltj@lst@kanjitrue}
+
+%%%% 和文文字の出力命令．
+%%%% 和文文字の前にこれが前置されることになる．
+\def\ltj@lst@ProcessJALetter#1{%
+  \lst@whitespacefalse
+  \ifnum`#1>255
+    \ifnum\postbreakpenalty`#1>0
+      \ltj@lst@setopenflag    % 開き括弧類
+    \else
+      \ifnum\prebreakpenalty`#1>0
+        \ltj@lst@setcloseflag % 閉じ括弧類，句読点
+      \else
+        \ltj@lst@setkanjiflag % 通常の和文文字
+    \fi\fi
+    \advance\lst@length\@ne   % 和文文字は通常の2倍の幅
+  \else
+    \ltj@lst@setletterflag
+  \fi
+  \lst@Append#1}
+
+
+%%%% \lst@InsideConvert の処理内容変更
+%%%% active 文字化に加え，^^@ を和文文字の前に前置
+\def\ltj@lst@MakeActive#1{%
+    \let\lst@temp\@empty \ltj@lst@MakeActive@#1\relax}
+\begingroup
+\catcode`\^^A=\active
+\catcode`\^^@=\active
+\lowercase{%
+\gdef\ltj@lst@MakeActive@#1{\let\lst@next\relax%
+    \ifx#1\relax
+    \else\let\lst@next\ltj@lst@MakeActive@
+    \ifnum`#1>255
+      \lst@lAddTo\lst@temp{^^@#1}%
+    \else
+      \lccode`\^^A=`#1 
+      \lowercase{\lst@lAddTo\lst@temp{^^A}}%
+    \fi\fi\lst@next}}
+\endgroup
+\begingroup \lccode`\~=`\ \relax \lowercase{%
+\gdef\lst@InsideConvert@#1 #2{%
+    \ltj@lst@MakeActive{#1}%
+    \ifx\@empty#2%
+        \lst@lExtend\lst@arg{\lst@temp}%
+    \else
+        \lst@lExtend\lst@arg{\lst@temp~}%
+        \expandafter\lst@InsideConvert@
+    \fi #2}
+}\endgroup
+
+
+%%%%%%%% \lstinline の再定義．
+%%%% 引数を全部読み込み，\lst@InsideConvert で変換
+\renewcommand\lstinline[1][]{%
+    \leavevmode\bgroup % \hbox\bgroup --> \bgroup
+      \def\lst@boxpos{b}%
+      \lsthk@PreSet\lstset{flexiblecolumns,#1}%
+      \lsthk@TextStyle
+      \@ifnextchar\bgroup \ltj@lst@InlineG \ltj@lstinline@}
+\def\ltj@lstinline@#1{%
+  \edef\ltj@lst@temp{\the\catcode`#1}\lst@Init\relax\catcode`#1\ltj@lst@temp
+  \lst@Def{13}{\lst@DeInit\egroup \global\let\lst@inlinechars\@empty
+     \PackageError{Listings}{lstinline ended by EOL}\@ehc}%
+  \lst@InlineJ#1}
+\def\ltj@lst@InlineG{%
+  \lst@Init\relax\edef\ltj@lst@temp{\the\catcode`\}}%
+  \catcode`\}=2 \catcode`\ =12\relax
+  \lst@Def{13}{\lst@DeInit\egroup \global\let\lst@inlinechars\@empty
+     \PackageError{Listings}{lstinline ended by EOL}\@ehc}%
+  \let\lst@arg\@empty\afterassignment\ltj@lst@InlineG@@\@temptokena}
+\def\ltj@lst@InlineG@@{%
+  \catcode`\}=\ltj@lst@temp
+  \expandafter\expandafter\expandafter\lst@InsideConvert%
+  \expandafter{\the\@temptokena}\lst@arg\lst@DeInit\egroup}
+
+%%%%%%%% \lstenv@process の再定義
+%%%% 基本的にはインライン時と同様に全トークンを読み込み→\lst@InsideConvert で変換
+%%%% その後，変換した中身は \scantokens で読み込み直される
+\begingroup \lccode`\~=`\^^M\lowercase{%
+\gdef\lstenv@Process#1{%
+    \ifx~#1%
+        \lstenv@DroppedWarning \let\lst@next\ltj@lstenv@ProcessM
+    \else\ifx^^J#1%
+        \lstenv@DroppedWarning \let\lst@next\lstenv@ProcessJ
+    \else
+        \let\lst@dropped#1\let\lst@next\lstenv@Process
+    \fi \fi
+    \lst@next}
+}\endgroup
+\begingroup\lccode`\[=`\{\lccode`\]=`\}\lccode`|=`\\\lowercase{%
+\gdef\ltj@lstenv@ProcessM{%
+    \let\lst@arg\@empty
+    \edef\lst@temp{|end[\lstenv@name]}%
+    \expandafter\expandafter\expandafter\lst@InsideConvert%
+        \expandafter{\lst@temp}%
+    \@temptokena{%
+        \expandafter\expandafter\expandafter\expandafter\expandafter\expandafter\expandafter
+        \lst@SkipToFirst\expandafter\expandafter\expandafter\scantokens\expandafter{\lst@arg}%
+    }
+    \expandafter\expandafter\expandafter\toks@\expandafter{\lst@arg}
+    \expandafter\edef\expandafter\lst@temp\expandafter##\expandafter1\lst@arg
+    {%
+        \noexpand\let\noexpand\lst@arg\noexpand\@empty%
+        \noexpand\lst@InsideConvert{\noexpand##1}
+        \the\@temptokena\the\toks@
+    }%
+    \lst@temp}
+}\endgroup
+
+\def\lst@BeginDropInput#1{%
+    \lst@EnterMode{#1}%
+    {\lst@modetrue
+     \let\lst@OutputBox\@gobble
+     \let\lst@ifdropinput\iftrue
+     \let\lst@ProcessLetter\@gobble
+     \let\lst@ProcessDigit\@gobble
+     \let\lst@ProcessOther\@gobble
+     \let\lst@ProcessSpace\@empty
+     \let\lst@ProcessTabulator\@empty
+     \let\lst@ProcessFormFeed\@empty
+     \let\ltj@lst@ProcessJALetter\@gobble     % added
+}}
+
+
+%%%% ^^@ を active 文字化 (\ltj@lst@ProcessJALetter)
+\begingroup\catcode`\^^@=\active
+\lst@AddTo\lst@SelectStdCharTable{\def^^@{\ltj@lst@ProcessJALetter}}
+\endgroup
+\lst@AddToHook{InitVars}{%
+  \catcode`\^^@=\active
+  \if@ltj@lst@double
+    \let\ltj@lst@hss=\ltj@lst@hss@double
+  \else
+    \let\ltj@lst@hss=\lst@hss
+  \fi
+}
+
+%%%% 白線対策のため，\lineskiplimit を負の値にする
+\newif\ifltj@lst@frame@top
+\newdimen\ltj@lst@frame@lslimit
+\gdef\lst@frameInit{%
+    \ltj@lst@frame@toptrue
+    \ifx\lst@framelshape\@empty \let\lst@frameL\@empty \fi
+    \ifx\lst@framershape\@empty \let\lst@frameR\@empty \fi
+    \def\lst@framevrule{\vrule\@width\lst@framerulewidth\relax}%
+    \lst@ifframeround
+        \lst@frameCalcDimA\z@ \@getcirc\@tempdima
+        \@tempdimb\@tempdima \divide\@tempdimb\tw@
+        \advance\@tempdimb -\@wholewidth
+        \edef\lst@frametextsep{\the\@tempdimb}%
+        \edef\lst@framerulewidth{\the\@wholewidth}%
+        \lst@frameCalcDimA\@ne \@getcirc\@tempdima
+        \@tempdimb\@tempdima \divide\@tempdimb\tw@
+        \advance\@tempdimb -\tw@\@wholewidth
+        \advance\@tempdimb -\lst@frametextsep
+        \edef\lst@rulesep{\the\@tempdimb}%
+    \fi
+    \lst@frameMakeBoxV\lst@framebox{\ht\strutbox}{\dp\strutbox}%
+    %%%%  ここから
+    \@tempdima\z@
+    \ifdim\ht\strutbox<\cht\@tempdima=\dimexpr\cht-\ht\strutbox\relax\fi
+    \ifdim\dp\strutbox<\cdp\advance\@tempdima=\dimexpr\cdp-\dp\strutbox\relax\fi
+    \ltj@lst@frame@lslimit=-\@tempdima
+    \def\lst@framelr{%
+      \ifltj@lst@frame@top\ltj@lst@frame@topfalse\else\lineskiplimit\ltj@lst@frame@lslimit\fi
+      \copy\lst@framebox}%
+    %%%% ここまで
+    \ifx\lst@frametshape\@empty\else
+        \lst@frameH T\lst@frametshape
+        \ifvoid\z@\else
+            \par\lst@parshape
+            \@tempdima-\baselineskip \advance\@tempdima\ht\z@
+            \ifdim\prevdepth<\@cclvi\p@\else
+                \advance\@tempdima\prevdepth
+            \fi
+            \ifdim\@tempdima<\z@
+                \vskip\@tempdima\vskip\lineskip
+            \fi
+            \noindent\box\z@\par
+            \lineskiplimit\maxdimen \lineskip\z@
+        \fi
+        \lst@frameSpreadV\lst@framextopmargin
+    \fi}
+
+% lstinputlisting
+% modified from jlisting.sty
+\def\lst@InputListing#1{%
+   \begingroup
+      \lsthk@PreSet \gdef\lst@intname{#1}%
+      \expandafter\lstset\expandafter{\lst@set}%
+      \lsthk@DisplayStyle
+      \catcode\active=\active
+      \lst@Init\relax \let\lst@gobble\z@
+      \lst@SkipToFirst
+      \lst@ifprint \def\lst@next{\lst@get@filecontents{#1}}%
+      \else        \let\lst@next\@empty
+      \fi
+      \lst@next
+      \lst@DeInit
+   \endgroup}
+\newread\lst@inputfile
+\def\lst@get@filecontents#1{%
+   \let\lst@filecontents\@empty
+   \openin\lst@inputfile=#1\relax
+   \let\@lst@get@filecontents@prevline\relax
+   \lst@get@filecontents@loop
+   \closein\lst@inputfile
+   \lst@filecontents\empty}
+\def\lst@get@filecontents@loop{%
+   \read\lst@inputfile to\lst@temp
+   \let\lst@arg\@empty\expandafter\expandafter\expandafter\lst@InsideConvert\expandafter{\lst@temp}%
+   \ifx\@lst@get@filecontents@prevline\relax\else
+      \expandafter\expandafter\expandafter\def
+      \expandafter\expandafter\expandafter\lst@filecontents
+      \expandafter\expandafter\expandafter{%
+         \expandafter\lst@filecontents\@lst@get@filecontents@prevline}%
+   \fi
+   \let\@lst@get@filecontents@prevline\lst@arg
+   \ifeof\lst@inputfile\else
+      \expandafter\lst@get@filecontents@loop
+   \fi}
+
+%%%%%%%% escape to \LaTeX
+%%%% 一旦中身を全部取得した後で，^^@ ( = \ltj@lst@ProcessJALetter) を
+%%%% トークン列から削除，その後 \scantokens で再読み込み
+\lstloadaspects{escape}
+\gdef\lst@Escape#1#2#3#4{%
+    \lst@CArgX #1\relax\lst@CDefX
+        {}%
+        {\lst@ifdropinput\else
+         \lst@TrackNewLines\lst@OutputLostSpace \lst@XPrintToken
+         \lst@InterruptModes
+         \lst@EnterMode{\lst@TeXmode}{\lst@modetrue}%
+         \ifx\^^M#2%
+             \lst@CArg #2\relax\lst@ActiveCDefX
+                 {}%
+                 {\lst@escapeend #4\lst@LeaveAllModes\lst@ReenterModes}%
+                 {\ltj@lst@MProcessListing}%
+         \else
+             \lst@CArg #2\relax\lst@ActiveCDefX
+                 {}%
+                 {\lst@escapeend #4\lst@LeaveAllModes\lst@ReenterModes
+                  \lst@newlines\z@ \lst@whitespacefalse}%
+                 {}%
+         \fi%
+         \ltj@lst@escape@setup#2
+         #3\lst@escapebegin\expandafter\lst@next%
+         \fi}%
+	 {}}
+\def\ltj@lst@escape@setup#1{%
+  \begingroup\lccode`\~=`#1\lowercase{%
+  \gdef\lst@next##1~{%
+     \let\lst@arg\@empty\ltj@lst@remove@jacmd{##1}%
+     \expandafter\expandafter\expandafter\scantokens\expandafter{\lst@arg}%
+     ~}%
+  }\endgroup
+}
+
+\begingroup
+  \catcode`\^^@=12 %
+  \gdef\ltj@lst@remove@jacmd#1{%
+    \expandafter\ltj@lst@remove@jacmd@\detokenize{#1}^^@\@nil^^@}
+  \gdef\ltj@lst@remove@jacmd@#1^^@{%
+    \ifx#1\@nil\else
+       \lst@lAddTo\lst@arg{#1}%
+       \expandafter\ltj@lst@remove@jacmd@
+    \fi}
+\endgroup
+
+\endinput

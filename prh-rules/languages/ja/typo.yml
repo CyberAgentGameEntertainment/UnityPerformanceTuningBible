@@ -1,0 +1,11 @@
+# Rules for Japanese typo
+meta:
+  reviewer:
+    - vvakame
+    - mhidaka
+  rules:   https://github.com/prh/rules
+
+version: 1
+rules:
+  - expected: なるほど
+    pattern:  なほるど

@@ -1,0 +1,35 @@
+# Rules for Trademark
+meta:
+  reviewer:
+    - vvakame
+    - mhidaka
+  rules:   https://github.com/prh/rules
+
+version: 1
+rules:
+  - expected: Re:VIEW
+    pattern:  /ReVIEW/
+    specs:
+      - from: ReVIEW
+        to:   Re:VIEW
+      - from: review
+        to:   review
+  - expected: 技術書典
+    pattern:  /技術書(店|…|点|展|てん)/
+    specs:
+      - from: 技術書点
+        to:   技術書典
+      - from: 技術書展
+        to:   技術書典
+  - expected: American Express（Amex）
+    pattern:
+      - アメリカン・エキスプレス
+      - アメックス
+      - アメリカンエクスプレス
+  - expected: 技術書典
+    pattern:  /技術書(店|…|点|展|てん)/
+    specs:
+      - from: 技術書点
+        to:   技術書典
+      - from: 技術書展
+        to:   技術書典

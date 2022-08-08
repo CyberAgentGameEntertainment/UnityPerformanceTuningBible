@@ -1,0 +1,291 @@
+@charset "UTF-8";
+/* Tatujin-Publishing   */
+/* Style sheet for epub */
+/* Ver.0.8b1            */
+/*
+Scale & Rhythm
+line-height 1.6
+16px = 1em
+x:p:h1:h2:h3 = 12px:14px:16px:24px:30px
+*/
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 1em;
+  line-height: 1.6;
+  font-family: "ShinGoPro-Regular","ShinGo-Regular", sans-serif;
+  /*
+    word-break: normal;
+    -webkit-line-break: after-white-space;
+    */ }
+
+p, ul, ol, dl, pre, table {
+  font-family: "ShinGo Regular","ShinGo R","新ゴR","新ゴ R", sans-serif;
+  font-size: 0.875em; }
+
+/* Heading */
+h1 {
+  margin: 0 0 3em;
+  padding: 0.5em 0 0;
+  border-top: 14px #326450 solid;
+  text-align: left;
+  font-size: 1.875em;
+  font-weight: bold; }
+
+h2 {
+  margin: 3em 0 0.5em;
+  padding: 0.5em 0 0;
+  border-top: 2px #326450 solid;
+  text-align: left;
+  font-size: 1.5em;
+  font-weight: bold; }
+
+h3 {
+  margin: 3em 0 0.5em;
+  padding: 0;
+  text-align: left;
+  font-size: 1em;
+  font-weight: bold; }
+
+h4, h5, h6 {
+  margin: 0.7em 0;
+  padding: 0;
+  text-align: left;
+  line-height: 1.6;
+  font-weight: bold; }
+
+/* Paragraph */
+p {
+  margin: 0.7em 0;
+  padding: 0;
+  text-align: left;
+  text-indent: 1em;
+  line-height: 1.6; }
+
+div.lead p {
+  color: #666;
+  line-height: 1.6;
+  font-size: 0.75em; }
+
+/* List */
+ul, ol {
+  margin: 2em 0 2em 2em;
+  padding: 0;
+  list-style-position: outside; }
+
+ul > li,
+ol > li {
+  margin: 0 0 0.7em 0;
+  padding: 0;
+  line-height: 1.6; }
+
+dl {
+  margin: 2em 0;
+  padding: 0; }
+
+dt {
+  margin: 0;
+  padding: 0;
+  font-weight: bold; }
+
+dd {
+  margin: 0 0 1em 2em;
+  padding: 0;
+  line-height: 1.6; }
+
+/* Table
+p.tablecaptionではなく
+table caption {}を使う方が良いかも？
+*/
+table {
+  margin: 0 auto 2em auto;
+  border-collapse: collapse; }
+
+table tr th {
+  background-color: #eee;
+  border: 1px #aaa solid;
+  font-size: 0.75em;
+  font-weight: normal; }
+
+table tr td {
+  padding: 0.3em;
+  border: 1px #aaa solid;
+  font-size: 0.75em; }
+
+p.tablecaption, table caption {
+  margin: 0;
+  color: #666;
+  font-size: 0.75em;
+  font-weight: bold;
+  text-indent: 0; }
+
+/* Quote */
+blockquote {
+  margin: 2em 0 2em 2em;
+  padding: 0.3em 1em;
+  border: 1px #aaa solid; }
+
+/* Column Block */
+div.column {
+  margin: 2em 0 2em 2em;
+  padding: 0.3em 1em;
+  background-color: #eee;
+  -webkit-border-radius: 0.7em; }
+
+div.column * {
+  margin: 0.7em 0; }
+
+div.column ul,
+div.column ol {
+  list-style-position: inside; }
+
+/* Code Block */
+/*
+※シンプルにできるかも
+div.code {}
+div.code pre.list,
+div.code pre.cmd {}
+div.code p.caption {}
+*/
+div.code, div.caption-code, div.source-code, div.emlist-code, div.emlistnum-code {
+  margin: 1em 0 2em 2em;
+  padding: 0; }
+
+pre.emlist, pre.source, pre.list {
+  margin: 0;
+  padding: 5px;
+  border: 1px #aaa solid; }
+
+div p.caption {
+  margin: 0;
+  color: #666;
+  font-size: 0.75em;
+  font-weight: bold; }
+
+div.cmd-code pre.cmd {
+  margin: 0;
+  padding: 5px;
+  color: #ccc;
+  font-weight: bold;
+  background-color: #444;
+  -webkit-border-radius: 0.5em; }
+
+pre.cmd, pre.emlist, pre.list, pre.source {
+  white-space: pre-wrap; }
+
+/* Image Block */
+/* div.image p.caption {}
+※captionをそろえた方が良いかも？*/
+div.image {
+  margin: 2em auto;
+  padding: 0; }
+
+div.image img {
+  margin: 0 auto;
+  padding: 0;
+  display: block; }
+
+div.image p.caption {
+  margin: 0 auto;
+  text-align: center;
+  color: #666;
+  font-size: 0.75em;
+  font-weight: bold;
+  text-indent: 0; }
+
+/* Footnote Block */
+/* p.footnoteはいらないかも？ */
+div.footnote p.footnote {
+  color: #666;
+  line-height: 1.6;
+  font-size: 0.75em;
+  text-indent: 0; }
+
+/* Colophon */
+div.colophon {
+  margin: 3em auto; }
+
+div.colophon p {
+  text-indent: 0; }
+
+div.colophon p.title {
+  font-size: 1.5em; }
+
+div.colophon table {
+  margin: 1em 0 2em;
+  border: none; }
+
+div.colophon table tr th {
+  background-color: #fff;
+  font-size: 1.2em;
+  font-weight: normal;
+  border: none; }
+
+div.colophon table tr td {
+  font-size: 1.2em;
+  font-weight: normal;
+  border: none; }
+
+/* Inline */
+a[href],
+a:link,
+a:visited {
+  border-bottom: 1px dotted #531084;
+  text-decoration: none; }
+
+b {
+  font-weight: bold; }
+
+strong {
+  font-weight: bold; }
+
+em {
+  font-style: italic; }
+
+/**
+ * from EBPAJ EPUB 3 File Creation Guide sample style
+ *
+ * cf. http://ebpaj.jp/counsel/guide
+ */
+/* image width definition(pacentage)  */
+.width-010per {
+  width: 10%; }
+
+.width-020per {
+  width: 20%; }
+
+.width-025per {
+  width: 25%; }
+
+.width-030per {
+  width: 30%; }
+
+.width-033per {
+  width: 33%; }
+
+.width-040per {
+  width: 40%; }
+
+.width-050per {
+  width: 50%; }
+
+.width-060per {
+  width: 60%; }
+
+.width-067per {
+  width: 67%; }
+
+.width-070per {
+  width: 70%; }
+
+.width-075per {
+  width: 75%; }
+
+.width-080per {
+  width: 80%; }
+
+.width-090per {
+  width: 90%; }
+
+.width-100per {
+  width: 100%; }
