@@ -3,8 +3,10 @@
 </p>
 
 # Unity Performance Tuning Bible
-本リポジトリはUnityのパフォーマンスチューニングに関するノウハウを、電子書籍として公開するためのプロジェクトです。  
-パフォーマンスチューニングを行う際にご活用ください。
+本書はUnityのパフォーマンスチューニングに関するノウハウを体系的にまとめた書籍です。
+本リポジトリから電子書籍をPDFとしてダウンロードすることができます。
+
+ご意見、ご指摘は [Issues](https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/issues) や [Pull Requests](https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/pulls) からお願いいたします。
 
 ## 電子書籍のダウンロード方法
 ダウンロードは以下の手順で行います。
@@ -25,10 +27,6 @@
 <p align="center">
   <img width=800 src="Documentation/download_03.png" alt="Download Step 03">
 </p>
-
-## 書籍の内容について
-文章に関する校正はPull Requestをご活用ください。  
-また、書籍の内容に関する提案などはIssuesをご活用ください。
 
 ## Copyright
 (C) 2022 CyberAgent, Inc.
