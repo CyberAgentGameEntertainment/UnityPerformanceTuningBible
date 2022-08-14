@@ -1,19 +1,18 @@
 {
-  "name": "review-template",
-  "version": "0.0.2",
+  "name": "unity-performance-tuning-bible",
+  "version": "1.0.0",
   "private": true,
   "description": "",
   "main": "Gruntfile.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TechBooster/ReVIEW-Template.git"
+    "url": "git+https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible.git"
   },
   "author": "",
-  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/TechBooster/ReVIEW-Template/issues"
+    "url": "https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/issues"
   },
-  "homepage": "https://github.com/TechBooster/ReVIEW-Template#readme",
+  "homepage": "https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/blob/main/README.md",
   "engines": {
     "node": ">=6.0.0"
   },
