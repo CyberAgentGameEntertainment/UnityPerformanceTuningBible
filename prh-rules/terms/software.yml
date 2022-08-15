@@ -1,0 +1,12 @@
+# Rules for Software Development
+meta:
+  reviewer:
+    - vvakame
+    - mhidaka
+  rules:   https://github.com/prh/rules
+
+version: 1
+rules:
+  - expected: Web
+  - expected: superset
+    pattern:  super set

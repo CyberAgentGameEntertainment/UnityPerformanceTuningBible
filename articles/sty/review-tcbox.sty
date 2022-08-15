@@ -1,0 +1,348 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{review-tcbox}[2021/1/28, Version 0.1.0]
+\RequirePackage{tikz,tcolorbox,varwidth,multicol,ifthen,ifptex,ifluatex,ifuptex,ifxetex}
+
+\usetikzlibrary{calc}
+\tcbuselibrary{xparse,hooks,skins,breakable}
+
+\ifthenelse{\boolean{luatex}}{% LuaLaTeX
+              \RequirePackage{luatexja}
+              \def\reviewtcb@textgt#1{\textgt{#1}}
+              \def\reviewtcb@gtfamily{\gtfamily}
+              \def\reviewtcb@zw#1#2{#1\zw}
+       }{
+              \ifthenelse{\boolean{xetex}}{% XeLaTeX
+                     \RequirePackage{zxjatype}
+                     \def\reviewtcb@textgt#1{\textbf{#1}}
+                     \def\reviewtcb@gtfamily{\bfseries}
+                     \def\reviewtcb@zw#1#2{#2}
+              }{
+                     \ifthenelse{\boolean{ptex}}{% pLaTeX
+                            \def\reviewtcb@textgt#1{\textgt{#1}}
+                            \def\reviewtcb@gtfamily{\gtfamily}
+                            \def\reviewtcb@zw#1#2{#1zw}
+                     }{
+                            \ifthenelse{\boolean{uptex}}{% upLaTeX
+                                   \def\reviewtcb@textgt#1{\textgt{#1}}
+                                   \def\reviewtcb@gtfamily{\gtfamily}
+                                   \def\reviewtcb@zw#1#2{#1zw}
+                            }{% pdfLaTeX
+                                   \RequirePackage[whole]{bxcjkjatype}
+                                   \def\reviewtcb@textgt#1{\textbf{#1}}
+                                   \def\reviewtcb@gtfamily{\gtfamily}
+                                   \def\reviewtcb@zw#1#2{#2}
+                            }
+                 }
+              }
+}
+
+% markerスタイルのデフォルト設定
+\def\tcb@rv@marker@markcolback{gray!80}
+\def\tcb@rv@marker@markcoltext{white}
+\def\tcb@rv@marker@markchar{!}
+
+% 古いtcolorboxだとcolframe、colbackがない
+\tcbset{%
+  colframe/.code={\colorlet{tcbcolframe}{#1}\colorlet{tcbcol@frame}{#1}},
+  colback/.code={\colorlet{tcbcolback}{#1}\colorlet{tcbcol@back}{#1}},
+  rv marker markcolback/.store in=\tcb@rv@marker@markcolback,
+  rv marker markcoltext/.store in=\tcb@rv@marker@markcoltext,
+  rv marker markchar/.store in=\tcb@rv@marker@markchar,
+}
+
+% squarebox
+%  - ごくシンプルな矩形
+\DeclareTColorBox{rv@squarebox@nocaption}{ O{} }{%
+  empty, % スキン
+  left=3mm,right=3mm,top=3mm,bottom=3mm, % 内部パディング。デフォルトは4mm
+  arc=0mm, % コーナーの半径。デフォルトは1mm
+  % カラーは 色A!色Aの含み具合!色B。色Bを省略したときにはwhite
+  colback=white, %white, % 背景。デフォルトはblack!5!white
+  breakable, % ページ分断の許容
+  enhanced jigsaw, % 分断時に上下罫線を切り取り
+  pad at break=0mm, % 分断されたときの上下アキ。デフォルトは3.5mm
+  boxrule=.25mm, % 線幅。toprule,bottomrule,leftrule,rightruleで個別指定も可
+  before upper={\parindent\reviewtcb@zw{1}}, % 内容の1行目を字下げ
+  #1} % オプション値で追加・上書き可能
+
+\DeclareTColorBox{rv@squarebox@caption}{ m O{} }{%
+  empty,
+  left=3mm,right=3mm,top=3mm,bottom=3mm,
+  arc=0mm,
+  colback=white,
+  breakable,
+  enhanced jigsaw,
+  pad at break=0mm,
+  boxrule=.25mm,
+  before upper={\parindent\reviewtcb@zw{1}},
+  coltitle=black, % キャプション文字色
+  colbacktitle=white, % キャプション背景
+  fonttitle={\reviewtcb@gtfamily\sffamily\bfseries},
+  title={#1},
+  #2}
+
+% squaresepcaptionbox
+%  - ごくシンプルな矩形・キャプション位置は分離
+%  - キャプション位置をオプションで指定する (キャプションなしの場合は意味がない)。
+%    attach boxed title to top left など
+\DeclareTColorBox{rv@squaresepcaptionbox@nocaption}{ O{} }{%
+  empty,
+  left=3mm,right=3mm,top=3mm,bottom=3mm,
+  arc=0mm,
+  colback=white,
+  breakable,
+  enhanced jigsaw,
+  pad at break=0mm,
+  boxrule=.25mm,
+  before upper={\parindent\reviewtcb@zw{1}},
+  #1}
+
+\DeclareTColorBox{rv@squaresepcaptionbox@caption}{ m O{} }{%
+  empty,
+  left=3mm,right=3mm,top=3mm,bottom=3mm,
+  arc=0mm,
+  colback=white,
+  breakable,
+  enhanced jigsaw,
+  pad at break=0mm,
+  boxrule=.25mm,
+  before upper={\parindent\reviewtcb@zw{1}},
+  boxed title style={arc=0mm,boxrule=0mm},
+  fonttitle={\reviewtcb@gtfamily\sffamily\bfseries},
+  colbacktitle=black,
+  title={#1},
+  attach boxed title to top left,% パラメータでtoの値を指定できないかとやってみたのだが無理そう。attach boxed title自体のパラメータもなし。
+  #2}
+
+% folderbox
+%  - tcolorboxサンプルの改変。キャプションなしの場合は単なる角丸囲み
+\DeclareTColorBox{rv@folderbox@nocaption}{ O{} }{%
+  enhanced jigsaw,breakable,
+  pad at break=2mm,
+  arc=1mm,
+  boxrule=.25mm,
+  before upper={\parindent\reviewtcb@zw{1}},
+  colback=black!5!white,
+  coltitle=black,
+  #1}
+
+\DeclareTColorBox{rv@folderbox@caption}{ m O{} }{%
+  enhanced jigsaw,breakable,
+  pad at break=2mm,
+  arc=1mm,
+  boxrule=.25mm,
+  before upper={\parindent\reviewtcb@zw{1}},
+  colback=black!5!white,
+  coltitle=black,
+  fonttitle={\reviewtcb@gtfamily\sffamily\bfseries},
+  attach boxed title to top left={xshift=3.2mm,yshift=-0.25mm},
+  boxed title style={skin=enhancedfirst jigsaw, % キャプション部の飾り付け
+    size=small,arc=1mm,bottom=-1mm,
+    interior style={fill=none, top color=black!30!white, bottom color=black!5!white}}, % キャプション部網掛け
+  title={#1}
+  #2}
+
+% clipbox
+%  - tcolorboxサンプルの改変。キャプションなしの場合は単なる角丸囲み
+\DeclareTColorBox{rv@clipbox@nocaption}{ O{} }{%
+  enhanced jigsaw,breakable,
+  pad at break=2mm,
+  before skip=2mm,after skip=2mm,
+  colback=black!5,colframe=black!50,boxrule=0.2mm,
+  before upper={\parindent\reviewtcb@zw{1}},
+#1}
+
+\DeclareTColorBox{rv@clipbox@caption}{ m O{} }{%
+  enhanced jigsaw,breakable,
+  pad at break=2mm,
+  before skip=2mm,after skip=2mm,
+  colback=black!5,colframe=black!50,boxrule=0.2mm,
+  before upper={\parindent\reviewtcb@zw{1}},
+  attach boxed title to top left={xshift=6mm,yshift*=1mm-\tcboxedtitleheight},
+  varwidth boxed title*=-3cm,
+  boxed title style={
+    frame code={
+      \path[fill=tcbcol@back!30!black]
+      ([yshift=-1mm,xshift=-1mm]frame.north west)
+      arc[start angle=0,end angle=180,radius=1mm]
+      ([yshift=-1mm,xshift=1mm]frame.north east)
+      arc[start angle=180,end angle=0,radius=1mm];
+      \path[left color=tcbcol@back!60!black,right color=tcbcol@back!60!black,
+      middle color=tcbcol@back!80!black]
+      ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+      [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+      -- (frame.south east) -- (frame.south west)
+      -- ([xshift=-1mm,yshift=-1mm]frame.north west)
+      [sharp corners]-- cycle;
+    },interior engine=empty,
+  },
+  fonttitle={\reviewtcb@gtfamily\sffamily\bfseries},
+  title={#1},
+#2}
+
+% dottedbox
+%  - ドット囲み。キャプションは内容に接続させている
+\DeclareTColorBox{rv@dottedbox@nocaption}{ O{} }{%
+  enhanced,breakable,arc=1mm,
+  frame hidden,colback=white,
+  borderline={0.25mm}{0mm}{black,dotted},
+  fontupper={\gtfamily\sffamily},
+  % before upper={\parindent\reviewtcb@zw{1}},
+  #1}
+
+\DeclareTColorBox{rv@dottedbox@caption}{ m O{} }{%
+  enhanced,breakable,arc=1mm,
+  frame hidden,colback=white,
+  borderline={0.25mm}{0mm}{black,dotted},
+  fontupper={\gtfamily\sffamily},
+  % before upper={\parindent\reviewtcb@zw{1}},
+  fonttitle={\reviewtcb@gtfamily\sffamily\bfseries},
+  coltitle=black,
+  attach title to upper, after title={\quad},
+  title={#1},
+  #2}
+
+% bothsidelinebox
+%  - 左右線
+\DeclareTColorBox{rv@bothsidelinebox@nocaption}{ O{} }{%
+  enhanced,breakable,skin=enhancedmiddle,
+  frame hidden,interior hidden,top=0mm,bottom=0mm,boxsep=0mm,
+  borderline={0.4mm}{0mm}{black},
+  borderline={0.4mm}{0.4mm}{black!50},
+  borderline={0.4mm}{0.8mm}{black!10},
+  before upper={\parindent\reviewtcb@zw{1}},
+  #1}
+
+\DeclareTColorBox{rv@bothsidelinebox@caption}{ m O{} }{%
+  enhanced,breakable,skin=enhancedmiddle,
+  frame hidden,interior hidden,top=0mm,bottom=0mm,boxsep=0mm,
+  borderline={0.4mm}{0mm}{black},
+  borderline={0.4mm}{0.4mm}{black!50},
+  borderline={0.4mm}{0.8mm}{black!10},
+  before upper={\parindent\reviewtcb@zw{1}},
+  coltitle=black,
+  bottomtitle=2mm,
+  fonttitle={\reviewtcb@gtfamily\sffamily\bfseries},
+  title={#1},
+  #2}
+
+% leftsidelinebox
+%  - 左線
+\DeclareTColorBox{rv@leftsidelinebox@nocaption}{ O{} }{%
+  enhanced,breakable,skin=enhancedmiddle,
+  frame hidden,interior hidden,top=0mm,bottom=0mm,right=0mm,boxsep=0mm,
+  borderline west={0.4mm}{0mm}{black}, % westを付けて左のみにする
+  borderline west={0.4mm}{0.4mm}{black!50},
+  borderline west={0.4mm}{0.8mm}{black!10},
+  before upper={\parindent\reviewtcb@zw{1}},
+  #1}
+
+\DeclareTColorBox{rv@leftsidelinebox@caption}{ m O{} }{%
+  enhanced,breakable,skin=enhancedmiddle,
+  frame hidden,interior hidden,top=0mm,bottom=0mm,right=0mm,boxsep=0mm,
+  borderline west={0.4mm}{0mm}{black},
+  borderline west={0.4mm}{0.4mm}{black!50},
+  borderline west={0.4mm}{0.8mm}{black!10},
+  before upper={\parindent\reviewtcb@zw{1}},
+  coltitle=black,
+  bottomtitle=2mm,
+  fonttitle={\reviewtcb@gtfamily\sffamily\bfseries},
+  title={#1},
+  #2}
+
+% outerarcbox
+%  - 内側にさらに角丸が入るデザイン
+\DeclareTColorBox{rv@outerarcbox@nocaption}{ O{} }{%
+  empty, % スキン
+  arc=3mm, % コーナーの半径
+  outer arc=1mm,
+  colback=white,
+  breakable,
+  enhanced jigsaw,
+  pad at break=0mm,
+  boxrule=.25mm,
+  before upper={\parindent\reviewtcb@zw{1}},
+  #1}
+
+\DeclareTColorBox{rv@outerarcbox@caption}{ m O{} }{%
+  empty,
+  arc=3mm,
+  outer arc=1mm,
+  colback=white,
+  breakable,
+  enhanced jigsaw,
+  pad at break=0mm,
+  boxrule=.25mm,
+  before upper={\parindent\reviewtcb@zw{1}},
+  coltitle=black,
+  colbacktitle=white,
+  titlerule=0.25mm,
+  % titlerule style={}, % ダッシュかドットにしたいが変なことになる
+  fonttitle={\reviewtcb@gtfamily\sffamily\bfseries},
+  title={#1},
+  #2}
+
+% marker
+%  - tcolorboxマニュアルのTipsを改変。白黒をデフォルトとし、分割に対応
+%  固有オプション:
+%  - rv marker markchar=文字: 左列に表示するマークの文字。デフォルト:!
+%  - rv marker markcolback=色: 左列の背景色。デフォルト:gray!80
+%  - rv marker markcoltext=色: 左列の文字色。デフォルト:white
+\DeclareTColorBox{rv@marker@nocaption}{ O{} }{%
+  enhanced,breakable,
+  before skip=2mm,after skip=3mm,
+  boxrule=0.4pt,left=5mm,right=2mm,top=1mm,bottom=1mm,
+  before upper={\parindent\reviewtcb@zw{1}},
+  colback=gray!5,
+  colframe=black,
+  sharp corners,rounded corners=southeast,arc is angular,arc=3mm,
+  underlay first={%
+    \path[fill=\tcb@rv@marker@markcolback,draw=none] (interior.south west) rectangle node[\tcb@rv@marker@markcoltext]{\Huge\bfseries\tcb@rv@marker@markchar} ([xshift=4mm]interior.north west);
+    },
+  underlay middle={%
+    \path[fill=\tcb@rv@marker@markcolback,draw=none] (interior.south west) rectangle node[\tcb@rv@marker@markcoltext]{\Huge\bfseries\tcb@rv@marker@markchar} ([xshift=4mm]interior.north west);
+    },
+  underlay last={%
+    \path[fill=tcbcolback!80!black] ([yshift=3mm]interior.south east)--++(-0.4,-0.1)--++(0.1,-0.2);
+    \path[draw=tcbcolframe,shorten <=-0.05mm,shorten >=-0.05mm] ([yshift=3mm]interior.south east)--++(-0.4,-0.1)--++(0.1,-0.2);
+    \path[fill=\tcb@rv@marker@markcolback,draw=none] (interior.south west) rectangle node[\tcb@rv@marker@markcoltext]{\Huge\bfseries\tcb@rv@marker@markchar} ([xshift=4mm]interior.north west);
+    },
+  underlay unbroken={%
+    \path[fill=tcbcolback!80!black] ([yshift=3mm]interior.south east)--++(-0.4,-0.1)--++(0.1,-0.2);
+    \path[draw=tcbcolframe,shorten <=-0.05mm,shorten >=-0.05mm] ([yshift=3mm]interior.south east)--++(-0.4,-0.1)--++(0.1,-0.2);
+    \path[fill=\tcb@rv@marker@markcolback,draw=none] (interior.south west) rectangle node[\tcb@rv@marker@markcoltext]{\Huge\bfseries\tcb@rv@marker@markchar} ([xshift=4mm]interior.north west);
+    },
+ drop fuzzy shadow,#1}
+
+\DeclareTColorBox{rv@marker@caption}{ m O{} }{%
+  enhanced,breakable,
+  before skip=2mm,after skip=3mm,
+  boxrule=0.4pt,left=5mm,right=2mm,top=1mm,bottom=1mm,
+  colback=gray!5,
+  colframe=black,
+  sharp corners,rounded corners=southeast,arc is angular,arc=3mm,
+  underlay first={%
+    \path[fill=\tcb@rv@marker@markcolback,draw=none] (interior.south west) rectangle node[\tcb@rv@marker@markcoltext]{\Huge\bfseries\tcb@rv@marker@markchar} ([xshift=4mm]interior.north west);
+    },
+  underlay middle={%
+    \path[fill=\tcb@rv@marker@markcolback,draw=none] (interior.south west) rectangle node[\tcb@rv@marker@markcoltext]{\Huge\bfseries\tcb@rv@marker@markchar} ([xshift=4mm]interior.north west);
+    },
+  underlay last={%
+    \path[fill=tcbcolback!80!black] ([yshift=3mm]interior.south east)--++(-0.4,-0.1)--++(0.1,-0.2);
+    \path[draw=tcbcolframe,shorten <=-0.05mm,shorten >=-0.05mm] ([yshift=3mm]interior.south east)--++(-0.4,-0.1)--++(0.1,-0.2);
+    \path[fill=\tcb@rv@marker@markcolback,draw=none] (interior.south west) rectangle node[\tcb@rv@marker@markcoltext]{\Huge\bfseries\tcb@rv@marker@markchar} ([xshift=4mm]interior.north west);
+    },
+  underlay unbroken={%
+    \path[fill=tcbcolback!80!black] ([yshift=3mm]interior.south east)--++(-0.4,-0.1)--++(0.1,-0.2);
+    \path[draw=tcbcolframe,shorten <=-0.05mm,shorten >=-0.05mm] ([yshift=3mm]interior.south east)--++(-0.4,-0.1)--++(0.1,-0.2);
+    \path[fill=\tcb@rv@marker@markcolback,draw=none] (interior.south west) rectangle node[\tcb@rv@marker@markcoltext]{\Huge\bfseries\tcb@rv@marker@markchar} ([xshift=4mm]interior.north west);
+    },
+ detach title,
+ title={#1},
+ coltitle=black,
+ fonttitle={\reviewtcb@gtfamily\sffamily\bfseries},
+ before upper={\tcbtitle\par\parindent\reviewtcb@zw{1}},
+ % before upper={\parindent\reviewtcb@zw{1}},
+ drop fuzzy shadow,#2}
+
+\endinput

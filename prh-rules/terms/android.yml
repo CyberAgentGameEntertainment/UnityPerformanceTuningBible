@@ -1,0 +1,34 @@
+# Rules for Android
+meta:
+  reviewer:
+    - vvakame
+    - mhidaka
+  related: https://www.android.com/
+  rules:   https://github.com/prh/rules
+
+version: 1
+rules:
+  - expected: API Level
+    pattern:  API level
+    prh: APIドキュメントでも揺れてますが、Levelで統一してます
+  - expected: Android Studio
+    pattern:  AndroidStudio
+    prh: 正式名称はAndroid Studioです
+  - expected: JUnit 5
+    pattern:  JUnit5
+  - expected: JUnit 4
+    pattern:  JUnit4
+  - expected: View
+    pattern:  Vew
+  - expected: Deep Link
+    pattern:  DeepLink
+  - expected: Jetpack
+    pattern:  JetPack
+  - expected: aidl
+    pattern:  /adil/
+  - expected: AIDL
+    pattern:  /ADIL/
+  - expected: Safe Args
+    pattern:  safeargs
+  - expected: Navigation
+    pattern:  Navigtion

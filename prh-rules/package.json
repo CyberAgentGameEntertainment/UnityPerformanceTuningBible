@@ -1,0 +1,25 @@
+{
+  "name": "prh-rules",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prh/rules.git"
+  },
+  "author": "vvakame",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/prh/rules/issues"
+  },
+  "homepage": "https://github.com/prh/rules#readme",
+  "dependencies": {
+    "prh": "^1.0.3"
+  },
+  "devDependencies": {
+    "glob-expand": "^0.2.1"
+  }
+}

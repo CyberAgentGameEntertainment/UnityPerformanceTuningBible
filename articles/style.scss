@@ -1,0 +1,158 @@
+// Variables
+$main-color: #64C1D7;
+$footer-link-color: #9e9e9e;
+$font-size: 16px;
+$paragraph-margin-bottom: $font-size * 0.75;
+
+// デフォルトの装飾を上書く
+body {
+	font-family: "Helvetica Neue", Helvetica, Arial, Meiryo, "メイリオ", sans-serif;
+	font-size: $font-size;
+	line-height: 24px / $font-size;
+}
+h2 {
+	border-bottom: 1px solid #ccc;
+}
+h1, h2, h3 {
+	margin-top: $font-size * 0.875 * 2;
+	margin-bottom: $font-size * 0.875;
+}
+h4, h5, h6 {
+	margin-top: $font-size * 0.875;
+	margin-bottom: $font-size * 0.875;
+	&:before {
+		content: "■";
+	}
+}
+p {
+	margin-bottom: $paragraph-margin-bottom;
+}
+dd {
+	margin-left: 3em;
+}
+
+// コラム
+div.column {
+	border: solid 3px;
+	border-radius: 10px;
+	padding-left: 1em;
+	padding-right: 1em;
+	margin-top: $paragraph-margin-bottom;
+	margin-bottom: $paragraph-margin-bottom;
+	h1, h2, h3 {
+		margin-top: $font-size * 0.875;
+	}
+}
+
+// リード文
+div.lead {
+	font-size: $font-size;
+	margin-left: 3em;
+}
+
+// 右寄せ文
+p.flushright {
+	text-align: right;
+}
+
+// footnote
+.noteref {
+	vertical-align: super;
+	font-size: smaller;
+}
+p.footnote {
+	font-size: 0.8em;
+}
+// footnoteは最後に持ってくる
+.main-content {
+	display: flex;
+	flex-direction: column;
+}
+div.footnote {
+	order: 1;
+}
+
+// 画像やリストなどのキャプション系
+.image, .table, .caption-code, .cmd-code {
+	margin-bottom: $paragraph-margin-bottom;
+}
+.image, .table { // キャプションを中央寄せするもの
+	.caption {
+		text-align: center;
+	}
+}
+.image { // キャプションに▲を付けるもの
+	.caption {
+		margin-top: 0;
+		&:before {
+			content: "▲";
+			color: lightgray;
+		}
+	}
+}
+.caption-code, .table { // キャプションに▼を付けるもの
+	.caption {
+		margin-bottom: 0;
+		&:before {
+			content: "▼";
+			color: lightgray;
+		}
+	}
+}
+.image {
+	img { // 画像は中央余生にしとく
+		display: block;
+		max-width: 100%;
+		height: auto;
+		margin-left: auto;;
+		margin-right: auto;
+	}
+}
+
+// ヘッダ
+.tb-header {
+	background-image: url(images/html_header.jpg);
+	background-size: cover;
+	height: 20vw;
+	background-color: $main-color;
+	color: white;
+	
+	// テキストは隠す
+	text-indent: 150%;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+// メニューまわり
+.tb-nav-link {
+	margin-top: 1em;
+	margin-bottom: 1em;
+	a.prev:before {
+		content: "<<";
+	}
+	a.next:after {
+		content: ">>";
+	}
+}
+
+// フッタ
+.tb-footer {
+	margin-top: 16px;
+	padding-top: 16px;
+	padding-bottom: 16px;
+	color: white;
+	background-color: #424242;
+	a {
+		color: $footer-link-color;
+	}
+	p {
+		margin-right: 10px;
+	}
+}
+.tb-footer-links {
+	li:nth-child(n+2)::before {
+		color: $footer-link-color;
+		content: "/";
+		margin-right: 16px;
+	}
+}

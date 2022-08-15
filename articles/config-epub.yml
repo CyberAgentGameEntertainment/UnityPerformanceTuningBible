@@ -1,0 +1,480 @@
+# review-epubmaker向けの設定ファイルの例。
+# yamlファイルをRe:VIEWファイルのある場所に置き、
+# 「review-epubmaker yamlファイル」を実行すると、<bookname>.epubファイルが
+# 生成されます。
+# このファイルはUTF-8エンコーディングで記述してください。
+
+# この設定ファイルでサポートするRe:VIEWのバージョン番号。
+# major versionが違うときにはエラーを出す。
+review_version: 5.1
+
+# ほかの設定ファイルの継承を指定できる。同じパラメータに異なる値がある場合は、
+# 呼び出し元の値が優先される。
+# A.yml、B.ymlのパラメータを継承する例。A.ymlとB.ymlに同じパラメータがある
+# 場合、B.ymlの値が優先される。さらに今このファイルに同じパラメータがあるなら、
+# その値がB.ymlよりも優先される。
+# 同様にA.yml、B.yml内でさらにinherit:パラメータを使うこともできる。
+# inherit: ["A.yml", "B.yml"]
+
+# ブック名(ファイル名になるもの。ASCII範囲の文字を使用)
+bookname: Unityパフォーマンスチューニングバイブル
+# 記述言語。省略した場合はja
+language: ja
+
+# 書名
+booktitle: {name: "Unity パフォーマンスチューニング バイブル", file-as: "TuningBible"}
+
+# 著者名。「, 」で区切って複数指定できる
+aut: [{name: "株式会社 サイバーエージェント SGEコア技術本部"}]
+
+# 以下はオプション
+# 以下はオプション(autと同じように配列書式で複数指定可能)。
+# 読みの指定はaut:の例を参照。
+# a-が付いているものはcreator側、
+# 付いていないものはcontributor側(二次協力者)に入る
+# a-adp, adp: 異なるメディア向けに作り直した者
+# a-ann, ann: 注釈記述者
+# a-arr, arr: アレンジした者
+# a-art, art: グラフィックデザインおよび芸術家
+# a-asn, asn: 関連・かつての所有者・関係者
+# a-aqt, aqt: 大きく引用された人物
+# a-aft, aft: 後書き・奥付の責任者
+# a-aui, aui: 序論・序文・前書きの責任者
+# a-ant, ant: 目録責任者
+# a-bkp, bkp: メディア制作責任者
+# a-clb, clb: 限定参加または補足者
+# a-cmm, cmm: 解釈・分析・考察者
+# a-csl, csl: 監修者
+# a-dsr, dsr: デザイナ
+# a-edt, edt: 編集者
+# a-ill, ill: イラストレータ
+# a-lyr, lyr: 歌詞作成者
+# a-mdc, mdc: メタデータセットの一次的責任者
+# a-mus, mus: 音楽家
+# a-nrt, nrt: 語り手
+# a-oth, oth: その他
+# a-pht, pht: 撮影責任者
+# a-pbl, pbl: 出版社（発行所）
+# a-prt, prt: 印刷所
+# prt: TechBooster
+# a-red, red: 項目の枠組起草者
+# a-rev, rev: 評論者
+# a-spn, spn: 援助者
+# a-ths, ths: 監督者
+# a-trc, trc: 筆記・タイプ作業者
+# a-trl, trl: 翻訳者
+
+pbl: 株式会社 サイバーエージェント
+dsr: 株式会社 サイバーエージェント SGE統括本部 PRデザイン室
+
+# 刊行日(省略した場合は実行時の日付)
+date: 2022-07-08
+# 発行年月。YYYY-MM-DD形式による配列指定。省略した場合はdateを使用する
+# 複数指定する場合は次のように記述する
+# [["初版第1刷の日付", "初版第2刷の日付"], ["第2版第1刷の日付"]]
+# 日付の後ろを空白文字で区切り、任意の文字列を置くことも可能。 
+history: [["2022年7月8日 初版第1刷 発行"]]
+# 権利表記(配列で複数指定可)
+# rights: (C) 2016 Re:VIEW Developers
+rights: ["(C) 2022 CyberAgent, Inc."]
+# description: 説明
+# subject: 短い説明用タグ(配列で複数指定可)
+# type: 書籍のカテゴリーなど(配列で複数指定可)
+# format: メディアタイプおよび特徴(配列で複数指定可)
+# source: 出版物生成の重要なリソース情報(配列で複数指定可)
+# relation: 補助的リソース(配列で複数指定可)
+# coverage: 内容の範囲や領域(配列で複数指定可)
+
+# デバッグフラグ。nullでないときには一時ファイルをカレントディレクトリに作成し、削除もしない
+debug: null
+
+# 固有IDに使用するドメイン。省略した場合は時刻に基づくランダムUUIDが入る
+urnid: urn:uuid:https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/ 
+#
+# ISBN。省略した場合はurnidが入る
+# isbn: null
+#
+# @<chap>, @<chapref>, @<title>, @<hd>命令をハイパーリンクにする(nullでハイパーリンクにしない)
+# chapterlink: true
+
+# HTMLファイルの拡張子(省略した場合はhtml)
+htmlext: html
+#
+# CSSファイル(配列で複数指定可、yamlファイルおよびRe:VIEWファイルを置いたディレクトリにあること)
+stylesheet: ["style.css"]
+
+# ePUBのバージョン (2か3)
+epubversion: 3
+#
+# HTMLのバージョン (4か5。epubversionを3にしたときには5にする)
+htmlversion: 5
+
+# 目次として抽出する見出しレベル
+toclevel: 3
+
+# 採番の設定。採番させたくない見出しには「==[nonum]」のようにnonum指定をする
+#
+# 本文でセクション番号を表示する見出しレベル
+secnolevel: 3
+
+# 本文中に目次ページを作成するか。省略した場合はnull (作成しない)
+toc: true
+
+# EPUB2標準の目次(NCX)以外に物理目次ファイルを作成するか。省略した場合はnull (作成しない)
+# ePUB3においてはこの設定によらず必ず作成される
+# mytoc: true
+
+# 表紙にするファイル。ファイル名を指定すると表紙として入る (PDFMaker向けにはLaTeXソース断片、EPUBMaker向けにはHTMLファイル)
+# cover: null
+#
+# 表紙に配置し、書籍の影絵にも利用する画像ファイル。省略した場合はnull (画像を使わない)。画像ディレクトリ内に置いてもディレクトリ名は不要(例: cover.jpg)
+# PDFMaker 固有の表紙設定は pdfmaker セクション内で上書き可能
+coverimage: cover/tuning_bible_cover_color.png
+#
+# 表紙の後に大扉ページを作成するか。省略した場合はtrue (作成する)
+titlepage: true
+#
+# 自動生成される大扉ページを上書きするファイル。ファイル名を指定すると大扉として入る (PDFMaker向けにはLaTeXソース断片、EPUBMaker向けにはHTMLファイル)
+titlefile: title-epub.tex
+#
+# 原書大扉ページにするファイル。ファイル名を指定すると原書大扉として入る (PDFMaker向けにはLaTeXソース断片、EPUBMaker向けにはHTMLファイル)
+# originaltitlefile: null
+#
+# 権利表記ページファイル。ファイル名を指定すると権利表記として入る (PDFMaker向けにはLaTeXソース断片、EPUBMaker向けにはHTMLファイル)
+# creditfile: null
+
+# 奥付を作成するか。デフォルトでは作成されない。trueを指定するとデフォルトの奥付、ファイル名を指定するとそれがcolophon.htmlとしてコピーされる
+# デフォルトの奥付における各項目の名前（「著　者」など）を変えたいときにはlocale.ymlで文字列を設定する（詳細はdoc/format.ja.mdを参照）
+colophon: true
+# デフォルトの奥付における、各項目の記載順序
+# colophon_order: ["aut", "csl", "trl", "dsr", "ill", "cov", "edt", "pbl", "contact", "prt"]
+
+# 裏表紙データファイル (PDFMaker向けにはLaTeXソース断片、EPUBMaker向けにはHTMLファイル)
+backcover: backcover.tex
+
+# プロフィールページファイル  (PDFMaker向けにはLaTeXソース断片、EPUBMaker向けにはHTMLファイル)。ファイル名を指定すると著者紹介として入る
+# profile: null
+# プロフィールページの目次上の見出し
+# profiletitle: 著者紹介
+
+# 広告ファイル。ファイル名を指定すると広告として入る (PDFMaker向けにはLaTeXソース断片、EPUBMaker向けにはHTMLファイル)
+# advfile: null
+
+# 取り込む画像が格納されているディレクトリ。省略した場合は以下
+# imagedir: images
+
+# 取り込むフォントが格納されているディレクトリ。省略した場合は以下
+# fontdir: fonts
+
+# imagedir内から取り込まれる対象となるファイル拡張子。省略した場合は以下
+# image_ext: ["png", "gif", "jpg", "jpeg", "svg", "ttf", "woff", "otf"]
+
+# fontdir内から取り込まれる対象となるファイル拡張子。省略した場合は以下
+# font_ext: ["ttf", "woff", "otf"]
+
+# ソースコードハイライトを利用する (rouge,pygmentsには外部gemが必要)
+# highlight:
+#   html: "rouge"
+#   latex: "listings"
+
+# カタログファイル名を指定する
+# catalogfile: catalog.yml
+
+# reファイルを格納するディレクトリ。省略した場合は以下 (. はカレントディレクトリを示す)
+contentdir: text
+# pandoc2reviewを利用してMarkdownコンテンツを取り込むには、以下を有効にする
+# contentdir: _refiles
+
+# @<w>命令で使用する単語ファイルのパス。["common.csv", "mybook.csv"]のように配列指定も可
+# words_file: words.csv
+
+# //table命令における列の区切り文字。tabs (1文字以上のタブ文字区切り。デフォルト), singletab (1文字のタブ文字区切り), spaces (1文字以上のスペースまたはタブ文字の区切り), verticalbar ("0個以上の空白 | 0個以上の空白"の区切り)
+# table_row_separator: tabs
+
+# 複数行から段落を結合する際、前後のUnicode文字種に基づき必要に応じて空白文字を挿入するか
+# 省略した場合はnull (挿入しない)。別途unicode-eaw gemファイルが必要
+# join_lines_by_lang: null
+
+# 図・表・コードリスト・数式のキャプション位置。
+# 値はtop（上）またはbottom（下）でデフォルトは以下のとおり
+# caption_position:
+#   image: bottom
+#   table: top
+#   list: top
+#   equation: top
+
+# review-toc向けのヒント情報
+# (文字幅を考慮した行数計測には、別途unicode-eaw gemファイルが必要)
+# ページあたりの行数文字数を用紙サイズで指定する(A5 or B5)
+# page_metric: A5
+#
+# あるいは、配列で指定することもできる
+# 各数字の意味は、順にリストの行数、リストの1行字数、テキストの行数、テキストの1行字数
+# page_metric: [40,34,29,34]
+
+# @<m>, //texequation に記述したTeX数式の表現方法 (PDFMaker (LaTeX) 以外)
+#   null: TeX式をそのまま文字列として出力 (デフォルト)
+#   mathml: MathML変換。別途math_ml gemファイルが必要。EPUBMaker/WebMakerのみ効果
+#   imgmath: 画像化。オプションはimgmath_optionsで設定する
+#   mathjax: MathJax変換。EPUBMaker/WebMakerのみ効果。なお、MathJaxに必要なデータはインターネットから取得される。EPUBで利用できるかはEPUBリーダ依存
+# math_format: null
+
+# math_formatがimgmathの場合の設定
+# 以下のパラメータを有効にするときには、
+# imgmath_options:
+#    パラメータ: 値
+#    パラメータ: 値
+#   ...
+# という構成にする必要がある(インデントさせる)
+# imgmath_options:
+  # 使用する画像拡張子。通常は「png」か「svg」（svgの場合は、pdfcrop_pixelize_cmdの-pngも-svgにする）
+  # format: png
+  # 変換手法。pdfcrop または dvipng
+  # converter: pdfcrop
+  # プリアンブルの内容を上書きするファイルを指定する（デフォルトはupLaTeX+jsarticle.clsを前提とした、lib/review/makerhelper.rbのdefault_imgmath_preambleメソッドの内容）
+  # preamble_file: null
+  # 基準のフォントサイズ
+  # fontsize: 10
+  # 基準の行間
+  # lineheight: 12
+  # converterにpdfcropを指定したときのpdfcropコマンドのコマンドライン。プレースホルダは
+  # %i: 入力ファイル、%o: 出力ファイル
+  # pdfcrop_cmd: "pdfcrop --hires %i %o"
+  # PDFから画像化するコマンドのコマンドライン。プレースホルダは
+  # %i: 入力ファイル、%o: 出力ファイル、%O: 出力ファイルから拡張子を除いたもの
+  # %p: 対象ページ番号、%t: フォーマット
+  # pdfcrop_pixelize_cmd: "pdftocairo -%t -r 90 -f %p -l %p -singlefile %i %O"
+  # pdfcrop_pixelize_cmdが複数ページの処理に対応していない場合に単ページ化するか
+  # extract_singlepage: null
+  # extract_singlepageがtrueの場合に単ページ化するコマンドのコマンドライン
+  # pdfextract_cmd: "pdfjam -q --outfile %o %i %p"
+  # converterにdvipngを指定したときのdvipngコマンドのコマンドライン
+  # dvipng_cmd: "dvipng -T tight -z 9 -p %p -l %p -o %o %i"
+  #
+  # PDFで保存したいときにはたとえば以下のようにする
+  # format: pdf
+  # extract_singlepage: true
+  # pdfextract_cmd: "pdftk A=%i cat A%p output %o"
+  # pdfcrop_pixelize_cmd: "mv %i %o"
+
+# EPUBにおけるページ送りの送り方向、page-progression-directionの値("ltr"|"rtl"|"default")
+direction: "ltr"
+
+# EPUBのOPFへの固有の追加ルール
+# <package>要素に追加する名前空間
+# opf_prefix: {ebpaj: "http://www.ebpaj.jp/"}
+# 追加する<meta>要素のプロパティとその値
+# opf_meta: {"ebpaj:guide-version": "1.1.3"}
+
+# 以下のパラメータを有効にするときには、
+# epubmaker:
+#    パラメータ: 値
+#    パラメータ: 値
+#   ...
+# という構成にする必要がある(インデントさせる)
+
+epubmaker:
+  # HTMLファイルの拡張子
+  htmlext: xhtml
+  stylesheet: ["style.css", "epub_style.css"]
+  #
+  # 目次を要素の階層表現にしない。省略した場合(null)は階層化する。
+  # 特に部扉が入るなどの理由で、構成によっては階層化目次でepubcheckに
+  # パスしない目次ができるが、そのようなときにはこれをtrueにする
+  # flattoc: null
+  #
+  # 目次のインデントレベルをスペース文字で表現する(flattocがtrueのときのみ)
+  # flattocindent: true
+  #
+  # NCX目次の見出しレベルごとの飾り(配列で設定)。EPUB3ではNCXは作られない
+  # ncxindent:
+  #-
+  #- -
+  # フックは、各段階で介入したいときのプログラムを指定する。自動で適切な引数が渡される
+  # プログラムには実行権限が必要
+  # ファイル変換処理の前に実行するプログラム。スタイルシートのコンパイルをしたいときなどに利用する。
+  # 渡される引数1=作業用展開ディレクトリ
+  # hook_beforeprocess: null
+  #
+  # 前付の作成後に実行するプログラム。作業用展開ディレクトリにある目次ファイル(toc-html.txt)を操作したいときなどに利用する。
+  # 渡される引数1=作業用展開ディレクトリ
+  # hook_afterfrontmatter: null
+  #
+  # 本文の変換後に実行するプログラム。作業用展開ディレクトリにある目次ファイル(toc-html.txt)を操作したいときなどに利用する。
+  # 渡される引数1=作業用展開ディレクトリ
+  # hook_afterbody: null
+  #
+  # 後付の作成後に実行するプログラム。作業用展開ディレクトリにある目次ファイル(toc-html.txt)を操作したいときなどに利用する。
+  # 渡される引数1=作業用展開ディレクトリ
+  # hook_afterbackmatter: null
+  #
+  # 画像およびフォントをコピーした後に実行するプログラム。別の画像やフォントを追加したいときなどに利用する。
+  # 渡される引数1=作業用展開ディレクトリ
+  # hook_aftercopyimage: null
+  #
+  # ePUB zipアーカイブ直前に実行するプログラム。メタ情報などを加工したいときなどに利用する。
+  # 渡される引数1=ePUB準備ディレクトリ
+  # hook_prepack: null
+  #
+  # 変換したHTMLファイルおよびCSSを解析して厳密に使用している画像ファイルだけを取り込むか。デフォルトはnull(imagesディレクトリすべてを取り込む)
+  # なお、フォント、カバー、広告についてはこの設定によらずディレクトリ内のものがすべて取り込まれる
+  # verify_target_images: null
+  #
+  # verify_target_imagesがtrueの状態において、解析で発見されなくても強制的に取り込むファイルの相対パスの配列
+  # force_include_images: []
+  #
+  # 画像ファイルの縦x横の最大ピクセル数許容値
+  # image_maxpixels: 4000000
+  #
+  # Re:VIEWファイル名を使わず、前付にpre01,pre02...、本文にchap01,chap02l...、後付にpost01,post02...という名前付けルールにするか
+  # rename_for_legacy: null
+  #
+  # ePUBアーカイブの非圧縮実行
+  # zip_stage1: "zip -0Xq"
+  #
+  # ePUBアーカイブの圧縮実行
+  # zip_stage2: "zip -Xr9Dq"
+  #
+  # ePUBアーカイブに追加するパス(デフォルトはmimetype、META-INF、OEBPS)
+  # zip_addpath: null
+  #
+  # EPUBで表紙をコンテンツに含めるか。デフォルトでは作成されない。yesにするとiBooks等でも最初に表紙が表示されるようになる
+  # cover_linear: null
+  #
+  # @<href>タグでの外部リンクを禁止し、地の文にする(falseで禁止する)
+  # externallink: true
+  #
+  # 脚注に「戻る」リンクを追加する(trueで追加)。脚注の記号および戻るリンクの記号はlocale.ymlで変更可能
+  # back_footnote: null
+  # epubmaker:階層を使うものはここまで
+
+# LaTeX用のスタイルファイル(styディレクトリ以下に置くこと)
+texstyle: ["reviewmacro"]
+#
+# LaTeX用のdocumentclassを指定する
+# オプションについてはsty/README.mdを参照
+# デフォルトは印刷用。電子配布版を作るには media=ebook のほうを使う
+# serial_pagination=trueはアラビア数字通し
+# hiddenfolio=nikko-pcは日光企画向けのノドへの隠しノンブル配置
+#
+
+# B5の設定(10pt 40文字×35行) - 電子版
+texdocumentclass: ["review-jsbook", "media=ebook,paper=b5,serial_pagination=false,openany,fontsize=10pt,baselineskip=15.4pt,line_length=40zw,number_of_lines=35,head_space=41mm,headsep=10mm,headheight=5mm,footskip=16mm"]
+
+# B5の設定(10pt 40文字×35行) - 紙版
+#texdocumentclass: ["review-jsbook", "media=print,paper=b5,serial_pagination=true,hiddenfolio=nikko-pc,openany,fontsize=10pt,baselineskip=15.4pt,line_length=40zw,number_of_lines=35,head_space=30mm,headsep=10mm,headheight=5mm,footskip=10mm"]
+# B5の設定(10pt 40文字×35行) - 電子版
+# texdocumentclass: ["review-jsbook", "media=ebook,paper=b5,serial_pagination=true,openany,fontsize=10pt,baselineskip=15.4pt,line_length=40zw,number_of_lines=35,head_space=30mm,headsep=10mm,headheight=5mm,footskip=10mm"]
+# A5の設定(9pt 38文字×37行) - 紙版
+# texdocumentclass: ["review-jsbook", "media=print,paper=a5,serial_pagination=true,hiddenfolio=nikko-pc,openany,fontsize=9pt,baselineskip=13pt,line_length=38zw,number_of_lines=37,head_space=15mm,headsep=3mm,headheight=5mm,footskip=10mm"]
+# A5の設定(9pt 38文字×37行) - 電子版
+# texdocumentclass: ["review-jsbook", "media=ebook,paper=a5,serial_pagination=true,openany,fontsize=9pt,baselineskip=13pt,line_length=38zw,number_of_lines=37,head_space=15mm,headsep=3mm,headheight=5mm,footskip=10mm"]
+#
+# LaTeX用のコマンドを指定する
+# texcommand: "uplatex"
+#
+# LaTeXのコマンドに渡すオプションを指定する
+# texoptions: "-interaction=nonstopmode -file-line-error -halt-on-error"
+#
+# LaTeX用のdvi変換コマンドを指定する(dvipdfmx)
+# dvicommand: "dvipdfmx"
+#
+# LaTeX用のdvi変換コマンドのオプションを指定する。変換が遅い場合は`-d 5 -z 3`等にする
+# dvioptions: "-d 5 -z 9"
+
+# 以下のパラメータを有効にするときには、
+# pdfmaker:
+#    パラメータ: 値
+#    パラメータ: 値
+#   ...
+# という構成にする必要がある(インデントさせる)
+#
+pdfmaker:
+  #
+  # TeX版で利用する表紙画像。
+  # 仕上がりサイズ+塗り足し3mmありのPDFまたはIllustratorファイル（PDF互換オプション付き）を推奨。
+  # 拡縮はされず「そのまま」貼り付けられる
+  # 原寸画像を用意できないときには、「,cover_fit_page=true」をtexdocumentclassパラメータの2つめの値に追加すると、仕上がりサイズにリサイズして貼り付ける
+  # coverimage: cover-a5.ai
+  #
+  # TeXコンパイル前に実行するプログラム。変換後のTeXソースを調整したいときに使用する。
+  # 渡される引数1=作業用展開ディレクトリ、引数2=呼び出しを実行したディレクトリ
+  # hook_beforetexcompile: null
+  #
+  # 索引処理前に実行するプログラム。idxファイルを加工したいときなどに使用する。
+  # 渡される引数1=作業用展開ディレクトリ、引数2=呼び出しを実行したディレクトリ
+  # hook_beforemakeindex: null
+  #
+  # 索引処理後に実行するプログラム。indファイルを加工したいときなどに使用する。
+  # 渡される引数1=作業用展開ディレクトリ、引数2=呼び出しを実行したディレクトリ
+  # hook_aftermakeindex: null
+  #
+  # ひととおりのコンパイル後に実行するプログラム。目次を加工して再度コンパイルしたいときなどに使用する。
+  # 渡される引数1=作業用展開ディレクトリ、引数2=呼び出しを実行したディレクトリ
+  # hook_aftertexcompile: null
+  #
+  # PDF(__REVIEW_BOOK__.pdf)作成後に実行するプログラム。PDFに加工を施したいときに使用する。
+  # 渡される引数1=作業用展開ディレクトリ、引数2=呼び出しを実行したディレクトリ
+  # hook_afterdvipdf: null
+  #
+  # 画像のscale=X.Xという指定を画像拡大縮小率からページ最大幅の相対倍率に変換する
+  # image_scale2width: true
+  #
+  # 画像のデフォルトのサイズを、版面横幅合わせではなく、原寸をそのまま利用する
+  # use_original_image_size: null
+  #
+  # PDFやIllustratorファイル(.ai)の画像のBoudingBoxの抽出に指定のボックスを採用する
+  # cropbox(デフォルト), mediabox, artbox, trimbox, bleedboxから選択する。
+  # Illustrator CC以降のIllustratorファイルに対してはmediaboxを指定する必要がある
+  # bbox: mediabox
+  #
+  # 索引を作成するか。trueにすると索引作成が有効になる
+  # makeindex: null
+  # 索引作成コマンド
+  # makeindex_command: mendex
+  # 索引作成コマンドのオプション
+  # makeindex_options: "-f -r -I utf8"
+  # 索引作成コマンドのスタイルファイル
+  # makeindex_sty: null
+  # 索引作成コマンドの辞書ファイル
+  # makeindex_dic: null
+  # MeCabによる索引読み探索を使うか
+  # makeindex_mecab: true
+  # MeCabの読みの取得オプション
+  # makeindex_mecab_opts: "-Oyomi"
+  # 奥付を作成するか。trueを指定するとデフォルトの奥付、ファイル名を指定するとそれがcolophon.htmlとしてコピーされる
+  colophon: true
+  # 表紙挿入時に表紙のページ番号名を「cover」とし、偶数ページ扱いにして大扉前に白ページが入るのを防ぐ。デフォルトはtrue
+  # use_cover_nombre: true
+  #
+  # 囲み表現の切り替え設定
+  # column, note, memo, tip, info, warning, important, caution, noticeを設定可
+  # styleはreview-tcbox.styまたは独自に作成したスタイルで定義済みの囲みスタイル名
+  # optionsはキャプションなし囲みに対するtcolorboxの追加・上書きオプション
+  # options_with_captionはキャプション付き囲みのtcolorboxの追加・上書きオプション（省略した場合はoptionsと同じ）
+  #
+  # boxsetting:
+  #   note:
+  #     style: squarebox
+  #     options: "colback=black!5!white"
+  #     options_with_caption: "colbacktitle=black!25!white"
+  #
+  # pdfmaker:階層を使うものはここまで
+
+# 以下のパラメータを有効にするときには、
+# webmaker:
+#    パラメータ: 値
+#    パラメータ: 値
+#   ...
+# という構成にする必要がある(インデントさせる)
+#
+webmaker:
+    stylesheet: ["style.css", "style-web.css"]
+
+# TechBooster Re:VIEW-Template独自設定
+techbooster:
+  # 表紙および裏表紙を実寸ではなく仕上がりサイズにリサイズするか
+  # texdocumentclassでcover_fit_page=trueを付けるのと同じ
+  cover_fit_page: true
+  # 裏表紙画像指定。画像はimages/から探索される
+  # backcoverimage: backcover.jpg

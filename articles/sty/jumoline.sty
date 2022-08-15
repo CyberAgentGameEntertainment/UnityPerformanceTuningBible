@@ -1,0 +1,310 @@
+%%
+%% This is file `jumoline.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% jumoline.dtx  (with options: `package')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from jumoline.sty.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file jumoline.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+%% Style file `jumoline'.
+%% Copyright (C) 1999-2001  Hiroshi Nakashima
+%%        (Toyohashi Univ. of Tech.)
+%%
+%% This program can be redistributed and/or modified under the terms
+%% of the LaTeX Project Public License distributed from CTAN
+%% archives in directory macros/latex/base/lppl.txt; either
+%% version 1 of the License, or any later version.
+%%
+%% \CharacterTable
+%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%%   Digits        \0\1\2\3\4\5\6\7\8\9
+%%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%%   Dollar        \$     Percent       \%     Ampersand     \&
+%%   Acute accent  \'     Left paren    \(     Right paren   \)
+%%   Asterisk      \*     Plus          \+     Comma         \,
+%%   Minus         \-     Point         \.     Solidus       \/
+%%   Colon         \:     Semicolon     \;     Less than     \<
+%%   Equals        \=     Greater than  \>     Question mark \?
+%%   Commercial at \@     Left bracket  \[     Backslash     \\
+%%   Right bracket \]     Circumflex    \^     Underscore    \_
+%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%%   Right brace   \}     Tilde         \~}
+%%
+%%
+\def\next{LaTeX2e}
+\ifx\fmtname\next
+\def\next{
+\NeedsTeXFormat{LaTeX2e}[1994/12/01]
+\ProvidesPackage{jumoline}}
+\else\def\next[#1]{}\fi
+\next
+[2001/05/31 v1.2 ]
+
+\ifx\PackageError\undefined
+\def\PackageError#1#2#3{\@latexerr{#1:#2}{#3^^J\@ehc}}
+\fi
+
+%%^L
+
+%% Register Declaration
+
+\newdimen\UnderlineDepth \UnderlineDepth-\maxdimen
+\newdimen\MidlineHeight \MidlineHeight-\maxdimen
+\newdimen\OverlineHeight \OverlineHeight-\maxdimen
+\newdimen\UMOlineThickness \UMOlineThickness.4pt
+
+\newdimen\UMO@height \newdimen\UMO@depth
+\newdimen\UMO@dqspace \newdimen\UMO@tempdim
+
+\newskip\UMO@prejfmglue \newskip\UMO@postjfmglue
+
+\newcount\UMO@mode
+\let\UMO@afterblock\z@
+\let\UMO@afterword\@ne
+\let\UMO@afterchar\tw@
+
+\newcount\UMO@spacefactor
+\newcount\UMO@firstxspcode
+\newcount\UMO@lastxspcode
+\newcount\UMO@inhibitxspcode
+\newcount\UMO@prebreakpenalty
+\newcount\UMO@postbreakpenalty
+\newcount\UMO@kpostbreakpenalty
+
+\newif\ifUMO@nospace \newif\ifUMO@firstelem
+
+%%^L
+
+%% User Interface and Initialization
+
+\def\Underline{\UMO@line\UnderlineDepth{-\UnderlineDepth}{-\dp\strutbox}}
+\def\Midline{\setbox\@tempboxa\hbox{あ}%
+        \UMO@line\MidlineHeight\MidlineHeight{.5\ht\@tempboxa}}
+\def\Overline{\UMO@line\OverlineHeight\OverlineHeight{\ht\strutbox}}
+\def\UMOline{\UMO@line{-\maxdimen}\z@}
+
+\def\UMO@line#1#2#3#4{\begingroup \let\\\UMOnewline
+        \relax\ifdim#1<\z@ \UMO@height#3\relax
+        \else \UMO@height#2\relax \fi
+        \UMO@depth-\UMO@height
+        \ifdim\UMO@height<\z@ \advance\UMO@depth\UMOlineThickness
+        \else                 \advance\UMO@height\UMOlineThickness \fi
+        \settowidth\UMO@dqspace{“}\advance\UMO@dqspace-1zw
+        \UMO@dqspace-\UMO@dqspace \divide\UMO@dqspace\tw@
+        \UMO@nospacetrue \UMO@firstelemtrue
+        \UMO@mode\UMO@afterblock
+        \ifvmode\leavevmode\fi
+        \def\@tempa{#4 }\edef\@tempb{\noexpand\@nil\space}%
+        \expandafter\expandafter\expandafter\UMO@wordloop
+                \expandafter\@tempa\@tempb
+        \endgroup \UMO@aftergroup}
+
+%%^L
+
+%% Processing Word Elements
+
+\def\UMO@wordloop{\UMO@ifbgroup\UMO@wordblock\UMO@iwordloop}
+\def\UMO@ifbgroup#1#2{\let\@tempa#1\let\@tempb#2\futurelet\@tempc\UMO@ifnc}
+\def\UMO@ifnc{\ifx\@tempc\bgroup \let\next\@tempa \else\let\next\@tempb \fi
+        \next}
+\def\UMO@wordblock#1{\UMO@spaceskip
+        \UMO@putbox\relax{#1}\UMO@nospacetrue \UMO@mode\UMO@afterblock
+        \UMO@spacefactor\@m \UMO@wordloop}
+\def\UMO@iwordloop#1 {\def\@tempa{#1}\ifx\@tempa\@nnil \let\next\UMO@end
+        \else
+        \ifx\@tempa\empty \UMO@nospacefalse
+        \else
+                \UMO@spaceskip \UMO@mode\UMO@afterblock
+                \def\UMO@theword{}\UMO@firstxspcode\m@ne
+                \UMO@charloop#1\@nil \fi
+        \let\next\UMO@wordloop \fi
+        \next}
+
+%%^L
+
+%% Interword Spacing
+
+\def\UMO@spaceskip{\ifUMO@nospace \UMO@nospacefalse \else
+        \ifdim\spaceskip=\z@
+            \@tempdima\fontdimen3\font\relax
+                \multiply\@tempdima\UMO@spacefactor \divide\@tempdima\@m
+            \@tempdimb\fontdimen4\font\relax \multiply\@tempdimb\@m
+                \divide\@tempdimb\UMO@spacefactor
+            \@tempskipa\fontdimen2\font plus\@tempdima minus\@tempdimb\relax
+        \else
+            \edef\@tempa{\the\spaceskip\space @ @ @ @ }%
+            \expandafter\UMO@setspaceskip\@tempa\@nil
+        \fi
+        \ifnum\UMO@spacefactor<2000\else
+                \ifdim\xspaceskip=\z@ \advance\@tempskipa\fontdimen7\font
+                \else \@tempskipa\xspaceskip
+        \fi\fi
+        \UMO@skip\@tempskipa \fi}
+\def\UMO@setspaceskip#1 #2 #3 #4 #5 #6\@nil{\@tempdima\z@ \@tempdimb\z@
+        \def\@tempa{#2}\def\@tempb{#3}%
+        \ifx\@tempa\UMO@plus \@tempdima#3\def\@tempa{#4}\def\@tempb{#5}\fi
+        \ifx\@tempa\UMO@minus \@tempdimb\@tempb\relax\fi
+        \multiply\@tempdima\UMO@specefactor \divide\@tempdima\@m
+        \multiply\@tempdimb\@m \divide\UMO@spacefactor
+        \@tempskipa#1 plus\@tempdima minus\@tempdimb\relax}
+\def\@tempa#1 #2 #3 #4 #5\@nil{\def\UMO@plus{#2}\def\UMO@minus{#4}}
+\@tempskipa1pt plus 2pt minus 3pt
+\expandafter\@tempa\the\@tempskipa\@nil
+
+%%^L
+
+%% Processing Characters
+
+\def\UMO@charloop{\UMO@ifbgroup\UMO@charblock\UMO@icharloop}
+\def\UMO@charblock#1{\UMO@putword
+        \UMO@putbox\relax{#1}\UMO@mode\UMO@afterblock \UMO@spacefactor\@m
+        \UMO@charloop}
+\def\UMO@icharloop#1{\def\@tempa{#1}%
+        \ifx\@tempa\@nnil \UMO@putword \let\next\relax
+        \else\ifx\UMOspace#1\relax \UMO@putword \let\next\UMO@space
+        \else\ifx\UMOnewline#1\relax \UMO@putword \let\next\UMO@newline
+        \else
+        \ifnum`#1<256\relax \edef\UMO@theword{\UMO@theword#1}%
+                \ifnum\UMO@firstxspcode<\z@
+                        \UMO@firstxspcode\xspcode`#1\relax
+                        \UMO@prebreakpenalty\prebreakpenalty`#1\relax
+                        \fi
+                \UMO@lastxspcode\xspcode`#1\relax
+                \UMO@postbreakpenalty\postbreakpenalty`#1\relax
+        \else \UMO@putword \UMO@putchar{#1}\UMO@spacefactor\@m\fi
+        \let\next\UMO@charloop \fi\fi\fi \next}
+\def\UMOspace{\PackageError{jumoline}%
+        {\string\UMOspace\space cannot be used here.}%
+        {\string\UMOspace\space can be used only in the argument of
+                \string\Underline\space and its relatives.}}
+\def\UMOnewline{\PackageError{jumoline}%
+        {\string\UMOnewline\space cannot be used here.}%
+        {\string\UMOnewline\space can be used only in the argument of
+                \string\Underline\space and its relatives.}}
+
+%%^L
+
+%% Put ASCII String
+
+\def\UMO@putword{\ifx\UMO@theword\empty\else
+        \ifnum\UMO@mode=\UMO@afterchar
+                \advance\UMO@kpostbreakpenalty\UMO@prebreakpenalty
+                \penalty\UMO@kpostbreakpenalty
+                \ifdim\UMO@postjfmglue>\z@ \UMO@skip\UMO@postjfmglue
+                \else\ifodd\UMO@inhibitxspcode \ifodd\UMO@firstxspcode
+                        \UMO@skip\xkanjiskip \fi\fi\fi\fi
+        \setbox\@tempboxa\hbox{%
+                \UMO@theword\global\UMO@spacefactor\spacefactor}%
+        \UMO@putbox\relax\UMO@theword \UMO@mode\UMO@afterword
+        \def\UMO@theword{}\fi \UMO@firstxspcode\m@ne}
+
+%%^L
+
+%% Put Kanji Letter
+
+\def\UMO@putchar#1{%
+        \ifnum\UMO@mode=\UMO@afterchar \UMO@prejfmglue\UMO@postjfmglue
+        \else                          \UMO@prejfmglue\z@ \fi
+        \UMO@postjfmglue\z@
+        \ifnum`#1<\kuten"1001\relax\UMO@setjfmglue{#1}\fi
+        \@tempskipa\UMO@prejfmglue
+        \UMO@inhibitxspcode\inhibitxspcode`#1\relax
+        \@tempcnta\prebreakpenalty`#1\relax
+        \ifnum\UMO@mode=\UMO@afterchar
+                \advance\@tempcnta\UMO@kpostbreakpenalty
+                \ifdim\UMO@prejfmglue=\z@ \@tempskipa\kanjiskip \fi
+        \else\ifnum\UMO@mode=\UMO@afterword
+                \advance\@tempcnta\UMO@postbreakpenalty
+                \ifdim\UMO@prejfmglue=\z@
+                \ifnum\UMO@lastxspcode>\@ne \ifnum\UMO@inhibitxspcode>\@ne
+                        \@tempskipa\xkanjiskip \fi\fi\fi\fi\fi
+        \penalty\@tempcnta
+        \edef\@tempa{\the\@tempskipa}\ifx\@tempa\UMO@zskip\else
+                \UMO@skip\@tempskipa \fi
+        \UMO@putbox\inhibitglue{#1}%
+        \UMO@kpostbreakpenalty\postbreakpenalty`#1\relax
+        \UMO@mode\UMO@afterchar}
+\@tempskipa\z@
+\edef\UMO@zskip{\the\@tempskipa}
+\def\UMO@setjfmglue#1{%
+        \settowidth\@tempdima{あ#1}\settowidth\@tempdimb{あ\inhibitglue#1}%
+        \advance\@tempdima-\@tempdimb
+        \settowidth\UMO@tempdim{#1あ}\settowidth\@tempdimb{#1\inhibitglue あ}%
+        \advance\UMO@tempdim-\@tempdimb
+        \ifdim\@tempdima>\z@
+                \ifdim\UMO@tempdim>\z@
+                        \@tempskipa\@tempdima minus\@tempdima\relax
+                        \UMO@postjfmglue\UMO@tempdim minus\UMO@tempdim\relax
+                \else   \@tempskipa\@tempdima minus\UMO@dqspace\relax \fi
+                \advance\UMO@prejfmglue\@tempskipa
+        \else \UMO@postjfmglue\UMO@tempdim minus\UMO@dqspace \fi}
+
+%%^L
+
+%% Draw Under/Mid/Overline
+
+\def\UMO@putbox#1#2{\setbox\@tempboxa\hbox{#1#2#1}\@tempdima\wd\@tempboxa
+        \ifUMO@firstelem\else
+        \rlap{\vrule\@height\UMO@height\@depth\UMO@depth\@width\@tempdima}\fi
+        \box\@tempboxa
+        \ifUMO@firstelem \UMO@firstelemfalse
+        \llap{\vrule\@height\UMO@height\@depth\UMO@depth\@width\@tempdima}\fi}
+\def\UMO@skip#1{%
+        \leaders\hrule\@height\UMO@height\@depth\UMO@depth\hskip#1\relax}
+
+%%^L
+
+%% Explicit Spacing and Line Breaking
+
+\def\UMO@space{\UMO@mode\UMO@afterblock
+        \@ifstar\UMO@sspace\UMO@ispace}
+\def\UMO@sspace#1{\vrule width\z@\nobreak\UMO@skip{#1}\UMO@charloop}
+\def\UMO@ispace#1{\@tempskipa#1\relax
+        \@ifstar{\@tempswafalse\UMO@iispace}{\@tempswatrue\UMO@iispace}}
+\def\UMO@iispace{\@ifnextchar[%]
+                              {\UMO@penalty}%
+                              {\UMO@skip\@tempskipa \UMO@charloop}}
+\def\UMO@penalty[#1]{\@tempcnta#1\relax
+        \if@tempswa
+                \ifnum\@tempcnta<\z@ \@tempcnta-\@tempcnta \fi
+                \ifcase\@tempcnta \or
+                        \@tempcnta\@lowpenalty \or
+                        \@tempcnta\@medpenalty \or
+                        \@tempcnta\@highpenalty \else
+                        \@tempcnta\@M \fi
+                \ifnum#1<\z@ \@tempcnta-\@tempcnta \fi \fi
+        \penalty\@tempcnta \UMO@skip\@tempskipa \UMO@charloop}
+
+\def\UMO@newline{\UMO@mode\UMO@afterblock
+        \@ifstar{\UMO@skip{0pt plus1fil}\break \UMO@charloop}%
+                                 {\hfil \break \UMO@charloop}}
+
+%%^L
+
+%% Finalization
+
+\def\UMO@end{\ifnum\UMO@mode=\UMO@afterchar
+        \ifnum\UMO@kpostbreakpenalty>\z@
+                \penalty\UMO@kpostbreakpenalty \fi
+        \ifdim\UMO@postjfmglue>\z@
+                \UMO@skip\UMO@postjfmglue\fi \fi
+        \xdef\UMO@aftergroup{\ifnum\UMO@mode=\UMO@afterword
+                \spacefactor\number\UMO@spacefactor\fi}}
+\endinput
+%%
+%% End of file `jumoline.sty'.

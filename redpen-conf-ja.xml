@@ -1,0 +1,61 @@
+<redpen-conf lang="ja">
+    <validators>
+        <validator name="SentenceLength">
+            <property name="max_len" value="160"/>
+        </validator>
+        <validator name="CommaNumber">
+          <property name="max_num" value="6" /> <!-- 列挙などの表現では3は短すぎる -->
+        </validator>
+        <validator name="SuccessiveWord" />
+        <validator name="WordNumber">
+          <property name="max_num" value="50" /> <!-- 今回は30は厳しすぎる。またどこかで見直したい -->
+        </validator>
+
+        <!-- SpaceBeginningOfSentence はRe:VIEWでは不要 -->
+        <!-- 対応がめんどくさい場合が多い prh側で巻き取る
+        <validator name="KatakanaEndHyphen">
+          <property name="list" value="コンパイルエラー,トリッキー"/>
+        </validator>
+          -->
+        <!-- <validator name="KatakanaSpellCheck"> -->
+        <!-- 技術文書では0.2は近すぎる。有用な指摘もあるがグループとサブグループ、など分類不可能な単語がおおすぎる -->
+        <validator name="InvalidExpression" />
+        <!-- <validator name="JapaneseStyle" /> --> <!-- 〜でしたが、を拾うようだ。誤爆が多すぎて厳しい。 -->
+        <validator name="DoubleNegative" />
+        <validator name="Okurigana" />
+        <!-- <validator name="HankakuKana" /> --> <!-- フォントないかもチェックに利用したかったけど謎””検出エラーで様子見 -->
+        <!-- <validator name="DoubledJoshi" /> -->  <!-- 指摘が多すぎて厳しい。 -->
+        <!-- <validator name="NumberFormat" /> --> <!-- Android 4.0.1とかに引っかかる。つらい -->
+        <validator name="FrequentSentenceStart" />
+        <validator name="WordFrequency" />
+        <!-- <validator name="JapaneseAmbiguousNounConjunction" /> --> <!-- 頻出するが読みやすさに致命傷を与えるとは考え難い・・・今回はSkipで要検討としたい -->
+        <!-- てくぶルールとバージョンナンバーの記述で相性が悪かったため
+        <validator name="JapaneseNumberExpression">
+          <property name="mode" value="hiragana"/>
+        </validator>
+          -->
+
+        <!-- <validator name="LongKanjiChain">
+          <property name="max_len" value="7"/>
+        </validator> -->
+        <!-- 6で見つかるものがだいたいvalidだった -->
+
+        <validator name="ParagraphNumber">
+          <property name="max_num" value="10"/>
+        </validator>
+        <validator name="SectionLength">
+          <property name="max_num" value="1500" /> <!-- 試験的に致命傷っぽいラインに変更 -->
+        </validator>
+        <!-- <validator name="DuplicatedSection" /> --> <!-- 類似性がまるでわからなかった -->
+        <validator name="VoidSection" />
+        <!-- <validator name="SectionLevel" /> --> <!-- コラムの誤検出があったのと有用な指摘はなかったので一旦inactive -->
+
+        <!-- <validator name="InvalidSymbol" /> -->
+        <validator name="ParenthesizedSentence">
+            <property name="max_count" value="3"/>
+            <property name="max_nesting_level" value="1"/>
+            <property name="max_length" value="30"/> <!-- カッコのなかで文章を許容するかどうか -->
+        </validator>
+        <!-- <validator name="SpaceBetweenAlphabeticalWord" /> 書籍では害悪 -->
+    </validators>
+</redpen-conf>

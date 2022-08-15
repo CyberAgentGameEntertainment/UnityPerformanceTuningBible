@@ -1,0 +1,44 @@
+% for user-defined macro
+\usepackage[noalphabet, unicode]{pxchfon} % pxchfonパッケージを使用してフォント系を設定する
+
+% 明朝体をUD明朝に
+\setminchofont{BIZUDMincho-Regular.ttf}
+\setboldminchofont{BIZUDMincho-Regular.ttf}
+% ゴシック体をUDゴシックに
+\setgothicfont{BIZUDGothic-Regular.ttf}
+\setboldgothicfont{BIZUDGothic-Bold.ttf}
+% OSSのBIZ UDフォントにはウェイト違いのフォントが無い
+%\setlightminchofont{BIZUDGothic-Regular.ttf}
+%\setmediumminchofont{BIZUDGothic-Regular.ttf}
+%\setmediumgothicfont{BIZUDGothic-Regular.ttf}
+%\setxboldgothicfont{BIZUDGothic-Bold.ttf}
+
+% 欧文をサンセリフに、和文のフォントをゴシック体に変更
+\renewcommand\familydefault{\sfdefault}
+\renewcommand\kanjifamilydefault{\gtdefault}
+\normalfont
+
+% 文字送りを0.05文字幅に変更
+\def\reviewbegindocumenthook{\kanjiskip=.05zw plus.5pt minus.5pt}
+
+% 章見出しの上部の余白を無効化
+% for user-defined macro
+\def\@makechapterhead#1{%
+%  \vspace*{2\Cvs}% 欧文は50pt →上空きを無効化
+  {\parindent \z@ \raggedright \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+      \if@mainmatter
+        {\vbox to \z@{\kern-48.5mm %章扉の差し込み
+          \moveleft29mm\vbox to \z@{%
+          \hbox to \z@{%
+            \includegraphics[width=\dimexpr\paperwidth+6mm,height=\dimexpr\paperheight+6mm,keepaspectratio]{/book/articles/images/chapter_title/chapter_\arabic{chapter}.png}%
+          \hss}\vss}\vss}
+        \vskip0mm}\newpage
+        \huge\headfont \@chapapp\thechapter\@chappos % 第x章
+        \par\nobreak
+        \vskip \Cvs % 欧文は20pt
+      \fi
+    \fi
+    \interlinepenalty\@M
+    \Huge \headfont #1\par\nobreak % 章タイトル
+    \vskip 3\Cvs}} % 欧文は40pt
