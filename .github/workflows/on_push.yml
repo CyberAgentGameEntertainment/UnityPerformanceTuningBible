@@ -1,0 +1,22 @@
+name: Build Re:VIEW to make distribution file
+# The workflow is triggered on pushes to the repository.
+on: [push]
+
+jobs:
+  build:
+    name: 
+    runs-on: ubuntu-latest
+    steps:
+    # uses v2 Stable version
+    # https://github.com/actions/checkout
+    - name: checkout source
+      uses: actions/checkout@v2
+    # Build Artifacts
+    - name: Build distribution file
+      run: ./build-in-docker-epub.sh
+    # Upload Distribution file
+    - name: Upload distribution file to github artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Output documents
+        path: ./articles/*.pdf
