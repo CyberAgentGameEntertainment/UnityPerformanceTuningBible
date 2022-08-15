@@ -1,4 +1,4 @@
-<h1 align="center">Unity Performance Tuning Bible for Contributer</h1>
+<h1 align="center">Unity Performance Tuning Bible for Contributor</h1>
 
 執筆者向けのドキュメントです。  
 本プロジェクトはRe:VIEW 5.1を使用しています。
