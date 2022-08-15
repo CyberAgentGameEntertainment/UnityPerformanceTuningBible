@@ -1,0 +1,114 @@
+@charset "UTF-8";
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, Meiryo, "メイリオ", sans-serif;
+  font-size: 16px;
+  line-height: 1.5; }
+
+h2 {
+  border-bottom: 1px solid #ccc; }
+
+h1, h2, h3 {
+  margin-top: 28px;
+  margin-bottom: 14px; }
+
+h4, h5, h6 {
+  margin-top: 14px;
+  margin-bottom: 14px; }
+  h4:before, h5:before, h6:before {
+    content: "■"; }
+
+p {
+  margin-bottom: 12px; }
+
+dd {
+  margin-left: 3em; }
+
+div.column {
+  border: solid 3px;
+  border-radius: 10px;
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-top: 12px;
+  margin-bottom: 12px; }
+  div.column h1, div.column h2, div.column h3 {
+    margin-top: 14px; }
+
+div.lead {
+  font-size: 16px;
+  margin-left: 3em; }
+
+p.flushright {
+  text-align: right; }
+
+.noteref {
+  vertical-align: super;
+  font-size: smaller; }
+
+p.footnote {
+  font-size: 0.8em; }
+
+.main-content {
+  display: flex;
+  flex-direction: column; }
+
+div.footnote {
+  order: 1; }
+
+.image, .table, .caption-code, .cmd-code {
+  margin-bottom: 12px; }
+
+.image .caption, .table .caption {
+  text-align: center; }
+
+.image .caption {
+  margin-top: 0; }
+  .image .caption:before {
+    content: "▲";
+    color: lightgray; }
+
+.caption-code .caption, .table .caption {
+  margin-bottom: 0; }
+  .caption-code .caption:before, .table .caption:before {
+    content: "▼";
+    color: lightgray; }
+
+.image img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto; }
+
+.tb-header {
+  background-image: url(images/html_header.jpg);
+  background-size: cover;
+  height: 20vw;
+  background-color: #64C1D7;
+  color: white;
+  text-indent: 150%;
+  overflow: hidden;
+  white-space: nowrap; }
+
+.tb-nav-link {
+  margin-top: 1em;
+  margin-bottom: 1em; }
+  .tb-nav-link a.prev:before {
+    content: "<<"; }
+  .tb-nav-link a.next:after {
+    content: ">>"; }
+
+.tb-footer {
+  margin-top: 16px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  color: white;
+  background-color: #424242; }
+  .tb-footer a {
+    color: #9e9e9e; }
+  .tb-footer p {
+    margin-right: 10px; }
+
+.tb-footer-links li:nth-child(n+2)::before {
+  color: #9e9e9e;
+  content: "/";
+  margin-right: 16px; }

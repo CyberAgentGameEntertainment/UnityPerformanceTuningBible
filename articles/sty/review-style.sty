@@ -1,0 +1,54 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{review-style}[2021/01/06]
+
+\RequirePackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{\gtfamily\sffamily\bfseries\upshape \leftmark}
+\chead{}
+\rhead{\gtfamily\sffamily\bfseries\upshape \rightmark}
+\fancyfoot{} % clear all header and footer fields
+\fancyfoot[LE,RO]{\thepage}
+\renewcommand{\sectionmark}[1]{\markright{\thesection~#1}{}}
+\renewcommand{\chaptermark}[1]{\markboth{\prechaptername\ \thechapter\ \postchaptername~#1}{}}
+\renewcommand{\headfont}{\gtfamily\sffamily\bfseries}
+
+\fancypagestyle{plainhead}{%
+\fancyhead{}
+\fancyfoot{} % clear all header and footer fields
+\fancyfoot[LE,RO]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}}
+
+%% using Helvetica as sans-serif
+\renewcommand{\sfdefault}{phv}
+
+%% for listings
+%\renewcommand{\lstlistingname}{List}
+%\lstset{%
+%  breaklines=true,%
+%  breakautoindent=false,%
+%  breakindent=0pt,%
+%  fontadjust=true,%
+%  backgroundcolor=\color{shadecolor},%
+%  frame=single,%
+%  framerule=0pt,%
+%  basicstyle=\ttfamily\scriptsize,%
+%  commentstyle=\color{reviewgreen},%
+%  identifierstyle=\color{reviewblue},%
+%  stringstyle=\color{reviewred},%
+%  keywordstyle=\bfseries\color{reviewdarkred},%
+%}
+
+%% disable hyperlink color and border
+\hypersetup{hidelinks}
+
+\floatplacement{figure}{H}
+\floatplacement{table}{H}
+
+% space between English/Japanese characters in list environments (\z@ means 0, no space. You can comment out below line for backward compatibility.)
+\def\reviewlistxkanjiskip{\z@}
+
+% boxsetting
+\ifdefined\reviewboxsetting
+  \reviewboxsetting
+\fi
