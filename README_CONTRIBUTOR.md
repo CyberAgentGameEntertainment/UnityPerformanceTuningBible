@@ -1,7 +1,9 @@
 <h1 align="center">Unity Performance Tuning Bible for Contributor</h1>
 
 執筆者向けのドキュメントです。  
-本プロジェクトはRe:VIEW 5.1を使用しています。
+本プロジェクトはRe:VIEW 5.1と5.3が混在しています。
+これは5.3でビルドを行った場合、一部レイアウトが崩れるためです。
+今後、5.3に統一していく予定となります。
 
 # セットアップ
 
