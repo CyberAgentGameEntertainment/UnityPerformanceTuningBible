@@ -14,7 +14,7 @@
 2. AssetsからPDFをダウンロードします。
 
 ## ライセンスについて
-本リポジトリにはライセンスを適用していませんので、著作権法が適用されます。  
+本リポジトリにはライセンスは適用していませんが、著作権法は適用されます。  
 詳しくは以下のページを参照してください。
 
 [Licensing a repository > Choosing the right license](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository#choosing-the-right-license)
