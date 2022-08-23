@@ -428,7 +428,7 @@ Unityはデフォルト状態でステレオ再生しますが、Force To Mono�
 //}
 
 =={practice_asset_special_folder} Resources / StreamingAssets
-Unityには特別なフォルダーが存在します。とくに次の3つはパフォーマンス観点で注意が必要です。
+Unityには特別なフォルダーが存在します。とくに次の2つはパフォーマンス観点で注意が必要です。
 
  * Resourcesフォルダー
  * StreamingAssetsフォルダー
