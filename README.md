@@ -3,7 +3,7 @@
 </p>
 
 # Unity Performance Tuning Bible
-本書はUnityのパフォーマンスチューニングに関するノウハウを体系的にまとめた書籍です。
+本書はUnityのパフォーマンスチューニングに関するノウハウを体系的にまとめた書籍です。  
 本リポジトリから電子書籍をPDFとしてダウンロードすることができます。
 
 ご意見、ご指摘は [Issues](https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/issues) や [Pull Requests](https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/pulls) からお願いいたします。
@@ -12,6 +12,12 @@
 1. [Releasesの最新版](https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/releases/latest)へ遷移します。
 
 2. AssetsからPDFをダウンロードします。
+
+## ライセンスについて
+本リポジトリにはライセンスを適用していませんので、著作権法が適用されます。  
+詳しくは以下のページを参照してください。
+
+[Licensing a repository > Choosing the right license](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository#choosing-the-right-license)
 
 ## Copyright
 (C) 2022 CyberAgent, Inc.
