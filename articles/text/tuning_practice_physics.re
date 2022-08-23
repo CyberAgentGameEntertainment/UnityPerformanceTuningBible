@@ -41,7 +41,7 @@ MonoBehaviourの@<code>{FixedUpdate}は@<code>{Update}とは違い、固定時�
 つまり、あるフレームで処理落ちした場合は次のフレームでの物理演算のコストが高くなります。
 それが原因でそのフレームも処理落ちするリスクが高くなることで、次フレームでの物理演算も重くなる、といった負のスパイラルに陥る現象が物理エンジンの世界では知られています。
 
-この問題を解決するためにUnityでは@<img>{projectsetting_time_maximum_allowed_timestep}に示すように、Project Settingsから@<kw>{Maximum Allowd Timestep}という、1フレーム内で物理演算が利用する時間の最大値が設定できます。
+この問題を解決するためにUnityでは@<img>{projectsetting_time_maximum_allowed_timestep}に示すように、Project Settingsから@<kw>{Maximum Allowed Timestep}という、1フレーム内で物理演算が利用する時間の最大値が設定できます。
 この値はデフォルトで0.33秒が設定されていますが、ターゲットFPSに近い値にしてFixed Updateの呼び出し回数を制限し、フレームレートを安定させたほうがよいでしょう。
 
 //image[projectsetting_time_maximum_allowed_timestep][Project SettingsのMaximum Allowed Timestep項目][scale=1.0]
