@@ -18,7 +18,7 @@ jobs:
     - name: Compress PDF
       uses: jy95/ghostscript-action@v1
       with:
-        file: './articles/*.pdf'
+        file: './articles/Unityパフォーマンスチューニングバイブル.pdf'
         output: './articles/compressed/Unityパフォーマンスチューニングバイブル.pdf'
         arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook'
     # Upload Distribution file
