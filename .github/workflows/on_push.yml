@@ -14,9 +14,16 @@ jobs:
     # Build Artifacts
     - name: Build distribution file
       run: ./build-in-docker-epub.sh
+    # Compress PDF file
+    - name: Compress PDF
+        uses: jy95/ghostscript-action@v1  
+        with:  
+            file: './articles/Unityパフォーマンスチューニングバイブル.pdf'  
+            output: './articles/compressed/Unityパフォーマンスチューニングバイブル.pdf'  
+            arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook'  
     # Upload Distribution file
     - name: Upload distribution file to github artifacts
       uses: actions/upload-artifact@v2
       with:
         name: Output documents
-        path: ./articles/*.pdf
+        path: ./articles/compressed/*.pdf
