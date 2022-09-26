@@ -230,7 +230,7 @@ Timelineが向いていないのは、重い処理順を把握するためのソ
 //listnum[profile_begin_samle][Begin/EndSampleを用いた方法]{
 using UnityEngine.Profiling;
 /* ...省略... */
-private void TestMethd()
+private void TestMethod()
 {
 	for (int i = 0; i < 10000; i++)
 	{
