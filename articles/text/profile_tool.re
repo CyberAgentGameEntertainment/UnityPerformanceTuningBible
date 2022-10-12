@@ -363,7 +363,7 @@ Unity 2021以降のSimpleビューはUIが大きく改善され、表示項目�
 //}
 
 ===={memory_module_detailed_view}2. Detailedビュー
-Dtailedビューは@<img>{profiler_memory_detailed}のような表示になります。
+Detailedビューは@<img>{profiler_memory_detailed}のような表示になります。
 //image[profiler_memory_detailed][Detailedビュー]
 この表示結果は「Take Sample」ボタンを押下することで、その時点でのメモリスナップショットを取得できます。
 Simpleビューと違いリアルタイム更新ではないため、表示を更新したい場合は再度Take Sampleを行う必要があります。
