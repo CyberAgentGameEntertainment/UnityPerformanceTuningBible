@@ -1,7 +1,7 @@
 # 書籍版用の上書き設定
 
 # 継承元設定
-inherit: ["config-epub.yml"]
+inherit: ["config-epub-jp.yml"]
 
 # 書籍版を別のファイル名にしたい場合
 # bookname: ReVIEW-Template-ebook
