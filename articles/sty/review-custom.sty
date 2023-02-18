@@ -31,7 +31,11 @@
         {\vbox to \z@{\kern-48.5mm %章扉の差し込み
           \moveleft29mm\vbox to \z@{%
           \hbox to \z@{%
-            \includegraphics[width=\dimexpr\paperwidth+6mm,height=\dimexpr\paperheight+6mm,keepaspectratio]{/book/articles/images/chapter_title/chapter_\arabic{chapter}.png}%
+          \if@english
+            \includegraphics[width=\dimexpr\paperwidth+6mm,height=\dimexpr\paperheight+6mm,keepaspectratio]{/book/articles/images_en/chapter_title/chapter_\arabic{chapter}.png}%
+          \else
+            \includegraphics[width=\dimexpr\paperwidth+6mm,height=\dimexpr\paperheight+6mm,keepaspectratio]{/book/articles/images_jp/chapter_title/chapter_\arabic{chapter}.png}%
+          \fi
           \hss}\vss}\vss}
         \vskip0mm}\newpage
         \huge\headfont \@chapapp\thechapter\@chappos % 第x章

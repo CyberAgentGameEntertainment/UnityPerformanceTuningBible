@@ -161,7 +161,7 @@ backcover: backcover.tex
 # advfile: null
 
 # 取り込む画像が格納されているディレクトリ。省略した場合は以下
-# imagedir: images
+imagedir: images_jp
 
 # 取り込むフォントが格納されているディレクトリ。省略した場合は以下
 # fontdir: fonts
@@ -181,7 +181,7 @@ backcover: backcover.tex
 # catalogfile: catalog.yml
 
 # reファイルを格納するディレクトリ。省略した場合は以下 (. はカレントディレクトリを示す)
-contentdir: text
+contentdir: text_jp
 # pandoc2reviewを利用してMarkdownコンテンツを取り込むには、以下を有効にする
 # contentdir: _refiles
 
