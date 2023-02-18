@@ -154,7 +154,7 @@ Shader "SimpleInstancing"
     struct v2f
     {
         float4 vertex : SV_POSITION;
-        // フラグメントシェーダーでINSTANCED_PROPにアクセスしたい場合にのみ必要
+        // フラグメントシェーダーでINSTANCED_PROPにアクセスするときのみ必要
         UNITY_VERTEX_INPUT_INSTANCE_ID
      };
 
@@ -168,7 +168,7 @@ Shader "SimpleInstancing"
 
         UNITY_SETUP_INSTANCE_ID(v);
 
-        // フラグメントシェーダーでINSTANCED_PROPにアクセスしたい場合にのみ必要
+        // フラグメントシェーダーでINSTANCED_PROPにアクセスするときのみ必要
         UNITY_TRANSFER_INSTANCE_ID(v, o);
 
          o.vertex = UnityObjectToClipPos(v.vertex);
@@ -177,7 +177,7 @@ Shader "SimpleInstancing"
 
     fixed4 frag(v2f i) : SV_Target
     {
-        // フラグメントシェーダーでINSTANCED_PROPにアクセスしたい場合にのみ必要
+        // フラグメントシェーダーでINSTANCED_PROPにアクセスするときのみ必要
         UNITY_SETUP_INSTANCE_ID(i);
 
         float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
@@ -286,7 +286,7 @@ private SpriteAtlas atlas;
 
 public Sprite LoadSprite(string spriteName)
 {
-    // Spriteの名前を引数にしてSpriteAtlasからSpriteを取得する
+    // Sprite名を引数にSpriteAtlasからSpriteを取得する
     var sprite = atlas.GetSprite(spriteName);
     return sprite;
 }

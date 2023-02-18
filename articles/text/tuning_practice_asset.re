@@ -70,14 +70,16 @@ public class ImporterExample : AssetPostprocessor
     private void OnPreprocessTexture()
     {
         var importer = assetImporter as TextureImporter;
-        importer.isReadable = false; // Read/Writeの設定なども可能
+        // Read/Writeの設定なども可能
+        importer.isReadable = false;
 
         var settings = new TextureImporterPlatformSettings();
         // Android = "Android", PC = "Standalone"を指定
         settings.name = "iPhone";
         settings.overridden = true;
         settings.textureCompression = TextureImporterCompression.Compressed;
-        settings.format = TextureImporterFormat.ASTC_6x6; // 圧縮形式を指定
+        // 圧縮形式を指定
+        settings.format = TextureImporterFormat.ASTC_6x6;
         importer.SetPlatformTextureSettings(settings);
     }
 }
@@ -221,7 +223,7 @@ void OnDestroy()
 そのため低スペック端末はSkin Weightsを2に設定し、高スペック端末は4に設定するなどの微調整が可能です。
 //listnum[skinweight_settings][SkinWeightの設定変更][csharp]{
 // QualitySettingsを丸ごと切り替える方法 
-// 引数の番号は設定画面のLevelsの並び順で上から0、1..となっています
+// 引数の番号はQualitySettingsの並び順で、0始まりです。
 QualitySettings.SetQualityLevel(0);
 
 // SkinWeightsだけ変更する方法
@@ -436,7 +438,8 @@ Unityはデフォルト状態でステレオ再生しますが、Force To Mono�
 通常Unityは、シーンやマテリアル、スクリプトなどから参照されたオブジェクトのみがビルドに含まれます。
 
 //listnum[practice_asset_special_folder_script_reference][スクリプトで参照されたオブジェクトの例][csharp]{
-[SerializeField] GameObject sample; // 参照されたオブジェクトはビルドに含まれる
+// 参照されたオブジェクトはビルドに含まれる
+[SerializeField] GameObject sample;
 //}
 
 先の特別なフォルダーはルールが違います。格納したファイルはビルドに含まれます。つまり、実際には不要なファイルも格納されていればビルドに含まれ、ビルドサイズの膨張につながります。

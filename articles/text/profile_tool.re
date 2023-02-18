@@ -179,7 +179,7 @@ Hierarchyビューは@<img>{profiler_hierarchy_view}のような表示になり�
 --------------------
 Overview	サンプル名。
 Total	この関数の処理にかかった合計時間。（％表示）
-Self	この関数自体の処理時間。サブ関数の処理時間は含まれません。（％表示）
+Self	この関数自体の処理時間。@<br>{}サブ関数の時間は含まれません。（％表示）
 Calls	1フレーム内で呼ばれた回数。
 GC Alloc	この関数で割り当てたスクリプトのヒープメモリ。
 Time ms	Totalをmsで表示したもの。
@@ -318,7 +318,7 @@ Simpleビューは@<img>{profiler_memory_simple}のような表示になりま�
 //table[simple_view_total_detail][Simple View用語説明]{
 用語名	説明
 --------------------
-GC	ヒープ領域で使用しているメモリ量。GC Allocなどが要因で増加します。
+GC	ヒープ領域で使用しているメモリ量。@<br>{}GC Allocなどが要因で増加します。
 Gfx	Texture、Shader、Meshなどで確保しているメモリ量。
 Audio	オーディオ再生のために使用しているメモリ量。
 Video	Video再生のために使用しているメモリ量。
@@ -391,7 +391,7 @@ Detailedビューのヘッダー項目は、見たとおりの意味なのでこ
 Assets	シーンに含まれていないロードしたアセット。
 Not Saved	コードによって実行時に生成されたアセット。@<br>{}たとえば、new Materiala()など、コードから生成したオブジェクトのこと。
 Scene Memory	ロードしたシーンに含まれているアセット。
-Others	上記以外のオブジェクトで、Unityがさまざまなシステムで使用するものへの割り当て。
+Others	上記以外のオブジェクト。@<br>{}Unityがさまざまなシステムで使用するものへの割り当て。
 //}
 
 トップノードの中でもOthersの中に記載されている項目は普段馴染みがないものばかりでしょう。
@@ -486,8 +486,8 @@ Singleモードは1つの計測データを分析する場合に使用し、Comp
 Name Filter	検索したい処理名でフィルターします。
 Exclude Filter	検索から除外したい処理名でフィルターします。
 Thread	選択対象のスレッドが分析結果に表示されます。@<br>{}他スレッドの情報が必要であれば追加しましょう。
-Depth Slice	CPU Usageで紹介したHierarchy表示の階層数です。@<br>{}たとえばDepthが3の場合は、階層が3つ目のものが表示されます。
-Analysis Type	CPU Usageヘッダー項目にあったTotalとSelfの切り替えができます。
+Depth Slice	CPU UsageにおけるHierarchyの階層数です。@<br>{}たとえばDepthが3の場合は、階層が3つ目のものが表示されます。
+Analysis Type	TotalとSelfの切り替えができます。@<br>{}CPU Usageで紹介したヘッダー項目と同じ内容です。
 Units	時間表示をミリ秒かマイクロ秒に変更できます。
 Marker Columns	分析結果のヘッダー表示を変更できます。
 //}

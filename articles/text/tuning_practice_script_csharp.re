@@ -21,7 +21,7 @@ private void Update()
     var list = new List<int>(listCapacity);
     for (var index = 0; index < listCapacity; index++)
     {
-        // 特に意味はないけどindexをListに詰めていく
+        // 特に意味はないがindexをListに詰める
         list.Add(index);
     }
     // listから値をランダムに取り出す
@@ -141,7 +141,7 @@ InvokeActionMethod(IncrementStaticCount);
 これらを回避するためには、以下のようにステートメント形式でstaticメソッドを参照する必要があります。
 
 //listnum[lambda_member_method_ref][ラムダ式内でメソッドを参照してGC.Allocしないケース][csharp]{
-// ラムダ式内でstaticメソッドを参照した場合、GC.Allocは発生せず
+// ラムダ式内でstaticメソッドを参照した場合は、Non Allocとなる
 InvokeActionMethod(() => { IncrementStaticCount(); });
 //}            
 こうすることで初回のみActionがnewされますが、内部的にキャッシュされることによって2回目以降GC.Allocが回避されます。
