@@ -31,7 +31,7 @@ end
 
 desc 'run pandoc2review'
 task :pandoc2review do
-  config = YAML.load_file('config.yml')
+  config = YAML.load_file(CONFIG_FILE)
   if config['contentdir'] == '_refiles'
     path = '_refiles'
     p2r = 'pandoc2review'
@@ -41,7 +41,7 @@ task :pandoc2review do
       File.write("#{path}/THIS_FOLDER_IS_TEMPORARY", '')
     end
 
-    catalog = YAML.load_file('catalog.yml')
+    catalog = YAML.load_file(CATALOG_FILE)
     %w(PREDEF CHAPS APPENDIX POSTDEF).each do |block|
       if catalog[block].kind_of?(Array)
         catalog[block].each do |ch|

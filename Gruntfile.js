@@ -4,7 +4,6 @@ let fs = require("fs");
 let yaml = require("js-yaml");
 
 const articles = "articles";
-const bookConfig = yaml.safeLoad(fs.readFileSync(`${articles}/config.yml`, "utf8"));
 
 const reviewPrefix = process.env["REVIEW_PREFIX"] || "bundle exec ";
 const reviewPostfix = process.env["REVIEW_POSTFIX"] || "";             // REVIEW_POSTFIX="-peg" npm run pdf とかするとPEGでビルドできるよ
@@ -17,6 +16,8 @@ const reviewWebMaker = `${reviewPrefix}rake web ${reviewPostfix}`;
 const reviewTextMaker = `${reviewPrefix}rake text ${reviewPostfix}`;
 const reviewIDGXMLMaker = `${reviewPrefix}rake idgxml ${reviewPostfix}`;
 const reviewVivliostyle = `${reviewPrefix}rake vivliostyle ${reviewPostfix}`;
+
+const bookConfig = yaml.safeLoad(fs.readFileSync(`${articles}/${reviewConfig}`, "utf8"));
 
 module.exports = grunt => {
 	grunt.initConfig({
@@ -41,7 +42,7 @@ module.exports = grunt => {
 						cwd: articles,
 					}
 				},
-				command: `${reviewPreproc} -r --tabwidth=2 **/*.re`
+				command: `${reviewPreproc} -r --tabwidth=2 */*.re`
 			},
 			compile2text: {
 				options: {
