@@ -138,10 +138,10 @@ if (hitCount > 0)
 {
     Debug.Log($"Hit {hitCount} player(s)");
 
-    //  _results contains the collision information in order from the 0th one in the array.
+    // The _results array stores collision information in order
     var firstHit = _results[0];
 
-    //  Note that specifying an index greater than the number of collisions will result in invalid collision information.
+    // Note that indexes exceeding the number of pieces are invalid information
 }
 //}
 

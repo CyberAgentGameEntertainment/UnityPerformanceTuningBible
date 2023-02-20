@@ -70,14 +70,16 @@ public class ImporterExample : AssetPostprocessor
     private void OnPreprocessTexture()
     {
         var importer = assetImporter as TextureImporter;
-        importer.isReadable = false; // Read/Write settings, etc. are also possible
+        // Read/Write settings, etc. are also possible
+        importer.isReadable = false;
 
         var settings = new TextureImporterPlatformSettings();
         //  Android = "Android", PC = "Standalone
         settings.name = "iPhone";
         settings.overridden = true;
         settings.textureCompression = TextureImporterCompression.Compressed;
-        settings.format = TextureImporterFormat.ASTC_6x6; // Specify compression format
+        // Specify compression format
+        settings.format = TextureImporterFormat.ASTC_6x6;
         importer.SetPlatformTextureSettings(settings);
     }
 }
@@ -221,7 +223,7 @@ This setting can also be adjusted dynamically from a script.
 Therefore, it is possible to set Skin Weights to 2 for low-spec devices and 4 for high-spec devices, and so on, for fine-tuning. 
 //listnum[skinweight_settings][Changing SkinWeight settings][csharp]{
 //  How to switch QualitySettings entirely 
-//  The argument numbers are 0, 1..., and so on from the top in the order of Levels in the settings screen. The argument numbers are 0, 1... from the top in the order of Levels on the settings screen.
+//  The number of the argument is the order of the QualitySettings, starting with 0.
 QualitySettings.SetQualityLevel(0);
 
 //  How to change only SkinWeights
@@ -436,7 +438,8 @@ There are special folders in the project. The following two in particular requir
 Normally, Unity only includes objects referenced by scenes, materials, scripts, etc. in a build. 
 
 //listnum[practice_asset_special_folder_script_reference][Example of an object referenced by a script][csharp]{
-[SerializeField] GameObject sample; // Referenced objects are included in the build
+// Referenced objects are included in the build
+[SerializeField] GameObject sample;
 //}
 
 The rules are different for the special folders mentioned above. Stored files are included in the build. This means that even files that are not actually needed are included in the build if they are stored, leading to an expansion of the build size. 
