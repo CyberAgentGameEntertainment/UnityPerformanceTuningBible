@@ -21,7 +21,7 @@ private void Update()
     var list = new List<int>(listCapacity);
     for (var index = 0; index < listCapacity; index++)
     {
-        //  Packing indexes into List, though it doesn't make any sense in particular
+        // Packing an index into a List with no particular meaning
         list.Add(index);
     }
     //  Randomly take a value out of the list
@@ -138,7 +138,7 @@ InvokeActionMethod(IncrementStaticCount);
 To avoid these cases, it is necessary to reference static methods in a statement format as follows. 
 
 //listnum[lambda_member_method_ref][Cases where a method is referenced in a lambda expression and GC.Alloc is not performed][csharp]{
-//  If you reference a static method in a lambda expression, GC.Alloc does not occur and
+// Non Alloc if a static method is referenced in a lambda expression
 InvokeActionMethod(() => { IncrementStaticCount(); });
 //}           
 Alloc will not occur and GC.Alloc will not occur if you refer to a static method in a lambda expression. 

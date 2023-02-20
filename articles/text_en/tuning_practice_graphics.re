@@ -154,7 +154,7 @@ Shader "SimpleInstancing"
     struct v2f
     {
         float4 vertex : SV_POSITION;
-        //  Only needed if you want to access INSTANCED_PROP in fragment shaders
+        // Only needed when accessing INSTANCED_PROP with fragment shaders
         UNITY_VERTEX_INPUT_INSTANCE_ID
      };
 
@@ -168,7 +168,7 @@ Shader "SimpleInstancing"
 
         UNITY_SETUP_INSTANCE_ID(v);
 
-        //  Required only if you want to access INSTANCED_PROP with fragment shaders
+        // Only needed when accessing INSTANCED_PROP with fragment shaders
         UNITY_TRANSFER_INSTANCE_ID(v, o);
 
          o.vertex = UnityObjectToClipPos(v.vertex);
@@ -177,7 +177,7 @@ Shader "SimpleInstancing"
 
     fixed4 frag(v2f i) : SV_Target
     {
-        //  Required only if you want to access INSTANCED_PROP with fragment shaders
+        // Only needed when accessing INSTANCED_PROP with fragment shaders
         UNITY_SETUP_INSTANCE_ID(i);
 
         float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
@@ -286,7 +286,7 @@ private SpriteAtlas atlas;
 
 public Sprite LoadSprite(string spriteName)
 {
-    //  Retrieve a Sprite from SpriteAtlas with the name of the Sprite as an argument
+    // Obtain a Sprite from SpriteAtlas with the Sprite name as an argument
     var sprite = atlas.GetSprite(spriteName);
     return sprite;
 }
