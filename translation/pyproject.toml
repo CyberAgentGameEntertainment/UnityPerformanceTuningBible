@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "review-translator"
+version = "1.0.0"
+description = "Python scripts to translate text written with Re:View format in Unity Performance Tuning Bible."
+authors = ["Yusuke Ishiguro <ishiguro_yusuke@cyberagent.co.jp>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "translator"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+deepl = "^1.14.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
