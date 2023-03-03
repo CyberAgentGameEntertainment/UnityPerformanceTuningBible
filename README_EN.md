@@ -15,17 +15,17 @@ Please send your comments and suggestions to [Issues](https://github.com/CyberAg
 
 ## About the translated version
 ### Background
-We have received several requests for a translated version of Issues, but we have decided that it is operationally difficult to release an official translated version and have instead decided to leave the translation to each individual user. On the other hand, with the background of improving translation services' quality, we examined the possibility of providing a translated version using such services. As a result, we found that it is possible to provide the original text in Re:View Format, including future updates, by translating it using DeepL.  
+We have received several requests for a translated version of Issues, but we have decided that it is operationally difficult to release an official translated version and have instead decided to leave the translation to individual users. On the other hand, with the background of improving translation services' quality, we examined the possibility of providing a translated version using such services. As a result, we found that it is possible to provide the original text in Re:View Format, including future updates, by using DeepL.  
 
 ### Translations other than the English version
-Translated versions in other languages are left to the individual.  
+Translated versions in other languages are left to individual users.  
 The flow for creating PDFs in each language is summarized in this [README](https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/UnityPerformanceTuningBible/tree/main/translation).  
-By changing the language parameter, the desired translated PDF can be obtained.  
+By changing the language parameter, the translated PDF can be obtained.  
 
 ### Note
-he quality of the translation may vary depending on the service used. Please note that we provide translations with the assumption that it may be easier for users than doing individual translations themselves.
+The quality of the translation may vary depending on the service used. Please note that we provide translations with the assumption that it may be easier for users than doing individual translations themselves.
 
-### Updating the translated version
+### About Updates of the translated version
 The translated version will be updated for major changes or additions, but not for typos.  
 
 ## How to download the e-book.
