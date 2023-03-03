@@ -26,7 +26,7 @@ By changing the language parameter, the desired translated PDF can be obtained.
 he quality of the translation may vary depending on the service used. Please note that we provide translations with the assumption that it may be easier for users than doing individual translations themselves.
 
 ### Updating the translated version
-The translated version will be updated when major changes or additions are made, not when typos are made.  
+The translated version will be updated for major changes or additions, but not for typos.  
 
 ## How to download the e-book.
 1. Go to [the latest version of Releases](https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/releases/latest).
