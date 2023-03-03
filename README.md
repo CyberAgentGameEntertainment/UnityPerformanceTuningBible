@@ -4,7 +4,7 @@
 
 # Unity Performance Tuning Bible
 
-[![license](https://img.shields.io/badge/PR-welcome-green.svg)](https://github.com/CyberAgentGameEntertainment/AssetRegulationManager/pulls)
+[![license](https://img.shields.io/badge/PR-welcome-green.svg)](https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/pulls)
 
 **Docs** ([日本語](README.md), [English](README_EN.md))
 
