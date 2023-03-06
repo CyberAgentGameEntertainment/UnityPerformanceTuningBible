@@ -42,6 +42,17 @@ class TranslateLang(Enum):
 
 Then run translation command, replacing last parameter with target language of translation.
 
+### Building PDF
+
+We use Docker for build system, so you need to install first if you don't have it.
+
+To build PDF of EPUB version, run following command at root of this repository.
+You need to specify `REVIEW_LANG` environment variable to what you want, choosing from `TranslateLang` enum.
+
+```sh
+$ REVIEW_LANG=en ./build-in-docker-epub.sh
+```
+
 ## Developing
 
 Since this book is written by [Re:VIEW format](https://github.com/kmuto/review/blob/master/doc/format.md), we need to exlude Re:VIEW tags from translation.
