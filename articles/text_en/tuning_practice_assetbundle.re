@@ -43,7 +43,7 @@ There are three types of APIs for loading assets from AssetBundle.
 
 If AssetBundle is not unloaded when it is no longer needed, it will overwhelm memory. 
 The argument @<code>{unloadAllLoadedObjects} of @<code>{AssetBundle.Unload(bool unloadAllLoadedObjects)}, which is the API to be used in this case, 
-is very important and should be decided how to set it up at the beginning of development. 
+is very important and should be decided how to set it up at the beginning of the development. 
 If this argument is true, when unloading an AssetBundle, all assets loaded from that AssetBundle will also be unloaded. 
 If false, no assets are unloaded. 
 
@@ -61,8 +61,8 @@ In this case, you need to be careful about the file descriptor limit and the mem
 A file descriptor is an operation ID assigned by the OS when reading or writing a file. 
 One file descriptor is required to read or write one file, and the file descriptor is released when the file operation is completed. 
 Since there is a limit to the number of file descriptors a process can have, it is not possible to have more than this number of files open at the same time. 
-If you see the error message "Too many open files", it means that the maximum number of files cannot be opened at the same time. 
-Therefore, the number of simultaneous loads in the AssetBundle is affected by this limit, and Unity also has to maintain a certain amount of margin for the limit, since it is opening some files at the same time. 
+If you see the error message "Too many open files", it means that the process has reached the limit. 
+Therefore, the number of simultaneous loads in the AssetBundle is affected by this limit, and Unity also has to keep a certain amount of margin for the limit, since it has to open some files. 
 This limit varies depending on the OS and version, so it is necessary to investigate the value for the target platform in advance. 
 Even if the limit is hit, it is possible to temporarily raise the limit depending on the OS @<fn>{setrlimit}, so consider implementing this if necessary. 
 
@@ -75,4 +75,4 @@ In other words, you can imagine that it uses memory in proportion to the number 
 Because of this nature, memory will be squeezed in proportion to the number of concurrent loads, so it is important to reduce the number of concurrent loads. 
 
 Based on the above, when operating under the @<code>{AssetBundle.Unload(true)} policy, it is recommended that the maximum number of concurrently loaded AssetBundles be 150 to 200, and when operating under the 
-@<code>{AssetBundle.Unload(false)} policy, the maximum number should be 150 or less. 
+@<code>{AssetBundle.Unload(false)} policy, it is recommended that the maximum number be 150 or less. 

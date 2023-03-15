@@ -79,4 +79,4 @@ Currently working on verification of new 3D-related technologies.
 ==== Yuichiro Mukai / Twitter: @yucchiy_
 Client-side engineer at Applibot, Inc. He writes for 
 
-@<chapref>{tuning_practice_physics} and part of @<chapref>{tuning_practice_script_csharp}. 
+@<chapref>{tuning_practice_physics} and some parts of @<chapref>{tuning_practice_script_csharp}. 

@@ -17,17 +17,17 @@ First of all, this is a very simple case in which GC.Alloc occurs.
 private void Update()
 {
     const int listCapacity = 100;
-    //  GC.Alloc with new of List<int>.
+    //  GC.Alloc in new of List<int>.
     var list = new List<int>(listCapacity);
     for (var index = 0; index < listCapacity; index++)
     {
-        // Packing an index into a List with no particular meaning
+        //  Pack index into list, though it doesn't make any sense in particular
         list.Add(index);
     }
-    //  Randomly take a value out of the list
+    //  Randomly take a value from the list
     var random = UnityEngine.Random.Range(0, listCapacity);
     var randomValue = list[random];
-    //  ... Do something from the random value ...
+    //  ... Do something with the random value ...
 }
 //}
 The major problem with this code is that 
@@ -138,10 +138,10 @@ InvokeActionMethod(IncrementStaticCount);
 To avoid these cases, it is necessary to reference static methods in a statement format as follows. 
 
 //listnum[lambda_member_method_ref][Cases where a method is referenced in a lambda expression and GC.Alloc is not performed][csharp]{
-// Non Alloc if a static method is referenced in a lambda expression
+//  Non Alloc when a static method is referenced in a lambda expression
 InvokeActionMethod(() => { IncrementStaticCount(); });
 //}           
-Alloc will not occur and GC.Alloc will not occur if you refer to a static method in a lambda expression. 
+In this way, the Action is new only the first time, but it is cached internally to avoid GC.Alloc from the second time onward. 
 
 However, making all variables and methods static is not very 
 adoptable in terms of code safety and readability. In code that needs to be fast, it is safer to design without using lambda expressions for events that fire at 
@@ -151,7 +151,7 @@ every frame or at indefinite times, rather than to use a lot of statics to elimi
 
 In the following cases where generics are used, what could cause boxing? 
 
-//listnum[generic_boxing][Examples of possible boxed events using generics][csharp]{
+//listnum[generic_boxing][Example of possible boxed cases using generics][csharp]{
 public readonly struct GenericStruct<T> : IEquatable<T>
 {
     private readonly T _value;
@@ -281,7 +281,7 @@ while (num < list.Count)
 In C#, the @<code>{for} statement is a sugar-coated syntax for the @<code>{while} statement, and the indexer (@<code>{public T this[int index]} ), and is obtained by reference by the indexer ( 
 Also, if you look closely at this @<code>{while} statement, you will see that the conditional expression contains @<code>{list.Count}. This means that the 
 access to the @<code>{Count} property is performed each time the loop is repeated. @<code>{Count} The more the number of @<code>{Count} accesses to the property, the more the number of accesses to the property increases proportionally, and depending on the number of 
-accesses, the load becomes non-negligible. If the @<code>{Count} does not change within the loop, then the load on property accesses can be reduced by caching them before the loop. 
+accesses, the load becomes non-negligible. If @<code>{Count} does not change within the loop, then the load on property accesses can be reduced by caching them before the loop. 
 
 //listnum[simple_for_improve_list][Example of turning a List with for: Improved version][csharp]{
 var count = list.Count;
@@ -341,7 +341,7 @@ In the case of @<code>{List<int>}, a comparison with a finer set of conditions s
 than @<code>{foreach}. @<code>{List} The @<code>{foreach} of can be rewritten to @<code>{for} with @<code>{Count} optimization to reduce the overhead of the @<code>{MoveNext()} and @<code>{Current} properties in the processing of 
 @<code>{foreach} , thus making it faster. 
 
-Also, when comparing the respective fastest speeds of @<code>{List} and arrays, arrays are approximately 2.3 times faster than @<code>{List}. 
+In addition, when comparing the respective fastest speeds of @<code>{List} and arrays, arrays are approximately 2.3 times faster than @<code>{List}. 
 Even if @<code>{foreach} and @<code>{for} are written to have the same IL result, @<code>{foreach} is the faster result, and 
 array's @<code>{foreach} is sufficiently optimized. 
 
@@ -475,7 +475,7 @@ Thus, when using LINQ, the size of GC.Alloc can be reduced by being aware of the
 ====[column] Causes of GC.Alloc in LINQ
 
 Part of the cause of GC.Alloc with the use of LINQ is the internal implementation of LINQ. 
-Many LINQ methods take @<code>{IEnumerable<T>} and return @<code>{IEnumerable<T>}, and this API design allows for intuitive description using method chaining. 
+Many LINQ methods take @<code>{IEnumerable<T>} and return @<code>{IEnumerable<T>}, and this API design allows for intuitive description using method chains. 
 The entity @<code>{IEnumerable<T>} returned by a method is an instance of the class for each function. 
 LINQ internally instantiates a class that implements @<code>{IEnumerable<T>}, and furthermore, GC.Alloc occurs internally because calls to @<code>{GetEnumerator()} are made to realize loop processing, etc. 
 
@@ -510,7 +510,7 @@ private static int HeavyProcess(int x)
 
 @<list>{linq_to_array_sample_code} The result of the execution of @<list>{linq_to_array_sample_code_result} is the result of . 
 By adding @<code>{ToArray} at the end, which is an immediate evaluation, the result of executing the method @<code>{Where} or @<code>{Select} and evaluating the value is returned when the assignment is made to @<code>{query}. 
-Therefore, @<code>{HeavyProcess} is also called, so you can see that processing time is taken at the timing when @<code>{query} is generated. 
+Therefore, since @<code>{HeavyProcess} is also called, you can see that processing time is taken at the timing when @<code>{query} is generated. 
 
 //listnum[linq_to_array_sample_code_result][Result of Adding a Method for Immediate Evaluation]{
 Query: 3013
@@ -526,7 +526,7 @@ This section explained the causes of GC.Alloc when using LINQ, how to reduce it,
 In this section, we explain the criteria for using LINQ. 
 The premise is that LINQ is a useful language feature, but its use will worsen heap allocation and execution speed compared to when it is not used. 
 In fact, Microsoft's Unity performance recommendations at @<fn>{performance_tips_from_microsoft} clearly state "Avoid use of LINQ. 
-Here is a benchmark comparison of the same logic implemented with and without LINQ at @<list>{linq_vs_pure_benchmark}. 
+Here is a benchmark comparison of the same logic implementation with and without LINQ at @<list>{linq_vs_pure_benchmark}. 
 
 //footnote[performance_tips_from_microsoft][@<href>{https://docs.microsoft.com/en-us/windows/mixed-reality/develop/unity/performance-recommendations-for-unity#avoid-expensive- operations}]
 
@@ -563,7 +563,7 @@ The results are available at @<img>{linq_vs_pure_benchmark}. The comparison of e
 //image[linq_vs_pure_benchmark][Performance Comparison Results with and without LINQ][scale=1.0]
 
  While the above results clearly show that the use of LINQ deteriorates performance, there are cases where the coding intent is more easily conveyed by using LINQ. 
-After understanding these behaviors, there may be room for discussion within the project as to whether to use LINQ or not, and the rules for using LINQ. 
+After understanding these behaviors, there may be room for discussion within the project as to whether to use LINQ or not, and if so, the rules for using LINQ. 
 
 =={practice_script_csharp_async_await} How to avoid async/await overhead
 Async/await is a language feature added in C# 5.0 that allows asynchronous processing to be written as a single synchronous process without callbacks. 
@@ -711,7 +711,7 @@ This problem can be avoided by adding the @<code>{sealed} modifier to the class 
 
 //footnote[il2cpp_devirtualization][@<href>{https://blog.unity.com/technology/il2cpp-optimizations-devirtualization}]
 
-@<list>{il2cpp_method_call_non_sealed} If you define a class like @<list>{il2cpp_method_call_non_sealed_cpp} and call a method, the C++ code generated by IL2CPP will generate a method call like . 
+@<list>{il2cpp_method_call_non_sealed} If you define a class like @<list>{il2cpp_method_call_non_sealed_cpp} and call a method, the C++ code generated by IL2CPP will generate method calls like . 
 
 //listnum[il2cpp_method_call_non_sealed][Class definition and method invocation without sealed][csharp]{
 public abstract class Animal
@@ -736,16 +736,16 @@ Debug.LogFormat("The cow says '{0}'", cow.Speak());
 Cow_t1312235562 * L_14 =
     (Cow_t1312235562 *)il2cpp_codegen_object_new(
         Cow_t1312235562_il2cpp_TypeInfo_var);
-Cow__ctor_m2285919473(L_14, /*hidden argument*/NULL);
+Cow__ctor_m2285919473(L_14, /* hidden argument*/NULL);
 V_4 = L_14;
 Cow_t1312235562 * L_16 = V_4;
 
 //  cow.Speak()
 String_t* L_17 = VirtFuncInvoker0< String_t* >::Invoke(
-    4 /* System.String AssemblyCSharp.Cow::Speak() */, L_16);
+    4 /* String AssemblyCSharp.Cow::Speak() */, L_16);
 //}
 
-@<list>{il2cpp_method_call_non_sealed_cpp} as shown in @<code>{VirtFuncInvoker0< String_t* >::Invoke} even though it is not a virtual method call, confirming that a method call like a virtual method is being made. 
+@<list>{il2cpp_method_call_non_sealed_cpp} shows that @<code>{VirtFuncInvoker0< String_t* >::Invoke} is called even though it is not a virtual method call, and that a method call like a virtual method is made. 
 
 On the other hand, defining the @<code>{Cow} class of @<list>{il2cpp_method_call_non_sealed} with the @<code>{sealed} modifier as shown in @<list>{il2cpp_method_call_sealed} generates C++ code like @<list>{il2cpp_method_call_sealed_cpp}. 
 
@@ -767,17 +767,17 @@ Debug.LogFormat("The cow says '{0}'", cow.Speak());
 Cow_t1312235562 * L_14 =
     (Cow_t1312235562 *)il2cpp_codegen_object_new(
         Cow_t1312235562_il2cpp_TypeInfo_var);
-Cow__ctor_m2285919473(L_14, /*hidden argument*/NULL);
+Cow__ctor_m2285919473(L_14, /* hidden argument*/NULL);
 V_4 = L_14;
 Cow_t1312235562 * L_16 = V_4;
 
 //  cow.Speak()
-String_t* L_17 = Cow_Speak_m1607867742(L_16, /*hidden argument*/NULL);
+String_t* L_17 = Cow_Speak_m1607867742(L_16, /* hidden argument*/NULL);
 //}
 
 Thus, we can see that the method call calls @<code>{Cow_Speak_m1607867742}, which directly calls the method. 
 
-However, in relatively recent Unity, the Unity official clarifies that this is done partially automatically in such optimizations @<fn>{improved_devirtualization_forum}. 
+However, in relatively recent Unity, the Unity official clarifies that such optimization is partially automatic @<fn>{improved_devirtualization_forum}. 
 
 //footnote[improved_devirtualization_forum][@<href>{https://forum.unity.com/threads/il2cpp-is-sealed-not-worked-as-said-anymore-in-unity-2018-3.659017/#post-4412785}]
 

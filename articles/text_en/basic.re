@@ -109,7 +109,7 @@ Therefore, the CPU cache cannot store all data, but only the most recently handl
 
 //image[basic_cpu_cache][Relationship between the CPU L1, L2, and L3 caches and main memory]
 
-Therefore, the key to improving program performance is how efficiently data can be placed in the cache. 
+Therefore, the key to improving program performance is how to efficiently place data in the cache. 
 Since the cache cannot be freely controlled by the program, data locality is important. 
 In game engines, it is difficult to manage memory with an awareness of data locality, but some mechanisms, such as 
 Unity's JobSystem, can achieve memory placement with enhanced data locality. 
@@ -271,8 +271,8 @@ However, the process of reading and writing to this storage is very slow compare
  * Sequential read/write is fast, while random read/write is slow.
 
 The fact that random read/write is slow is particularly important. 
-To begin with, sequential read/write and random read/write are sequential when a single file is read/written in order from the beginning, but 
-is random when multiple parts of a file are read/written in succession or when multiple small files are read/written in succession. If you are reading/writing multiple parts of a file, or reading/writing multiple small files, it will be random. 
+To begin with, sequential read/write and random read/write are sequential when a single file is read/written in order from the beginning of the file. 
+However, when reading/writing multiple parts of a single file or reading/writing multiple small files at once, it is random. If you are reading/writing multiple parts of a file, or reading/writing multiple small files, it will be random. 
 It is important to note that even when reading/writing multiple files in the same directory, they may not be physically located consecutively, so if they are physically far apart, they will be randomized. 
 
 ====[column] The process of reading from storage
@@ -379,7 +379,7 @@ There are several ways to implement the rendering pipeline. Of these, the descri
 ====[/column]
 
 ==={basic_graphics_batching} Draw calls, set-pass calls, and batching
-Rendering requires processing load not only on the GPU but also on the CPU. 
+Rendering requires a processing load not only on the GPU but also on the CPU. 
 
 As mentioned above, when rendering an object, the CPU sends commands to the GPU to draw. 
 This is called a @<kw>{draw call} and is executed as many times as the number of objects to be rendered. 
@@ -505,7 +505,7 @@ All vertex information per mesh is stored in a single array.
 
 //image[basic_asset_data_mesh_02][Vertex Information]
 
-Since the vertex information is stored in a single array, we need additional information to indicate which of the vertices are combined to form a triangle. 
+Since the vertex information is stored in a single array, we need additional information to indicate which of the vertices will be combined to form a triangle. 
 This is called the @<kw>{vertex index} and is represented as an array of type int that represents the index of the array of vertex information. 
 
 //image[basic_asset_data_mesh_03][Vertex Index]
@@ -539,7 +539,7 @@ The values between keyframes are obtained by interpolation and can be treated as
 //image[basic_asset_data_animation_01][Keyframes]
 
 In addition to time and value, keyframes have other information such as tangents and their weights. 
-By using these in the interpolation calculation, more complex animations can be achieved with a smaller amount of data. 
+By using these in the interpolation calculation, more complex animations can be realized with less data. 
 
 //image[basic_asset_data_animation_02][Tangents and Weights]
 
@@ -601,7 +601,7 @@ In fact, until then, Unity was actually a long-standing OSS implementation of th
 In other words, in order for Unity to become 64-bit compatible, it was necessary to make the forked Mono 64-bit compatible. 
 Of course, this would require a tremendous amount of work, so Unity decided to use @<kw>{IL2CPP} Unity overcame this challenge by developing a technology called IL2CPP instead. 
 
-IL2CPP is, as the name implies, IL to CPP, a technology that converts IL code to C++ code. 
+IL2CPP is, as the name suggests, IL to CPP, a technology that converts IL code to C++ code. 
 Since C++ is a highly versatile language that is natively supported in any development environment, it can be compiled into machine language in each development tool chain once it is output to 
 C++ code. 
 Therefore, 64-bit support is the job of the toolchain, and Unity does not have to deal with it. 
@@ -649,7 +649,7 @@ Also, since the asset entity is on the native side, the difficulty of investigat
 This is because developers mainly focus on profiling and debugging the C# side. 
 It is difficult to understand the C# side execution state alone, and it is necessary to analyze it by comparing it with the engine side execution state. 
 Profiling of the native area is dependent on the API provided by Unity, which limits the tools available. 
-We will introduce methods for analysis using a variety of tools in this document, but it will be easier to understand if you are aware of the C# and native space when doing so. 
+We will introduce methods for analysis using a variety of tools in this document, but it will be easier to understand if you are aware of the space between C# and native. 
 
 ==={basic_unity_thread} Threads
 
@@ -774,7 +774,7 @@ public class DestroyTest : UnityEngine.MonoBehaviour
 This is because Unity's C# side mechanism controls access to destroyed data. 
 In fact, if you refer to the source code @<fn>{github_unity_object} of @<code>{UnityEngine.Object} in Unity's C# implementation section, you will see the following 
 
-//list[unity_object_source][UnityEngine.Object == operator implementation][C#]{
+//list[unity_object_source][UnityEngine.Object's == operator implementation][C#]{
         //  Excerpt.
         public static bool operator==(Object x, Object y) {
             return CompareBaseObjects(x, y);
@@ -809,7 +809,7 @@ In fact, if you refer to the source code @<fn>{github_unity_object} of @<code>{U
 To summarize, a null comparison to a destroyed instance is @<code>{true} because when a null comparison is made, the native side is checked to see if the data exists. 
 This causes instances of @<code>{GameObject} that are not null to behave as if they are partially null. 
 While this characteristic is convenient at first glance, it also has a very troubling aspect. 
-That is because @<code>{_gameObject} is not actually null and therefore causes a memory leak. 
+That is because @<code>{_gameObject} is not actually null, which causes a memory leak. 
 A memory leak for a single @<code>{_gameObject} is obvious, but if you have a reference to a huge piece of data, for example a master, from within that component, it will lead to a huge memory leak because the reference remains as 
 C# and is not subject to garbage collection. 
 To avoid this, you need to take measures such as assigning null to @<code>{_gameObject}. 
@@ -827,7 +827,7 @@ Therefore, this section describes what you need to know about AssetBundle from a
 
 ===={basic_unity_assetbundle_compress} Compression settings for AssetBundle
 
-AssetBundle is compressed with LZMA by default at build time. 
+AssetBundle is LZMA compressed by default at build time. 
 This can be changed to uncompressed by changing @<code>{BuildAssetBundleOptions} to @<code>{UncompressedAssetBundle} and to LZ4 compression by changing 
 to @<code>{ChunkBasedCompression}. 
 The difference between these settings tends to look like the following @<table>{assetbundle_compression}
@@ -927,9 +927,9 @@ GarbageCollector.GCMode = GarbageCollector.Mode.Disabled;
 //}
 
 But of course, if GC.Alloc is done during the period of disabling, the heap space will be extended and consumed, 
-eventually leading to a crash of the app as it cannot be newly allocated. Since the memory usage increases easily, 
-it is necessary to implement the function so that GC.Alloc is not performed at all during the period when it is disabled, 
-and the implementation cost is high, so the actual use of this function is limited. 
+eventually leading to a crash of the app as it cannot be newly allocated. Since memory usage can easily increase, 
+it is necessary to implement the function so that GC.Alloc is not performed at all during the period when it is disabled, and 
+the implementation cost is also high, so the actual use is limited. 
 (e.g., disabling only the shooting part of a shooting game) 
 
 In addition, Incremental GC can be selected starting with Unity 2019. 
@@ -977,7 +977,7 @@ In addition, in most cases, arrays of value types have the advantage that the lo
 CPU cache memory hit probability higher and facilitates faster processing. 
 
 ===={basic_csharp_value_copy} Value Copying
-In a reference type assignment (allocation), the reference (address) is copied. On the other hand, in a value type assignment (allocation), the entire value is copied. 
+In reference-type assignment (allocation), the reference (address) is copied. On the other hand, in a value type assignment (allocation), the entire value is copied. 
 The size of the address is 4 bytes in a 32-bit environment and 8 bytes in a 64-bit environment. 
 Therefore, a large reference type assignment is less expensive than a value type assignment that is larger than the address size. 
 
@@ -1001,7 +1001,7 @@ As a programmer, you have probably experienced the bug at least once where you t
 was intended to do. 
 It is recommended that value types be immutable, as changeable value types can be confusing to many programmers. 
 
-====[column] Pass-by-reference
+====[column] Pass-by-Reference
 A common misapplication is that "reference types are always passed by reference," but as mentioned earlier, reference (address) copying is fundamental, and 
 reference passing is done when the ref/in/out parameter modifier is used. 
 
@@ -1028,41 +1028,41 @@ A box is an object that is allocated on the heap and subject to garbage collecti
 Therefore, an excess of boxing and unboxing will result in GC.Alloc. In contrast, when a reference type is cast, 
 no such boxings take place. 
 
-//listnum[simple_boxing][Boxing when cast from a value type to an object type][csharp]{
+//listnum[simple_boxing][When a value type is cast to an object type, boxed][csharp]{
 int num = 0;
-object obj = num; // boxing
-num = (int) obj;  // unboxing
+object obj = num; //  Boxed
+num = (int) obj;  //  Unboxing
 //}
 
-We would never use this obvious and meaningless boxification, but what about when it is used in the 
+We would never use such obvious and meaningless boxings, but what about when they are used in the 
 method? 
 
-//listnum[method_boxing][Example of implicit casting to boxed][csharp]{
+//listnum[method_boxing][Example of boxed by implicit cast][csharp]{
 private void HogeMethod(object data){ ... }
 
-//  Abbreviation.
+//  Abbreviation
 
 int num = 0;
-HogeMethod(num); // boxing with argument
+HogeMethod(num); //  Boxing with arguments
 //}
 
-Cases like this exist where boxings are done unintentionally. 
+Cases like this exist where boxings are unintentionally boxed. 
 
-Compared to simple assignment, boxing and unboxing is a more burdensome process. 
+Compared to simple assignment, boxing and unboxing is a burdensome process. 
 When boxed value types are boxed, new instances must be allocated and constructed. 
 Also, although not as burdensome as boxing, the casting required for unboxing is also very burdensome. 
 
 ===={basic_csharp_class_or_struct} Criteria for Selecting Classes and Structures
 
  * Conditions under which structures should be considered :
-  ** When instances of the type are often small and have a short validity period
-  ** When the type is often embedded in other objects
+ ** When instances of the type are often small and have a short validity period
+ ** When the type is often embedded in other objects
 
  * Conditions for avoiding structures: unless the type has all of the following characteristics
-  ** When it logically represents a single value, as with primitive types ( @<code>{int}, @<code>{double}, etc.)
-  ** The size of the instance is less than 16 bytes
-  ** It is immutable.
-  ** Does not need to be boxed frequently
+ ** When it logically represents a single value, as with primitive types ( @<code>{int}, @<code>{double}, etc.)
+ ** The size of the instance is less than 16 bytes
+ ** It is immutable.
+ ** Does not need to be boxed frequently
 
 There are a number of types that do not meet the above selection criteria but are defined as structures. 
 Types such as @<code>{Vector4} and @<code>{Quaternion}, which are frequently used in Unity, are defined as structs, though not less than 16 bytes. 
@@ -1082,7 +1082,7 @@ The computational complexity is a measure of an algorithm's computational effici
 The order of computational complexity is@<m>{O} notation (Landau's symbol). Since computer science and mathematical definitions are not the essence here, please refer to other books if you are interested. 
 In this paper, the quantity of calculations is treated as time-calculated quantities. 
 
-The main computational quantities commonly used are@<m>{O(1)} O(1), O(2), O(3), O(4)@<m>{O(n)} and@<m>{O(n^2)} , O(n^2)@<m>{O(n\log n)} are denoted as In parentheses@<m>{n} in parentheses indicates the number of data. 
+The main commonly used computational quantities are@<m>{O(1)} O(1), O(2), O(3), O(4)@<m>{O(n)} and@<m>{O(n^2)} , O(n^2)@<m>{O(n\log n)} are denoted as In parentheses@<m>{n} in parentheses indicates the number of data. 
 It is easy to understand if you imagine how much the number of times a certain process is processed depends on the number of data. To compare performance in terms of computational complexity, see 
 @<m>{O(1) < O(\log n) < O(n) < O(n\log n) < O(n^2) < O(n^3)} The result is as follows. 
 @<table>{order_sample} The comparison of the number of data and the number of calculation steps and the comparison graph displayed logarithmically at @<img>{basic_order_graph} are shown in the following table. 
@@ -1129,8 +1129,8 @@ private bool HasOne(int[] array, int n)
 }
 //}
 
-Here is an array containing integer values with@<m>{1} is present, the process just returns @<code>{true}. If by chance the first of @<code>{array}@<m>{1} is found at the beginning of @<code>{array}, the process may be completed in the fastest possible time, but if there is no 1 in 
- , the process will return@<m>{1} or at the end of @<code>{array} for the first time, the process will return@<m>{1} is found for the first time at the end of , the loop will go all the way to the end, so@<m>{n} times because the loop goes all the way to the end. 
+Here is an array containing integer values with@<m>{1} is present, the process just returns @<code>{true}. If by chance the first of @<code>{array}@<m>{1} is found at the beginning of 
+, the process may be completed in the fastest possible time, but if there is no 1 in @<code>{array} , the process will return@<m>{1} or at the end of @<code>{array} for the first time, the process will return@<m>{1} is found for the first time at the end of , the loop will go all the way to the end, so@<m>{n} times because the loop goes all the way to the end. 
 This worst-case scenario is called@<m>{O(n)} and you can imagine that the amount of computation increases with the number of data. 
 
 Next, let us denote the worst-case scenario as@<m>{O(n^2)} Let's look at an example for the case of O(n^2). 
@@ -1217,7 +1217,7 @@ In @<code>{Queue<T>}, a circular array is used. @<code>{Enqueue} The first eleme
 When adding beyond capacity, expansion is performed. @<code>{Peek} is an operation to take out the top element without deleting it. As you can see from the computational complexity, 
 @<code>{Enqueue} and @<code>{Dequeue} can be used to keep 
 high performance, but they are not suitable for operations such as traversal. @<code>{TrimExcess} is a method to reduce capacity, but from a 
-performance tuning perspective, it can be used so that it does not increase or decrease capacity in the first place, further @<code>{Queue<T>} exploiting its strengths. 
+performance tuning perspective, it can be used so that capacity is not increased or decreased in the first place, further exploiting @<code>{Queue<T>} its strengths. 
 
 //table[collection_queue][Queue<T>]{
 Method	Compute capacity
@@ -1233,8 +1233,8 @@ TrimExcess	@<m>{O(n)}
 @<code>{Stack<T>} is a collection class that implements the last in first out (LIFO) method: last in first out. 
 @<code>{Stack<T>} is implemented as an array. @<code>{Push} The first element is added with @<code>{Pop}, and the first element is removed with . 
 @<code>{Peek} is an operation to take out the first element without deleting it. 
-A common use of @<code>{Pop} is to retrieve the first element without deleting it. A common use of is when implementing screen transitions, where the scene information is stored in @<code>{Push}, and when the back button is pressed, the scene information is stored in . 
-As with @<code>{Queue}, high performance can be obtained by using only @<code>{Push} and @<code>{Pop} for @<code>{Stack}. Be careful not to search for elements, and be careful not to increase or decrease capacity. 
+A common use of @<code>{Push} is to retrieve the first element without deleting it. A common use of @<code>{Pop} is when implementing screen transitions, where the scene information for the destination of the transition is stored in , and when the back button is pressed, the scene information is stored in . 
+As with @<code>{Queue}, high performance can be obtained by using only @<code>{Push} and @<code>{Pop} for @<code>{Stack}. Be careful not to search for elements, and be careful to increase or decrease capacity. 
 
 //table[collection_stack][Stack<T>]{
 Method	Compute capacity
@@ -1250,10 +1250,10 @@ TrimExcess	@<m>{O(n)}
 While the collections introduced so far have been semantic in order, @<code>{Dictionary<TKey, TValue>} is a collection class that specializes in indexability. 
 The data structure is implemented as a hash table (a kind of associative array). The structure is like a dictionary where keys have corresponding values (in the case of a dictionary, words are keys and descriptions are values). 
 @<code>{Dictionary<TKey, TValue>} has the disadvantage of consuming more memory, but the speed of the lookup is@<m>{O(1)} and faster. 
-It is very useful in cases that do not require enumeration or traversal, and where the emphasis is on referencing values. Also, be sure to pre-set the capacity. 
+It is very useful for cases that do not require enumeration or traversal, and where the emphasis is on referencing values. Also, be sure to pre-set the capacity. 
 
 //table[collection_dictionary][Dictionary<TKey, TValue>]{
-Method	Calculation Capacity
+Method	Compute Capacity
 ---------------------------- 
 Add	@<m>{O(1)} However, if capacity is exceeded@<m>{O(n)}
 TryGetValue	@<m>{O(1)}
@@ -1271,7 +1271,7 @@ As a way to optimize your code, you may want to check the computational complexi
 . 
 
 ====[column] Means of devising: memoization
-Suppose you have a very expensive method ( @<code>{ComplexMethod}) that requires complex calculations. 
+Suppose you have a method ( @<code>{ComplexMethod}) with a very high computational complexity that requires complex calculations. 
 However, there are times when it is not possible to reduce the amount of calculation. 
 In such cases, a technique called memoization can be used. 
 

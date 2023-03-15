@@ -47,7 +47,7 @@ a simple rectangle type display can be achieved by combining this with a multipl
 draw batches are interrupted. 
 This increases draw calls and reduces drawing efficiency. 
 
-Therefore, you should add a small (e.g., 4 × 4 pixel) white square image to SpriteAtlas and use 
+Therefore, you should add a small (e.g., 4 x 4 pixel) white square image to SpriteAtlas and use 
 that Sprite to draw a simple rectangle. 
 This will allow the batch to work, since the same SpriteAtlas will be used for the same material. 
 
@@ -149,7 +149,7 @@ and by using those methods, flexible text display can be achieved while reducing
 
 uGUI components are characterized by the high cost of active switching of objects by @<code>{SetActive}. 
 This is due to the fact that @<code>{OnEnable} sets the Dirty flag for various rebuilds and performs initialization related to masks. 
-Therefore, it is important to consider alternatives to the @<code>{SetActive} method for switching the display and non-display of the UI. 
+Therefore, it is important to consider alternatives to the @<code>{SetActive} method for switching the display of the UI. 
 
 The first method is to change @<code>{enabled} of @<code>{Canvas} to @<code>{false}( @<img>{canvas_disable}). 
 This will prevent all objects under @<code>{Canvas} from being rendered. 

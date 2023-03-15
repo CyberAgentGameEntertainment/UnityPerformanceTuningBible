@@ -49,4 +49,4 @@ The default setting is 60 Hz, so set the frequency appropriately.
 If you are not using the accelerometer, be sure to disable the setting. 
 
 //image[ios_accelerometer_frequency][Sampling Frequency Setting][scale=0.75]
-
+ 
