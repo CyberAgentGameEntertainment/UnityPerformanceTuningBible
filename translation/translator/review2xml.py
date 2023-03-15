@@ -65,10 +65,14 @@ post_converters = [
 
 # comment inside code block
 comment_converter = (re.compile(r"^(.*\/\/ )(.*)$"), r"<code>\1</code><comment>\2</comment>") # "int i; // Bar" => "<code>int i; // </code><comment>Bar</comment>"
+multiline_comment_converter = (re.compile(r"^(\s*\*\s*)(.*)$"), r"<code>\1</code><comment>\2</comment>") # " * Bar" => "<code> * </code><comment>Bar</comment>"
+inline_comment_converter = (re.compile(r"(\/\*)(.+)(\*\/)"), r"</code><inline_comment>\2</inline_comment><code>") # " /* Bar */" => "</code><inline_comment> Bar </inline_comment><code>"
+
 
 def convert_xml(text_lines: list[str]) -> list[str]:
     xml_lines = []
     current_mode = Mode.Body
+    list_multiline_comment = False
 
     for l in text_lines:
         l = l.rstrip('\r\n')
@@ -100,9 +104,27 @@ def convert_xml(text_lines: list[str]) -> list[str]:
                 l = "".join([f"<td>{s}</td>" for s in l.split("\t")])
 
         if current_mode is Mode.List and not l.startswith("//}"):
-            l, count = comment_converter[0].subn(comment_converter[1], l)
-            if count == 0:
-                l = f"<code>{l}</code>"
+            if list_multiline_comment:
+                if "*/" in l:
+                    # end of multi-line comment
+                    list_multiline_comment = False
+                    l = f"<code>{l}</code>"
+                else:
+                    # part of multi-line comment
+                    l, count = multiline_comment_converter[0].subn(multiline_comment_converter[1], l)
+            else:
+                if "/*" in l:
+                    if "*/" in l:
+                        # including "/* */" comment
+                        l, count = inline_comment_converter[0].subn(inline_comment_converter[1], l)
+                    else:
+                        # start of multi-line comment
+                        list_multiline_comment = True
+
+                # code block
+                l, count = comment_converter[0].subn(comment_converter[1], l)
+                if count == 0:
+                    l = f"<code>{l}</code>"
         
         if current_mode is not Mode.Table and current_mode is not Mode.List:
             for pattern, replacer, new_mode in converters:
