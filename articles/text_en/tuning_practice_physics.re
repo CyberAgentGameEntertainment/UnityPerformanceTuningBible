@@ -126,7 +126,7 @@ var layerMask = 1 << LayerMask.NameToLayer("Player");
 //  private readonly RaycastHit[] _results = new RaycastHit[kMaxResultCount];
 
 //  All collision information is returned in an array.
-//  The number of collisions is returned in the return value, so use it together
+//  The number of collisions is returned in the return value, so it should be used in conjunction with the return value.
 var hitCount = Physics.RaycastNonAlloc(
     origin,
     direction,
@@ -136,18 +136,18 @@ var hitCount = Physics.RaycastNonAlloc(
 );
 if (hitCount > 0)
 {
-    Debug.Log($"Hit {hitCount} player(s)");
+    Debug.Log($"{hitCount}人のプレイヤーとの衝突しました");
 
-    // The _results array stores collision information in order
+    //  The _results array stores collision information in order.
     var firstHit = _results[0];
 
-    // Note that indexes exceeding the number of pieces are invalid information
+    //  Note that indexes exceeding the number of collisions are invalid information.
 }
 //}
 
 =={practice_physics_collider_and_rigidbody} Collider and Rigidbody
 
-Unity's Physics has two components: @<code>{Collider}, which deals with collisions, such as sphere colliders and mesh colliders, and @<code>{Rigidbody}, which is used for rigidbody-based physics simulations. 
+Unity Physics has two components: @<code>{Collider}, which deals with collisions such as sphere colliders and mesh colliders, and @<code>{Rigidbody}, which is used for rigidbody-based physics simulations. 
 Depending on the combination of these components and their settings, they are classified into three colliders. 
 
 An object to which the @<code>{Collider} component is attached and to which the @<code>{Rigidbody} component is not attached is called a @<kw>{Static Collider} （Static Collider. 
@@ -184,7 +184,7 @@ Alternatively, if you wish to specify the threshold for individual objects, you 
  @<kw>{Sleep Threshold} represents the mass-normalized kinetic energy of the object when it goes to sleep. 
 
 The larger this value is, the faster the object will go to sleep, thus reducing the computational cost. However, the object may appear to come to an abrupt stop because it tends to go to sleep even when moving slowly. 
-If this value is reduced, the above phenomenon is less likely to occur, but on the other hand, it is harder for the object to go to sleep, so the computation cost tends to be lower. 
+If this value is reduced, the above phenomenon is less likely to occur, but on the other hand, it is more difficult for the object to go to sleep, so the computation cost tends to be lower. 
 
 Whether @<code>{Rigidbody} is in sleep mode or not can be checked with the @<code>{Rigidbody.IsSleeping} property. The total number of @<code>{Rigidbody} components active on the scene can be checked from the Physics item in the profiler, as shown at @<img>{profiler_physics}. 
 
