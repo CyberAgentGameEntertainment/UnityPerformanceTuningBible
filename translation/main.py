@@ -41,13 +41,13 @@ def command_translate(target_lang: TranslateLang):
 
         # review => xml
         xml_lines = convert_xml(lines)
-        debug_write_lines(TMP_DIR + path.with_suffix(".xml").name, xml_lines)
+        debug_write_lines(TMP_DIR / path.with_suffix(".xml").name, xml_lines)
 
         # translate
         translated_lines = translator.translate(xml_lines)
         if translated_lines is None:
             continue
-        debug_write_lines(TMP_DIR + path.with_suffix(".translated.xml").name, translated_lines)
+        debug_write_lines(TMP_DIR / path.with_suffix(".translated.xml").name, translated_lines)
 
         # xml => review
         review_lines = convert_review(translated_lines)
@@ -73,7 +73,7 @@ def command_convert_review():
         path = pathlib.Path(file)
         lines = read_lines(file)
         xml_lines = convert_xml(lines)
-        write_lines(TMP_DIR + path.with_suffix(".xml").name, xml_lines)
+        write_lines(TMP_DIR / path.with_suffix(".xml").name, xml_lines)
 
 def command_convert_xml():
     """tmpフォルダにある翻訳済みXMLファイルをReviewファイルに変換します（調整用）"""

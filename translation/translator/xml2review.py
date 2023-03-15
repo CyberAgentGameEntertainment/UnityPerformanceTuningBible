@@ -54,8 +54,9 @@ converters = [
 ]
 
 list_converters = [
+    (re.compile(r"\<inline_comment\>(.*)\</inline_comment\>"), r"/*\1*/"),
     (re.compile(r"\<comment\>(.*)\</comment\>"), r"\1"),
-    (re.compile(r"\<code\>(.*)\</code\>"), r"\1"),
+    (re.compile(r"\<code\>(.*?)\</code\>"), r"\1"),
 ]
 
 fixed_converters = [
