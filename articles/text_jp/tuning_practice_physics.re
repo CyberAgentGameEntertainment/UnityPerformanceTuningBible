@@ -126,7 +126,7 @@ var layerMask = 1 << LayerMask.NameToLayer("Player");
 // private readonly RaycastHit[] _results = new RaycastHit[kMaxResultCount];
 
 // すべての衝突情報が配列で返ってくる
-// 戻り値に衝突個数が返されるので合わせて利用する
+// 戻り値は衝突個数
 var hitCount = Physics.RaycastNonAlloc(
     origin,
     direction,
