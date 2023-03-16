@@ -27,8 +27,8 @@ For translations in other languages, we kindly ask that individuals take care of
 We have summarized the workflow for creating translated versions in each language in this [README](https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/tree/main/translation).
 By changing the language parameter, you can obtain the desired translated PDF.
 
-### Notes to Keep in Mind
-The quality of the translation may vary depending on the translation service used.   
+### Notes
+The quality of the translation depends on DeepL.  
 Please note that we provide translations with the assumption that it may be more convenient for users than doing translations individually.
 
 ### Updates
