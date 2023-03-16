@@ -382,7 +382,7 @@ All of these changes have a large impact and may fundamentally affect the fun of
 Therefore, specification considerations are a last resort. 
 Make sure to estimate and measure memory early on to prevent this from happening. 
 
-=={start_process_reduction} Isolating the Cause of Processing Failure
+=={start_process_reduction} Isolating the Cause of Processing Failures
 The following is an introduction to the process of measuring and optimizing processing time. 
 The way to deal with screen processing failures varies depending on whether they are "instantaneous" or "steady" processing failures. 
 
@@ -443,7 +443,7 @@ A situation where the CPU is the bottleneck is called CPU-bound, and a situation
 
 As an easy way to isolate the two, if any of the following apply to you, there is a good chance that you are GPU-bound. 
 
- * Dramatic improvement in processing load when the screen resolution is reduced
+ * Dramatic improvement in processing load when the screen resolution is lowered
  * When measured with Profiler @<kw>{Gfx.WaitForPresent} is present
 
 On the other hand, if these are not present, there is a possibility of CPU bounce. 

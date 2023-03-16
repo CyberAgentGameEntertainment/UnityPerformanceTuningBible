@@ -126,7 +126,7 @@ var layerMask = 1 << LayerMask.NameToLayer("Player");
 //  private readonly RaycastHit[] _results = new RaycastHit[kMaxResultCount];
 
 //  All collision information is returned in an array.
-//  The number of collisions is returned in the return value, so it should be used in conjunction with the return value.
+//  Return value is number of collisions
 var hitCount = Physics.RaycastNonAlloc(
     origin,
     direction,
