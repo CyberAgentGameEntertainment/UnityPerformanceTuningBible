@@ -164,7 +164,7 @@ The Hierarchy view looks like @<img>{profiler_hierarchy_view}.
 
 This view is characterized by the fact that the measurement results are arranged in a list format and can be sorted by the items in the header. 
 When conducting an investigation, bottlenecks can be identified by opening items of interest in the list. 
-However, the information displayed is an indication of the time spent in the "selected thread. 
+However, the information displayed is an indication of the time spent in the selected thread.
 For example, if you are using Job System or multi-threaded rendering, the processing time in another thread is not included. 
 If you want to check, you can do so by selecting a thread like @<img>{profiler_hieracrhy_thread}. 
 //image[profiler_hieracrhy_thread][Thread Selection]
