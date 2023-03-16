@@ -1233,7 +1233,7 @@ TrimExcess	@<m>{O(n)}
 @<code>{Stack<T>} is a collection class that implements the last in first out (LIFO) method: last in first out. 
 @<code>{Stack<T>} is implemented as an array. @<code>{Push} The first element is added with @<code>{Pop}, and the first element is removed with . 
 @<code>{Peek} is an operation to take out the first element without deleting it. 
-A common use of is when implementing screen transitions, where the scene information for the destination of the transition is stored in @<code>{Push}, and when the back button is pressed, the scene information is stored in . 
+A common use of is when implementing screen transitions, where the scene information for the destination of the transition is stored in @<code>{Push}, and when the back button is pressed, retrieving the scene information by @<code>{Pop}. 
 As with @<code>{Queue}, high performance can be obtained by using only @<code>{Push} and @<code>{Pop} for @<code>{Stack}. Be careful not to search for elements, and be careful to increase or decrease capacity. 
 
 //table[collection_stack][Stack<T>]{
