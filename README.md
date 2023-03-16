@@ -32,7 +32,7 @@
 
 ### 英語版以外の翻訳について
 その他の言語での翻訳版については、個々人に委ねます。  
-それぞれの言語でPDFを作成するフローを[こちらのREADME](https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/UnityPerformanceTuningBible/tree/main/translation)にまとめています。  
+それぞれの言語でPDFを作成するフローを[こちらのREADME](https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/tree/main/translation)にまとめています。  
 言語パラメータを変更していただくことで、目的の翻訳済みのPDFが取得可能です。  
 
 ### 留意事項
