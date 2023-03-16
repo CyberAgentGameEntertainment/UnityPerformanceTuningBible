@@ -10,13 +10,24 @@ jobs:
     # uses v2 Stable version
     # https://github.com/actions/checkout
     - name: checkout source
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     # Build Artifacts
-    - name: Build distribution file
+    - name: Build Japanese distribution file
       run: ./build-in-docker-epub.sh
     # Upload Distribution file
     - name: Upload distribution file to github artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
+      with:
+        name: Output documents
+        path: ./articles/*.pdf
+    # Build English artifacts
+    - name: Build English distribution file
+      run: ./build-in-docker-epub.sh
+      env:
+        REVIEW_LANG: en
+    # Upload English distribution file
+    - name: Upload English distribution file to github artifacts
+      uses: actions/upload-artifact@v3
       with:
         name: Output documents
         path: ./articles/*.pdf
