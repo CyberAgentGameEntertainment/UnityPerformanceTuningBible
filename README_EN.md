@@ -29,7 +29,7 @@ The quality of the translation may vary depending on the service used. Please no
 The translated version will be updated for major changes or additions, but not for typos.  
 
 ## How to download the e-book.
-1. Go to [the latest version of Releases](https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/releases/tag/v1.0.5).
+1. Go to [the latest version of Releases](https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/releases/latest).
 
 2. Download the PDF from Assets.
 
