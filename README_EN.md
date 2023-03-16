@@ -18,7 +18,7 @@ We have received several requests for a translated version of Issues, but we hav
 Instead, we have decided to leave the translation to individual users.  
 
 However, in the interest of improving translation service quality, we have explored the possibility of using such services to provide a translated version.  
-As a result, we have found that we can provide the original text in Re:View Format, along with future updates, using DeepL.  
+As a result, we have found that we can provide the original text in Re:VIEW Format, along with future updates, using DeepL.  
 
 Please note that only English is currently supported as a target language for translation.
 
