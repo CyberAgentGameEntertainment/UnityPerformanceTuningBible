@@ -25,6 +25,8 @@
 [Licensing a repository > Choosing the right license](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository#choosing-the-right-license)
 
 ## 翻訳版について
+※現在リリースに向けて準備中です。もう少々お待ちください。
+
 ### 背景
 いくつかのIssuesで翻訳版の要望を頂きましたが、正式な翻訳版をリリースすることは運用上厳しいと判断し、個々人に翻訳を委ねることにしました。  
 一方で、翻訳サービスの質が向上している背景から、このようなサービスを利用して提供することができないかを検証していました。  
