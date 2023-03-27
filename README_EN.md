@@ -13,8 +13,6 @@ The e-book is available for download as a PDF from this repository.
 Please send your comments and suggestions via [Issues](https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/issues) or [Pull Requests](https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/pulls).  
 
 ## About Translations
-※Currently in preparation for release. Please wait a little longer.
-
 ### Background
 We have received several requests for a translated version of Issues, but we have decided that it is operationally difficult to release an official translated version.  
 Instead, we have decided to leave the translation to individual users.  
