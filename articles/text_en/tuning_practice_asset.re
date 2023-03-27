@@ -39,7 +39,7 @@ The higher the Aniso Level value, the more benefit it provides, but at a higher 
 
  The Aniso Level can be set from 0 to 16, but it has a slightly special specification. 
 
- * 0: Disabled regardless of project settings
+ * 0: Always disabled regardless of project settings
  * 1: Basically disabled. However, if the project setting is Forced On, the value is clamped to 9~16.
  * Otherwise: Set at that value
 
@@ -49,11 +49,11 @@ Forced On can be set from "Anisotropic Textures" in "Project Settings -> Quality
 
 //image[project_settings_aniso][Forced On Settings]
 
-Check to make sure that the Aniso Level setting is not enabled for objects with no effect, or that it is not set too high for objects with an effect. 
+Make sure that the Aniso Level setting is not enabled for objects that have no effect, or that it is not set too high for objects that do have an effect. 
 
 //info{
 The effect of Aniso Level is not linear, but rather switches in steps. 
-The author verified that it changes in four steps: 0~1, 2-3, 4~7, and 8 or higher. 
+The author verified that it changes in four steps: 0~1, 2-3, 4~7, and 8 or later. 
 //}
 
 ==={practice_asset_texture_compress} Compression Settings
@@ -61,7 +61,7 @@ Textures should be compressed unless there is a specific reason not to.
 If you find uncompressed textures in your project, it may be human error or lack of regulation. Check it out as soon as possible. 
 More information on compression settings can be found at @<hd>{basic|basic_asset_data_compression}. 
 
-It is recommended to use TextureImporter to automate the compression settings to avoid human error. 
+We recommend using TextureImporter to automate these compression settings to avoid human error. 
 //listnum[textureImporter][Example of TextureImporter automation][csharp]{
 using UnityEditor;
 
@@ -70,22 +70,22 @@ public class ImporterExample : AssetPostprocessor
     private void OnPreprocessTexture()
     {
         var importer = assetImporter as TextureImporter;
-        // Read/Write settings, etc. are also possible
+        //  Read/Write settings, etc. are also possible.
         importer.isReadable = false;
 
         var settings = new TextureImporterPlatformSettings();
-        //  Android = "Android", PC = "Standalone
+        //  Specify Android = "Android", PC = "Standalone
         settings.name = "iPhone";
         settings.overridden = true;
         settings.textureCompression = TextureImporterCompression.Compressed;
-        // Specify compression format
+        //  Specify compression format
         settings.format = TextureImporterFormat.ASTC_6x6;
         importer.SetPlatformTextureSettings(settings);
     }
 }
 //}
 
-Also, not all textures need to be in the same compression format. 
+Not all textures need to be in the same compression format. 
 For example, among UI images, images with overall gradations tend to show a noticeable quality loss due to compression. 
 In such cases, it is recommended to set a lower compression ratio for only some of the target images. 
 On the other hand, for textures such as 3D models, it is difficult to see the quality loss, so it is best to find an appropriate setting such as a high compression ratio. 
@@ -102,7 +102,7 @@ The following are points to keep in mind when dealing with mesh (models) importe
 The first mesh note is Read/Write Enabled. 
 This option in the model inspector is disabled by default. 
 //image[practice_asset_mesh_inspector][Read/Write Settings]
-If you do not need to access the mesh during runtime, disable it. Specifically, if the model is placed on Unity and used only to play an AnimationClip, Read/Write Enabled is fine to disable. 
+If you do not need to access the mesh during runtime, you should disable it. Specifically, if the model is placed on Unity and used only to play an AnimationClip, Read/Write Enabled is fine to disable. 
 
 Enabling Read/Write Enabled will consume twice as much memory because information accessible by the CPU is stored in memory. Please check it out, as simply disabling it will save memory. 
 
@@ -189,26 +189,26 @@ Destroying a duplicated material in this way avoids memory leaks.
 Dynamically generated materials are another common cause of memory leaks. Make sure to Destroy generated materials when you are done using them. 
 
 Take a look at the following sample code. 
-//listnum[material_dynamic][Example of dynamically generated material deletion][csharp]{
+//listnum[material_dynamic][Example of deleting a dynamically generated material][csharp]{
 Material material;
 
 void Awake()
 {
-    material = new Material();  // Dynamic generation of materials
+    material = new Material();  //  Dynamically generated material
 }
 
 void OnDestroy()
 {
     if (material != null)
     {
-        Destroy(material);  // Destroy used materials
+        Destroy(material);  //  Destroying a material when you have finished using it
     }
 }
 //}
-Destroy generated materials when you are done using them (OnDestroy). Destroy materials at the appropriate timing according to the rules and specifications of your project. 
+Materials should be destroyed when they are finished being used (OnDestroy). Destroy materials at the appropriate timing according to the rules and specifications of the project. 
 
 =={practice_asset_animation} Animation
-Animation is a widely used asset for both 2D and 3D. 
+Animation is a widely used asset in both 2D and 3D. 
 This section introduces practices related to animation clips and animators. 
 
 ==={practice_asset_animation_influence} Adjusting the number of skin weights
@@ -223,7 +223,7 @@ This setting can also be adjusted dynamically from a script.
 Therefore, it is possible to set Skin Weights to 2 for low-spec devices and 4 for high-spec devices, and so on, for fine-tuning. 
 //listnum[skinweight_settings][Changing SkinWeight settings][csharp]{
 //  How to switch QualitySettings entirely 
-//  The number of the argument is the order of the QualitySettings, starting with 0.
+//  The argument number is the order of the QualitySettings, starting with 0.
 QualitySettings.SetQualityLevel(0);
 
 //  How to change only SkinWeights
@@ -231,7 +231,7 @@ QualitySettings.skinWeights = SkinWeights.TwoBones;
 //}
 
 ==={practice_asset_animation_key_frame_reduction} Reducing Keys
-Animation files are dependent on the number of keys, which can consume a lot of storage and memory at run-time. 
+Animation files are dependent on the number of keys, which can be a drain on storage and memory at run-time. 
 One way to reduce the number of keys is to use the Anim. Compression feature. 
 This option can be found by selecting the Animation tab from the model import settings. 
 When Anim. Compression is enabled, unnecessary keys are automatically removed during asset import. 
@@ -241,7 +241,7 @@ Specifically, keys are removed when they are within the Error range compared to 
 This error range can be adjusted. 
 //image[practice_asset_animation_error][Error Settings]
 The Error settings are a bit complicated, but the units of the Error settings differ depending on the item. 
-Rotation is an angle, and Position and Scale are percentages. 
+Rotation is in degrees, while Position and Scale are in percent. 
 The tolerance for a captured image is 0.5 degrees for Rotation, and 0.5% for Position and Scale. 
 The detailed algorithm can be found in the Unity documentation at @<fn>{animation_error_tolerance}, so please take a peek if you are interested. 
 //footnote[animation_error_tolerance][@<href>{https://docs.unity3d.com/Manual/class-AnimationClip.html#tolerance}]
@@ -252,7 +252,7 @@ However, it tends to be noisy, which may degrade the animation quality.
 After understanding this characteristic, let's visually check the actual animation to see if it is acceptable. 
 
 ==={practice_asset_animation_update_reduction} Reduction of update frequency
-By default, Animator updates every frame even when the animation is not on screen. 
+By default, Animator updates every frame even if the animation is not on screen. 
 There is an option called Culling Mode that allows you to change this update method. 
 //image[practice_asset_animator_cull][Culling Mode]
 
@@ -282,7 +282,7 @@ In this case, you need to use AnimationClipPlayable or deactivate Animator and c
 Both require writing your own scripts, but the latter is easier to implement than the former. 
 
 =={practice_asset_particle} Particle System
-Game effects are indispensable for game presentation, and Unity often uses the Particle System. 
+Game effects are essential for game presentation, and Unity often uses the Particle System. 
 In this chapter, we will introduce how to use the Particle System from the perspective of performance tuning and what to keep in mind to avoid mistakes. 
 
 The following two points are important. 
@@ -359,7 +359,7 @@ Compressed In Memory loads an AudioClip into memory in a compressed state.
 This means that it is decompressed at the time of playback. 
 This means that the CPU load is high and playback delays are likely to occur. 
 
-It is suitable for sounds with large file sizes that you do not want to decompress directly into memory, or for sounds that do not suffer from slight playback delays. 
+It is suitable for sounds with large file sizes that you do not want to decompress directly into memory, or for sounds that do not suffer from a slight playback delay. 
 It is often used for voice. 
 
 ===={practice_asset_audiostreaming} Streaming
@@ -387,7 +387,7 @@ Uncompressed and consumes a large amount of memory. Do not set this unless you w
 ===={practice_asset_adpcm} ADPCM
 Uses 70% less memory than PCM, but the quality is lower, and the CPU load is much smaller than with Vorbis. 
 The CPU load is much lower than Vorbis, which means that the speed of decompression is faster, making it suitable for immediate playback and for sounds that are played back in large quantities. 
-This is especially true for noisy sounds such as footsteps, collisions, weapons, etc., that need to be played back quickly and at high volume. 
+This is especially true for noisy sounds such as footsteps, collisions, weapons, etc., that need to be played back quickly and in large quantities. 
 
 ===={practice_asset_vorbis} Vorbis
 As a lossy compression format, the quality is lower than PCM, but the file size is smaller. It is the only format that allows for fine-tuning of the sound quality. 
@@ -438,7 +438,7 @@ There are special folders in the project. The following two in particular requir
 Normally, Unity only includes objects referenced by scenes, materials, scripts, etc. in a build. 
 
 //listnum[practice_asset_special_folder_script_reference][Example of an object referenced by a script][csharp]{
-// Referenced objects are included in the build
+//  Referenced objects are included in the build
 [SerializeField] GameObject sample;
 //}
 
@@ -478,9 +478,9 @@ Be careful with naming when creating classes and make sure that the @<code>{.ass
 binary format. 
 //}
 
-//listnum[scriptable_object_sample][Example implementation of ScriptableObject][csharp]{
+//listnum[scriptable_object_sample][Example Implementation of ScriptableObject][csharp]{
 /*
-* When the source code file name is ScriptableObjectSample.cs
+*  When the source code file is named ScriptableObjectSample.cs
 */
 
 //  Serialization succeeded

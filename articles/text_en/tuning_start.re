@@ -37,7 +37,7 @@ To prevent such a situation, it is very important to @<em>{create the most burde
 ====[/column]
 
 ==={start_ready_objective} Determining Indicators
-Determining indicators will help you determine the goals you should aim for. On the other hand, if there are no indicators, the project will never end. 
+Determining indicators will help you determine the goals to be achieved. On the other hand, if there are no indicators, the project will never end. 
 @<table>{table_object_tuning} The following is a list of indicators that you should decide on. 
 //table[table_object_tuning][Indicators]{
 Item	Element
@@ -70,15 +70,15 @@ Suppose you have a project with the following goals
 When the team verbalized these vague goals, the following metrics were generated. 
 
  * Frame rate
-  ** In-game should be 60 frames and out-game should be 30 frames from a battery consumption perspective. 
+ ** 60 frames ingame and 30 frames outgame from a battery consumption perspective.
  * Memory
-  ** To speed up the transition time, the design should retain some out-game resources during ingame. The maximum amount of memory used shall be 1 GB.
+ ** To speed up the transition time, the design should retain some out-game resources during ingame. The maximum amount of memory used shall be 1 GB.
  * Transition Time
-  ** Transition time to ingame and outgame should be at the same level as the competition. In time, it should be within 3 seconds.
+ ** Transition time to ingame and outgame should be at the same level as the competition. In time, it should be within 3 seconds.
  * Heat
-  ** Same level as the competition. It does not get hot for 1 hour continuously on the verified device. (Not charging)
+ ** Same level as the competition. It does not get hot for 1 hour continuously on the verified device. (Not charging)
  * Battery
-  ** Same level as competitors. Battery consumption is about 20% after 1 hour of continuous use on the tested device.
+ ** Same level as competitors. Battery consumption is about 20% after 1 hour of continuous use on the tested device.
 
 Once you have determined the target, you can use a reference device to test it. 
 If the target is not reached at all, it is a good indicator. 
@@ -142,7 +142,7 @@ Therefore, it is better to use a native-compliant tool that measures values more
 
 ==={start_ready_low_spec} Decide which devices are guaranteed to work
 It is also important to decide on the minimum guaranteed terminal as an indicator to determine how far to go in performance tuning. 
-It is difficult to decide on a guaranteed device immediately without experience, but do not decide on a spur-of-the-moment basis; instead, start by identifying candidates for low-specification devices. 
+It is difficult to decide on a guaranteed device immediately without experience, but do not decide on a spur-of-the-moment basis, but rather start by identifying candidates for low-specification devices. 
 
 The method I recommend is to refer to the data measured by "SoC specs". 
 Specifically, look for data measured by benchmark measurement applications on the Web. 
@@ -176,7 +176,7 @@ together explore what line is acceptable for the project.
 
 =={start_detect_degration} Prevention
 As with defects, performance degradation can have a variety of causes over time, increasing the difficulty of investigation. 
-It is a good idea to implement a mechanism in your application that will allow you to detect the problem as early as possible. 
+It is a good idea to implement a mechanism in your application that will allow you to notice the problem as early as possible. 
 A simple and effective way to do this is to display the current application status on the screen. 
 It is recommended that at least the following elements be displayed on the screen at all times 
 
@@ -240,7 +240,7 @@ Follow the steps below to measure the memory usage.
  2. Transition to a different scene
  3. Repeat "1" to "2" about 3 to 5 times
 
-If there is a net increase in memory usage as a result of the measurement, something is definitely leaking. 
+If the measurement results show a net increase in memory usage, something is definitely leaking. 
 This can be called an invisible defect. First, let's eliminate the leak. 
 
 It is also a good idea to sandwich a few screen transitions before making the "2" transition. 
@@ -255,7 +255,7 @@ This is the author's experience, but there were cases where some resources were 
 timing issues after resource release (after UnloadUnusedAssets). 
 These unreleased resources are released when transitioning to the next scene. 
 In contrast, a gradual increase in memory usage with repeated transitions will eventually cause a crash. 
-To separate the former problem from the latter, this document recommends repeating transitions several times during memory measurement. 
+In order to separate the former problem from the latter, this document recommends repeating transitions several times during memory measurement. 
 
 Incidentally, if there is a problem like the former, some object is probably still holding a reference at the time of resource release and is subsequently released. 
 It is not fatal, but it is a good idea to investigate the cause of the problem and resolve it. 
@@ -293,7 +293,7 @@ See @<hd>{profile_tool|tool_heap_explorer} for details on how to use it.
 
 =={start_memory_reduction} Let's reduce memory
 The key to reducing memory is to @<em>{cut from large areas}. 
-Because 1,000 pieces of 1KB will only result in a reduction of 1MB. However, if you compress a 10 MB texture to 2 MB, you can reduce it by 8 MB. 
+Because 1,000 pieces of 1KB will only result in a 1MB reduction. However, if you compress a 10 MB texture to 2 MB, you can reduce it by 8 MB. 
 Considering cost-effectiveness, be aware that you should start with the largest items and reduce them first. 
 
 In this section, the tool used for memory reduction is Profiler(Memory). 
@@ -372,17 +372,17 @@ If there is nothing that can be cut from what we have covered so far, we have no
 Here are some examples 
 
  * Change the compression ratio of textures
-  ** Increase the compression ratio one step for one part of the texture
+ ** Increase the compression ratio one step for one part of the texture
  * Change the timing of loading/unloading
-  ** Release objects in resident memory and load them each time.
+ ** Release objects in resident memory and load them each time.
  * Change load specifications
-  ** Reduce the number of character variations to be loaded ingame by one.
+ ** Reduce the number of character variations to be loaded ingame by one.
 
 All of these changes have a large impact and may fundamentally affect the fun of the game. 
 Therefore, specification considerations are a last resort. 
 Make sure to estimate and measure memory early on to prevent this from happening. 
 
-=={start_process_reduction} Isolating the Cause of Processing Failure
+=={start_process_reduction} Isolating the Cause of Processing Failures
 The following is an introduction to the process of measuring and optimizing processing time. 
 The way to deal with screen processing failures varies depending on whether they are "instantaneous" or "steady" processing failures. 
 
@@ -443,7 +443,7 @@ A situation where the CPU is the bottleneck is called CPU-bound, and a situation
 
 As an easy way to isolate the two, if any of the following apply to you, there is a good chance that you are GPU-bound. 
 
- * Dramatic improvement in processing load when the screen resolution is reduced
+ * Dramatic improvement in processing load when the screen resolution is lowered
  * When measured with Profiler @<kw>{Gfx.WaitForPresent} is present
 
 On the other hand, if these are not present, there is a possibility of CPU bounce. 
@@ -504,11 +504,11 @@ Specifically, we can try deactivating the background and see what happens, deact
 Once the categories with high processing load are identified, the following factors should be further examined. 
 
  * Are there too many objects to draw?
-  ** Consider whether it is possible to draw them all at once.
+ ** Consider whether it is possible to draw them all at once.
  * Is the number of vertices per object too large?
-  ** Consider reduction and LOD
+ ** Consider reduction and LOD
  * Is the processing load improved by replacing with a simple Shader?
-  ** Review the processing of Shader
+ ** Review the processing of Shader
 
 ===={start_heavy_process_gpu_others} Otherwise
 It can be said that each GPU processing is piled up and heavy. 
@@ -518,12 +518,12 @@ Also, as with CPU bound, if the target reduction cannot be reached, it is a good
 @<hd>{start_ready_quality_setting} and reconsider. 
 
 =={start_summary} Conclusion
-In this chapter, we have covered what to watch out for "before" and "during" performance tuning. 
+In this chapter, we have discussed what to watch out for "before" and "during" performance tuning. 
 
 The things to watch out for before and during performance tuning are as follows 
 
  * Decide on "indicators," "guaranteed devices," and "quality setting specifications.
-  ** Verify and determine the indicators before mass production.
+ ** Verify and determine the indicators before mass production.
  * Create a mechanism to easily notice performance degradation.
 
 The following are things to keep in mind during performance tuning. 

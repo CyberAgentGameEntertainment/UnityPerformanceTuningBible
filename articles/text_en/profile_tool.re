@@ -37,7 +37,7 @@ The following are also useful functions common to the entire Profiler tool.
 //image[profiler_often_use_command][Explanation of Profiler Functions]
 
 @<img>{profiler_often_use_command} In the "Profiler Modules" section, "①" lists the items that each module is measuring. 
-By clicking on this item, you can switch between displaying and not displaying it on the timeline on the right. 
+By clicking on this item, you can switch between display and non-display on the timeline on the right. 
 Displaying only the necessary items will make the view easier to read. 
 You can also reorder the items by dragging them, and the graph on the right side will be displayed in that order. 
 The second item (2) is a function for saving and loading the measured data. It is recommended to save the measurement results if necessary. 
@@ -69,7 +69,7 @@ First, we will introduce the method of setting from a script.
 
 //listnum[setting_development_build_by_script][How to set up Development Build from a script][csharp]{
 BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-/* Scene and build target settings omitted */
+/* Scene and build target settings are omitted. */
 
 buildPlayerOptions.options |= BuildOptions.Development;
 //  Add only if you want to enable Deep Profile mode
@@ -77,9 +77,9 @@ buildPlayerOptions.options |= BuildOptions.EnableDeepProfilingSupport;
 
 BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
 //}
-@<list>{setting_development_build_by_script} The important thing to remember is to specify @<code>{BuildOptions.Development}. 
+@<list>{setting_development_build_by_script} The important point in @<code>{BuildOptions.Development} is to specify . 
 
-Next, if you want to configure from GUI, go to Build Settings and check Development Build like @<img>{development_build_setting} and build. 
+Next, if you want to set up from GUI, go to Build Settings and check Development Build like @<img>{development_build_setting} and build. 
 //image[development_build_setting][Build Settings]
 
 ===={how_to_use_unity_profiler_for_connect} Work to be done after application startup 
@@ -123,20 +123,20 @@ There are many web-based instructions on how to set up adb, so we will skip this
 For simple troubleshooting, if you cannot connect, check the following 
 
  * Common to both devices
-  ** Is there a "Development Build" sign in the lower right corner of the executed application?
+ ** Is there a "Development Build" sign in the lower right corner of the executed application?
  * In the case of Android
-  ** Is USB debugging enabled on the device?
-  ** @<code>{adb forward} Is the package name entered in the command correct?
-  ** @<code>{adb devices} The device is properly recognized when the command is entered.
+ ** Is USB debugging enabled on the device?
+ ** @<code>{adb forward} Is the package name entered in the command correct?
+ ** @<code>{adb devices} The device is properly recognized when the command is entered.
 
 As an additional note, if you run the application directly in Build And Run, the @<code>{adb forward} command described above will be performed internally. 
 Therefore, no command input is required for measurement. 
 
 ====[column]{autoconnect_profiler} Autoconnect Profiler
 
-The build configuration has an option called Autoconnect Profiler. 
-This option is used to automatically connect to the editor's profiler when the application is launched. 
-Therefore, it is not a mandatory setting for profiling. The same applies to remote profiling. 
+There is an Autoconnect Profiler option in the build configuration. 
+This option is a function to automatically connect to the editor's profiler when the application is launched. 
+Therefore, it is not a required setting for profiling. The same applies to remote profiling. 
 Only WebGL cannot be profiled without this option, but it is not a very useful option for mobile. 
 
 To take this a bit further, if this option is enabled, the IP address of the editor will be written to the binary at build time, and an attempt will be made to connect to that address at startup. 
@@ -164,7 +164,7 @@ The Hierarchy view looks like @<img>{profiler_hierarchy_view}.
 
 This view is characterized by the fact that the measurement results are arranged in a list format and can be sorted by the items in the header. 
 When conducting an investigation, bottlenecks can be identified by opening items of interest in the list. 
-However, the information displayed is an indication of the time spent in the "selected thread. 
+However, the information displayed is an indication of the time spent in the selected thread.
 For example, if you are using Job System or multi-threaded rendering, the processing time in another thread is not included. 
 If you want to check, you can do so by selecting a thread like @<img>{profiler_hieracrhy_thread}. 
 //image[profiler_hieracrhy_thread][Thread Selection]
@@ -176,8 +176,8 @@ Header Name	Description
 -------------------- 
 Overview	Sample name.
 Total	Total time spent processing this function. (displayed as a percentage)
-Self	Processing time  of this function itself.@<br>{} Time for sub-functions is not included. (displayed in %)
-Calls	Number of times this function is called in one frame.
+Self	Processing time of this function itself. @<br>{} Subfunction time is not included. (displayed in %) Self
+Calls	Number of calls made in one frame.
 GC Alloc	Heap memory allocated by this function.
 Time ms	Total in ms.
 Self ms	Self in ms.
@@ -226,7 +226,7 @@ One is the Deep Profile mode described above. The other is to embed it directly 
 In the case of embedding directly in the script, use the following statement. 
 //listnum[profile_begin_samle][Method using Begin/EndSample]{
 using UnityEngine.Profiling;
-/* omitted */
+/* ... Omitted...*/
 private void TestMethod()
 {
 	for (int i = 0; i < 10000; i++)
@@ -243,19 +243,19 @@ private void OnClickedButton()
 }
 //}
 
-The embedded sample will be displayed in both Hierarchy and Timeline views. 
-//image[sampler_display_example][Sampler view]
+The embedded sample will be displayed in both the Hierarchy and Timeline views. 
+//image[sampler_display_example][Sampler Display]
 
-There is one more feature worth mentioning. The profiling code has zero overhead because the caller is disabled if it is not a Development Build. 
+There is one more feature worth mentioning. If the profiling code is not a Development Build, the caller is disabled, so there is zero overhead. 
 It may be a good idea to put this in place in advance in areas where the processing load is likely to increase in the future. 
 
 The BeginSample method is a static function, so it can be used easily, but there is also a CustomSampler that has similar functionality. 
 This method was added after Unity 2017 and has less measurement overhead than BeginSample, so it can measure more accurate times. 
 
 
-//listnum[profile_custom_sampler][Method using CustomSampler]{
+//listnum[profile_custom_sampler][How to use CustomSampler]{
 using UnityEngine.Profiling;
-/* omitted */
+/* ... Omitted...*/
 private CustomSampler _samplerTest = CustomSampler.Create("Test");
 
 private void TestMethod()
@@ -275,8 +275,8 @@ private void OnClickedButton()
 //}
 
 The difference is that an instance must be created in advance. 
-CustomSampler is also characterized by the ability to obtain the measurement time in the script after the measurement. 
-If you need more accuracy or want to issue warnings based on processing times, CustomSampler is a good choice. 
+Another feature of CustomSampler is that the measurement time can be obtained in the script after the measurement. 
+If you need more accuracy or want to issue warnings based on processing time, CustomSampler is a good choice. 
 
 ==={memory_module_unity_prfoiler} Memory
 Memory modules are displayed as @<img>{profiler_memory}. 
@@ -315,7 +315,7 @@ This section describes the items listed in the view.
 //table[simple_view_total_detail][Simple View glossary]{
 Term Name	Explanation
 -------------------- 
-GC	The amount of memory used in the heap area,@<br>{} which is increased by GC Alloc and other factors.
+GC	Amount of memory used in the heap area. @<br>{} GC Alloc and other factors increase this amount.
 Gfx	Amount of memory allocated for Texture, Shader, Mesh, etc.
 Audio	Amount of memory used for audio playback.
 Video	Amount of memory used for video playback.
@@ -345,7 +345,7 @@ The following information on the number of objects and GC Allocation is also ava
 
  : Object Count
  Total number of all objects generated and loaded by the application. 
- If this value is increasing, it is likely that some object is leaking. 
+ If this value is increasing, it is likely that some objects are leaking. 
 
  : GC Allocation in Frame
  The number of times an Allocation has occurred in a frame and the total amount. 
@@ -393,11 +393,11 @@ Name	Description
 Assets	Loaded assets not included in the scene.
 Not Saved	Assets generated at runtime by code. @<br>{} For example, objects generated by code, such as new Materiala().
 Scene Memory	Assets contained in the loaded scene.
-Others	Objects other than those listed above.@<br>{} Assignments to objects used by Unity in various systems.
+Others	Objects other than those listed above. @<br>{} Assignments to the various systems used by Unity.
 //}
 
 You may not be familiar with the items listed under Others in the top node. 
-The following is a list of items that are worth knowing about. 
+The following is a list of items that you should know about. 
 
 
 
@@ -425,7 +425,7 @@ The following is a list of items that are worth knowing about.
  Finally, we will summarize the cases in which the Detailed view is used based on what has been introduced so far. 
 
  * Detailed understanding and tuning of memory at specific timing
-  ** Checking for unnecessary or unexpected assets
+ ** Checking for unnecessary or unexpected assets
  * Investigating memory leaks
 
 =={tool_profile_analyzer} Profile Analyzer
@@ -482,15 +482,15 @@ The filter input screen allows filtering of analysis results.
 //image[profile_analyzer_filter][Filter Input Screen]
 Each item is as follows. 
 
-//table[analyzer_filter_explain][Filters items]{
+//table[analyzer_filter_explain][Items of Filters]{
 Item Name	Description
 -------------------- 
 Name Filter	Filter by the name of the process you want to search.
 Exclude Filter	Filter by the name of the process you want to exclude from the search.
 Thread	The selected threads will be displayed in the analysis results. @<br>{} If you need information on other threads, add them.
-Depth Slice	The number of levels in the Hierarchy in CPU Usage.@<br>{} For example, if Depth is 3, the third hierarchy is displayed.
-Analysis Type	Total and Self can be toggled.@<br>{} The contents are the same as the header items introduced in CPU Usage.
-Units	Change the time display to milliseconds or microseconds.
+Depth Slice	This is the number of slice in the Hierarchy in CPU Usage. @<br>{} For example, if Depth is 3, the third hierarchy is displayed.
+Analysis Type	Total and Self can be switched. @<br>{} This is the same as the header item introduced in CPU Usage.
+Units	Time display can be changed to milliseconds or microseconds.
 Marker Columns	Change the header display of analysis results.
 //}
 
@@ -505,14 +505,14 @@ You can see at a glance how much processing time each of the top 10 markers occu
 ===={prfoile_analyzer_marker} 4. analysis results of markers
 The analysis results of each marker are displayed. 
 It is a good idea to analyze the process that should be improved based on the process name listed in Marker Name and the values of Median and Mean. 
-If you move the mouse pointer over a header item, a description of the item will be displayed, so please refer to it if you do not understand the contents. 
+If you move the mouse pointer over a header item, a description of the item will be displayed, so please refer to it if you do not understand the content. 
 
 //image[profile_analyzer_marker_detail][Analysis results for each process]
 
-====[column] {median_mean} Mean and Median 
+====[column]{median_mean} Mean and Median
 
 The mean is the value obtained by adding all values together and dividing by the number of data. 
-The median, on the other hand, is the value that lies in the middle of the sorted data. If there are an even number of data, the average value is taken from the data before and after the median. 
+The median, on the other hand, is the value that lies in the middle of the sorted data. In the case of an even number of data, the average value is taken from the data before and after the median. 
 
 The average has the property that it is susceptible to data with values that are extremely far apart. 
 If there are frequent spikes or the sampling number is not sufficient, it may be better to refer to the median. 
@@ -525,7 +525,7 @@ Analyze your data after knowing the characteristics of these two values.
 
 ===={prfoile_analyzer_frame_summary} 5. frame summary
 This screen shows the frame statistics of the measured data. 
-//image[profile_analyzer_frame_summary][Frame Summary screen][scale=0.5]
+//image[profile_analyzer_frame_summary][Frame Summary Screen][scale=0.5]
 
  This screen displays interval information for the frame being analyzed and the degree of variation in the values using a boxplot or histogram. 
 Box plots require an understanding of quartiles. 
@@ -609,7 +609,7 @@ This is useful, for example, to adjust the brightness of a dark rendering, such 
 This area provides information on the resolution and format of the destination. Obviously, you will be able to notice immediately if there is a drawing destination with a higher resolution. 
 Other information such as the Shader name used, Pass settings such as Cull, and keywords used can also be found. 
 The sentence "Why this~" listed at the bottom describes why the drawing could not be batching. 
-@<img>{frame_debugger_shader_syntax} In the case of "Why this~," it states that the first drawing call was selected, so batching is not possible. 
+@<img>{frame_debugger_shader_syntax} In the case of "Why this~," it states that the first drawing call was selected and therefore batching was not possible. 
 Since the causes are described in such detail, you can rely on this information to make adjustments if you want to devise batching. 
 //image[frame_debugger_shader_syntax][Overview of the middle drawing]
 
@@ -1069,7 +1069,7 @@ is displayed in a Call Tree format so that you can follow what caused the memory
 Android Studio is an integrated development environment tool for Android. 
 This tool allows you to measure the status of your application. 
 There are four profileable items: CPU, Memory, Network, and Energy. 
-In this section, we will first introduce the profiling method and then explain the CPU and Memory measurement items. 
+In this section, we will first introduce the profiling method and then explain the measurement items of CPU and Memory. 
 //image[android_studio_profile][Profile screen]
 
 ==={tool_android_studio_debug_start} Profile Method
@@ -1097,7 +1097,7 @@ Once the session is connected, the profile will start.
 The second method of attaching to the debugger is good to keep in mind because it does not require exporting the project and can be used easily. 
 
 //info{
-Strictly speaking, you need to configure debuggable and profileable settings in AndroidManifest.xml, not in Development Build in Unity. 
+Strictly speaking, you need to configure debuggable and profileable settings in AndroidManifest.xml, not Development Build in Unity. 
 In Unity, debuggable is automatically set to true when you do a Development Build. 
 //}
 
@@ -1239,11 +1239,11 @@ Texture Viewer also has a feature called Pixel Context.
 This function allows the user to view the drawing history of selected pixels. 
 The history allows the user to determine how often a pixel has been filled. 
 This is a useful feature for overdraw investigation and optimization. 
-However, it is not suitable for investigating overdraw on a whole pixel basis. 
+However, since it is on a per-pixel basis, it is not suitable for investigating overdraw on a global basis. 
 To investigate, right-click on the area you want to investigate on the left side of @<img>{texture_viewer_input_output}, and the location will be reflected in the Pixel Context. 
 //image[texture_viewer_pixel_context][Reflection in Pixel Context]
 Next, click the History button in the Pixel Context to see the drawing history of the pixel. 
 //image[texture_viewer_pixel_history][Pixel Drawing History]
 @<img>{texture_viewer_pixel_history} In the following section, there are four histories. 
-The green line indicates that the pixel passed all the pipeline tests, such as the depth test, and was painted. If some of the tests failed and the pixel was not drawn, it will be red. 
+The green line indicates that the pixel passed all the pipeline tests, such as the depth test, and was painted. If some of the tests failed and the pixel was not rendered, it will be red. 
 In the captured image, the screen clearing process and capsule drawing were successful, while the Plane and Skybox failed the depth test. 

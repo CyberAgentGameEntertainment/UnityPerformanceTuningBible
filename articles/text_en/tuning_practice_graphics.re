@@ -48,17 +48,17 @@ Note that changes are not reflected in the Editor.
 =={practice_graphics_overdraw} Semi-transparency and overdraw
 
 The use of translucent materials is controlled by the @<kw>{overdraw} overdraw. 
-Overdraw is the drawing of a fragment multiple times per pixel on the screen, which affects performance in proportion to the load on the fragment shader. 
+Overdraw is the drawing of a fragment multiple times per pixel on the screen, and it affects performance in proportion to the load on the fragment shader. 
 
 Particularly when a large number of translucent particles are generated, such as in a particle system, a large amount of overdraw is often generated. 
 
 The following methods can be used to reduce the increased drawing load caused by overdraws. 
 
  * Reduce unnecessary drawing area
-  ** Reduce as much as possible the number of areas where textures are completely transparent, as they are also subject to rendering.
+ ** Reduce as much as possible the number of areas where textures are completely transparent, as they are also subject to rendering.
  * Use lightweight shaders for objects that may cause overdraw.
  * Avoid using semi-transparent materials as much as possible.
-  ** Use opaque materials to simulate the appearance of translucency @<kw>{Dithering} is another technique to consider.
+ ** Use opaque materials to simulate the appearance of translucency @<kw>{Dithering} is another technique to consider.
 
 In the Editor of the Built-in Render Pipeline, set the Scene view mode to @<kw>{Overdraw} in the Editor of the Built-in Render Pipeline, which is useful as a basis for adjusting overdraw. 
 
@@ -91,7 +91,7 @@ The main conditions are listed below.
 
  * Reference to the same material
  * The object is being rendered with MeshRenderer or Particle System.
-  ** Other components such as SkinnedMeshRenderer are not subject to dynamic batching
+ ** Other components such as SkinnedMeshRenderer are not subject to dynamic batching
  * The number of mesh vertices is less than 300.
  * No multipath is used
  * Not affected by real-time shadows
@@ -154,7 +154,7 @@ Shader "SimpleInstancing"
     struct v2f
     {
         float4 vertex : SV_POSITION;
-        // Only needed when accessing INSTANCED_PROP with fragment shaders
+        //  Required only when accessing INSTANCED_PROP in fragment shaders
         UNITY_VERTEX_INPUT_INSTANCE_ID
      };
 
@@ -168,7 +168,7 @@ Shader "SimpleInstancing"
 
         UNITY_SETUP_INSTANCE_ID(v);
 
-        // Only needed when accessing INSTANCED_PROP with fragment shaders
+        //  Required only when accessing INSTANCED_PROP in fragment shaders
         UNITY_TRANSFER_INSTANCE_ID(v, o);
 
          o.vertex = UnityObjectToClipPos(v.vertex);
@@ -177,7 +177,7 @@ Shader "SimpleInstancing"
 
     fixed4 frag(v2f i) : SV_Target
     {
-        // Only needed when accessing INSTANCED_PROP with fragment shaders
+        //  Only required when accessing INSTANCED_PROP with fragment shaders
         UNITY_SETUP_INSTANCE_ID(i);
 
         float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
@@ -286,13 +286,13 @@ private SpriteAtlas atlas;
 
 public Sprite LoadSprite(string spriteName)
 {
-    // Obtain a Sprite from SpriteAtlas with the Sprite name as an argument
+    //  Obtain a Sprite from SpriteAtlas with the Sprite name as an argument
     var sprite = atlas.GetSprite(spriteName);
     return sprite;
 }
 //}
 
-Loading one Sprite in the SpriteAtlas consumes more memory than loading just one, since the texture of the entire atlas is loaded. 
+Loading a single Sprite in the SpriteAtlas consumes more memory than loading just one, since the texture of the entire atlas is loaded. 
 Therefore, the SpriteAtlas should be used with care and divided appropriately. 
 
 //info{
@@ -320,13 +320,13 @@ Most meshes are closed (only the front polygons are visible to the camera), so t
 In Unity, if you do not specify this in the shader, the back side of the polygon is subject to culling, but you can switch the culling setting by specifying it in the shader. 
 The following is described in the SubShader. 
 
-//listnum[shader_cull][Culling settings]{
+//listnum[shader_cull][Culling setting]{
 SubShader
 {
     Tags { "RenderType"="Opaque" }
     LOD 100
 
-    Cull Back // Front, Off
+    Cull Back //  Front, Off
 
     Pass
     {
@@ -340,7 +340,7 @@ SubShader
 
 There are three settings: @<code>{Back}, @<code>{Front}, and @<code>{Off}. The effect of each setting is as follows. 
 
- * @<kw>{Back} - Do not draw polygons on the side opposite to the viewpoint
+ * @<kw>{Back} - Do not draw polygons on the side opposite to the viewer's point of view
  * @<kw>{Front} - Do not draw polygons in the same direction as the viewpoint
  * @<kw>{Off} - Disable back culling and draw all faces.
 
@@ -452,7 +452,7 @@ From the Inspector view of the created ShaderVariantCollection, press Add Shader
 
 //image[shadervariant-inspector][ShaderVariantCollection Inspector]
 
-ShaderVariantCollection is added to the Graphics Settings @<kw>{Shader preloading} in the Graphics Settings. @<kw>{Preloaded Shaders} in the Shader preloading section of Graphics Settings, 
+ShaderVariantCollection is added to the Graphics Settings @<kw>{Shader preloading} in the Graphics Settings. @<kw>{Preloaded Shaders} in the Shader preloading section of the Graphics Settings, 
 to set the shader variants to be compiled at application startup. 
 
 //image[preloaded-shaders][Preloaded Shaders]
@@ -491,7 +491,7 @@ This setting is usually turned on in Unity and should be noted in projects that 
 
 It is also useful to reduce the maximum distance an object can be drawn in the shadow map. 
 In the Quality Settings @<kw>{Shadow Distance} in the Quality Settings to reduce the number of objects that cast shadows to the minimum necessary. 
-Adjusting this setting will also reduce the resolution of the shadows, since the shadows will be drawn at the minimum range for the resolution of the shadow map. 
+Adjusting this setting will also reduce the resolution of the shadows, since shadows will be drawn at the minimum range for the resolution of the shadow map. 
 
 //image[shadow-distance][Shadow Distance]
 
@@ -534,7 +534,7 @@ Also, activate the static flag of the object to be baked.
 
 In this state, select "Window -> Rendering -> Lighting" from the menu to display the Lighting view. 
 
-The default setting is @<kw>{Lighting Settings} asset is not specified, we need to set the @<kw>{New Lighting Settings} button to create a new one. 
+The default setting is @<kw>{Lighting Settings} asset is not specified, we need to change the settings by clicking on @<kw>{New Lighting Settings} button to create a new one. 
 
 //image[new-lighting-settings][New Lighting Settings]
 
@@ -565,7 +565,7 @@ In Unity, objects are assigned to a @<kw>{LOD Group} component to the object.
 
 //image[lod-group][LOD Group]
 
-By placing a renderer with a mesh of each LOD level on the children of a GameObject to which a LOD Group is attached and setting each LOD level in the LOD Group, the LOD level can be switched according to the camera. 
+By placing a renderer with a mesh of each LOD level on a child of a GameObject to which a LOD Group is attached and setting each LOD level in the LOD Group, the LOD level can be switched according to the camera. 
 It is also possible to set which LOD level is assigned to each LOD Group in relation to the camera's distance. 
 
 Using LOD generally reduces the drawing load, but one should be aware of memory and storage pressures since all meshes for each LOD level are loaded. 
