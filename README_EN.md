@@ -12,6 +12,11 @@ This book is a comprehensive guide to optimizing performance in Unity.
 The e-book is available for download as a PDF from this repository.  
 Please send your comments and suggestions via [Issues](https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/issues) or [Pull Requests](https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/pulls).  
 
+## How to download the e-book.
+1. Go to [the latest version of Releases](https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/releases/latest).
+
+2. Download the PDF from Assets.
+
 ## About Translations
 ### Background
 We have received several requests for a translated version of Issues, but we have decided that it is operationally difficult to release an official translated version.  
@@ -33,11 +38,6 @@ Please note that we provide translations with the assumption that it may be more
 
 ### Updates
 We will update the translated version for major changes or additions, but not for typos.
-
-## How to download the e-book.
-1. Go to [the latest version of Releases](https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/releases/latest).
-
-2. Download the PDF from Assets.
 
 ## About License
 This repository is not licensed, but copyright laws apply.  
