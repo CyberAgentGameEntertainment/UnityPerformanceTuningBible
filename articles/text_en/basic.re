@@ -383,7 +383,7 @@ Rendering requires a processing load not only on the GPU but also on the CPU.
 
 As mentioned above, when rendering an object, the CPU sends commands to the GPU to draw. 
 This is called a @<kw>{draw call} and is executed as many times as the number of objects to be rendered. 
-At this time, if the texture or other information is different from that of the object rendered in the previous draw call, the GPU will set the texture or other information to the GPU. This is done using the @<kw>{set path call} and is a relatively heavy process. Since this process is done on the CPU's render thread, it is a processing load on the CPU, and too much of it can affect performance. 
+At this time, if the texture or other information is different from that of the object rendered in the previous draw call, the CPU will set the texture or other information to the GPU. This is done using the @<kw>{set path call} and is a relatively heavy process. Since this process is done on the CPU's render thread, it is a processing load on the CPU, and too much of it can affect performance. 
 
 Unity has a feature to reduce draw calls called @<kw>{draw call batching} to reduce draw calls. 
 This is a mechanism whereby meshes of objects with the same texture and other information (i.e., the same material) are combined in CPU-side processing in advance and drawn with a single draw call. 
