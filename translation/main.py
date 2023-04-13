@@ -34,6 +34,11 @@ def command_translate(target_lang: TranslateLang):
     """日本語Reviewファイルを翻訳します"""
     jp_files = glob.glob(str(JP_DIR) + f"/*.re")
     translator = Translator(target_lang)
+
+    export_dir = ARTICLE_DIR / f"text_{target_lang.name}"
+    if not export_dir.exists():
+        export_dir.mkdir()
+
     for file in jp_files:
         print(f"processing: {file}")
         path = pathlib.Path(file)
@@ -51,8 +56,7 @@ def command_translate(target_lang: TranslateLang):
 
         # xml => review
         review_lines = convert_review(translated_lines)
-        EXPORT_DIR = ARTICLE_DIR / f"text_{target_lang.name}"
-        output_file = EXPORT_DIR / path.name
+        output_file = export_dir / path.name
         write_lines(output_file, review_lines)
 
 def command_test():
