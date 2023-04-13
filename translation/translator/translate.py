@@ -10,6 +10,8 @@ IGNORE_TAGS = "hd,fn,imgref,tableref,chapref,listref,chap,code"
 
 class TranslateLang(Enum):
     en = "EN-US"
+    ko = "KO" # Korean
+    zh = "ZH" # Chinese
 
 class Translator:
     def __init__(self, target_lang: TranslateLang):
