@@ -1,7 +1,74 @@
-locale: ja
-column_head: ■コラム
-columnname: コラム
-memo_head: ■メモ
-image: 図
-table: 表
-list: リスト
+locale: ko
+image: 그림
+table: 표
+list: "리스트 "
+equation: "식 "
+column: "열 %s"
+columnname: "열"
+column_head: "열"
+part: 제%pR부
+part_short: "%pR"
+chapter: 제%d장
+chapter_short: "%d"
+chapter_postfix: "　"
+chapter_quote: "%s「%s」"
+chapter_quote_without_number: "「%s」"
+hd_quote: "「%s %s」"
+hd_quote_without_number: "「%s」"
+appendix: 부록%s
+numberless_image: "그림:"
+note_head: NOTE
+tip_head: 팁
+info_head: 정보
+warning_head: 경고
+important_head: 정보
+caution_head: 주의
+notice_head: NOTICE
+memo_head: 메모
+format_number: "%s.%d"
+format_number_header: "%s.%d:"
+format_number_without_chapter: "%d"
+format_number_header_without_chapter: "%d:"
+image_quote: '"%s"'
+caption_prefix: " "
+caption_prefix_idgxml: "　"
+ruby_prefix: "（"
+ruby_postfix: "）"
+external_link: "%s (%s)"
+label_marker: "●●　"
+html_footnote_refmark: "*%s"
+html_footnote_textmark: "[*%s] "
+html_footnote_backmark: "⏎"
+html_endnote_refmark: "(%s)"
+html_endnote_textmark: "(%s) "
+aut: "저자"
+csl: "감수"
+dsr: "디자인"
+ill: "일러스트"
+cov: "표지"
+edt: "편집"
+pht: "촬영"
+trl: "번역"
+prt: "인쇄처"
+pbl: "발행처"
+contact: "연락처"
+author_with_label: "%s　저"
+supervisor_with_label: "%s　감수"
+translator_with_label: "%s　역"
+names_splitter: ", "
+edition: "판"
+published_by: "%s 출판"
+published_by1: "%s %s 출판"
+published_by2: "%s 출판"
+published_by3: "%s %s"
+date_format: '%%Y년%%-m월%%-d일'
+impression: "쇄"
+toctitle: "목차"
+covertitle: "표지"
+titlepagetitle: "제목"
+originaltitle: "원제"
+credittitle: "Credit"
+colophontitle: ""
+advtitle: "광고"
+profiletitle: "저자소개"
+backcovertitle: "뒷표지"

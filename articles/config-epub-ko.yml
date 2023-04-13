@@ -1,0 +1,30 @@
+# epub（英語）用の上書き設定
+
+# 継承元設定
+inherit: ["config-epub-jp.yml"]
+
+# ブック名(ファイル名になるもの。ASCII範囲の文字を使用)
+bookname: UnityPerformanceTuningBible
+# 記述言語。省略した場合はja
+language: ko
+# 書名
+booktitle: {name: "Unity Performance Tuning Bible", file-as: "TuningBible"}
+# 著者名。「, 」で区切って複数指定できる
+aut: [{name: "CyberAgent SGE Core Technology Team"}]
+pbl: CyberAgent, Inc.
+dsr: CyberAgent Smartphone Games & Entertainment Division
+
+# 刊行日(省略した場合は実行時の日付)
+date: 2023-02-22
+# 発行年月。YYYY-MM-DD形式による配列指定。省略した場合はdateを使用する
+# 複数指定する場合は次のように記述する
+# [["初版第1刷の日付", "初版第2刷の日付"], ["第2版第1刷の日付"]]
+# 日付の後ろを空白文字で区切り、任意の文字列を置くことも可能。 
+history: [["2023-02-22 1st Edition"]]
+
+# 取り込む画像が格納されているディレクトリ。
+imagedir: images_en
+# reファイルを格納するディレクトリ。
+contentdir: text_ko
+# B5の設定(10pt 40文字×35行) - 電子版
+texdocumentclass: ["review-jsbook", "media=ebook,paper=b5,serial_pagination=false,openany,fontsize=10pt,baselineskip=15.4pt,line_length=40zw,number_of_lines=35,head_space=41mm,headsep=10mm,headheight=5mm,footskip=16mm,english"]
