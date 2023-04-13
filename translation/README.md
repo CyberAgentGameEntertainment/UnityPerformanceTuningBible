@@ -53,6 +53,45 @@ You need to specify `REVIEW_LANG` environment variable to what you want, choosin
 $ REVIEW_LANG=en ./build-in-docker-epub.sh
 ```
 
+#### Building other than English version
+
+You need to create/modify some config files.
+
+Inside `article` folder, copy `config-epub-en.yml` to `config-epub-{lang}.yml`.
+Open it and modify `language` and `contentdir`.
+
+```
+langueage: {lang}
+contentdir: text_{lang}
+```
+
+Then modiy `locale.yml` like following.
+
+```
+locale: ko
+image: 그림
+table: 표
+list: "리스트 "
+equation: "식 "
+column: "열 %s"
+columnname: "열"
+column_head: "열"
+part: 제%pR부
+part_short: "%pR"
+chapter: 제%d장
+...
+```
+
+Full sample is [here](https://github.com/kmuto/review/blob/master/lib/review/i18n.yml).
+
+
+If you have any trouble with PDF font, you may need to add following line to `articles/sty/review-custom.sty` after final usepackage command.
+We are not sure about any other than Japanese, please solve the issue by yourself.
+
+```
+\usepackage[korean]{pxbabel}
+```
+
 ## Developing
 
 Since this book is written by [Re:VIEW format](https://github.com/kmuto/review/blob/master/doc/format.md), we need to exlude Re:VIEW tags from translation.
