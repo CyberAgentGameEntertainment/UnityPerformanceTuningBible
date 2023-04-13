@@ -206,7 +206,8 @@ void OnDestroy()
 }
 //}
 Materials should be destroyed when they are finished being used (OnDestroy). Destroy materials at the appropriate timing according to the rules and specifications of the project. 
-
+By duplicating the material using the method in the code section "Example of Material being duplicated", the default material would leak out ~2.1kb (2021.3.22f1) so it would take ~500.000 duplication to leak 1GB of the memory.
+ 
 =={practice_asset_animation} Animation
 Animation is a widely used asset in both 2D and 3D. 
 This section introduces practices related to animation clips and animators. 
