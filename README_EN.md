@@ -40,10 +40,7 @@ Please note that we provide translations with the assumption that it may be more
 We will update the translated version for major changes or additions, but not for typos.
 
 ## About License
-This repository is not licensed, but copyright laws apply.  
-For more information, please refer to the following page for details.
-
-[Licensing a repository > Choosing the right license](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository#choosing-the-right-license)
+This project is licensed under the [CC BY-NC-ND 4.0 License](LICENSE). However, we accept Pull Requests by entering into a separate Contributor License Agreement (CLA) for contributors.
 
 ## Copyright
 (C) 2022 CyberAgent, Inc.
