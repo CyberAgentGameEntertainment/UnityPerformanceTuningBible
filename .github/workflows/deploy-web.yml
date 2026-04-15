@@ -24,7 +24,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3'
+          ruby-version-file: '.ruby-version'
           bundler-cache: true
 
       - name: Setup Node.js
@@ -34,7 +34,7 @@ jobs:
           cache: 'npm'
 
       - name: Install npm dependencies
-        run: npm install --ignore-scripts
+        run: npm ci --ignore-scripts
 
       - name: Build web pages (JP + EN)
         run: npm run web

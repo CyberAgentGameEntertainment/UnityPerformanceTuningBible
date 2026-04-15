@@ -14,7 +14,7 @@
   },
   "homepage": "https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/blob/main/README.md",
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=16.0.0"
   },
   "scripts": {
     "global-bundler": "gem install bundler",

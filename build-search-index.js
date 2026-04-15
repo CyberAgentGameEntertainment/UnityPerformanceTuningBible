@@ -9,7 +9,7 @@ const path = require("path");
 const webroot = process.argv[2] || path.join(__dirname, "articles", "webroot");
 const outFile = path.join(webroot, "search-index.json");
 
-const htmlFiles = fs.readdirSync(webroot).filter(f => f.endsWith(".html") && f !== "index.html" && f !== "titlepage.html");
+const htmlFiles = fs.readdirSync(webroot).filter(f => f.endsWith(".html") && f !== "index.html" && f !== "titlepage.html").sort();
 
 const index = [];
 
@@ -39,7 +39,8 @@ htmlFiles.forEach(file => {
     // Index each section — use positions from full html since headings were matched against it
     for (let i = 0; i < headings.length; i++) {
       const start = headings[i].pos;
-      const end = i + 1 < headings.length ? headings[i + 1].pos : html.length;
+      const naviPos = html.indexOf('<nav class="book-navi');
+      const end = i + 1 < headings.length ? headings[i + 1].pos : (naviPos !== -1 ? naviPos : html.length);
       const sectionHtml = html.slice(start, end);
       const text = stripTags(sectionHtml).slice(0, 500);
       sections.push({

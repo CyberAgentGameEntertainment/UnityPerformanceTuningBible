@@ -34,7 +34,7 @@
         <a href="#" class="lang-btn" data-lang="en">English</a>
       </div>
       <div class="search-box">
-        <input type="text" id="search-input" placeholder="Search..." autocomplete="off" />
+        <input type="text" id="search-input" placeholder="Search..." autocomplete="off" aria-label="Search" />
         <div id="search-results" class="search-results"></div>
       </div>
       <%= @toc %>
@@ -111,6 +111,7 @@
       subUl.className = 'toc-sub';
       headings.forEach(function(h2) {
         var id = h2.getAttribute('id');
+        if (!id) return;
         var text = h2.textContent.replace(/^\s+/, '');
         var subLi = document.createElement('li');
         var subA = document.createElement('a');
