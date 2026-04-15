@@ -24,7 +24,7 @@
     <nav class="side-content">
       <div class="side-header">
 <% if @book.config["coverimage"].present? %>
-        <a href="index.html"><img class="side-cover" src="<%=h @book.config["imagedir"] %>/<%=h @book.config["coverimage"] %>" alt="<%=h @book.config.name_of("booktitle") %>" /></a>
+        <a href="./" ><img class="side-cover" src="<%=h @book.config["imagedir"] %>/<%=h @book.config["coverimage"] %>" alt="<%=h @book.config.name_of("booktitle") %>" /></a>
 <% end %>
         <h1 class="side-title"><%=h @book.config.name_of("booktitle") %></h1>
       </div>
@@ -75,6 +75,14 @@
   function matchPage(href) {
     return href.replace(/\.html$/, '') === currentPage;
   }
+
+  // Fix TOP link to use relative directory path instead of index.html
+  tocItems.forEach(function(li) {
+    var link = li.querySelector('a');
+    if (link && link.getAttribute('href') === 'index.html') {
+      link.setAttribute('href', './');
+    }
+  });
 
   tocItems.forEach(function(li) {
     var link = li.querySelector('a');
