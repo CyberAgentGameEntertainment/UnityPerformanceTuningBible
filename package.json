@@ -25,7 +25,7 @@
     "html": "grunt html",
     "text": "grunt text",
     "epub": "grunt epub",
-    "web": "grunt web && node build-search-index.js",
+    "web": "bash build-web.sh",
     "idgxml": "grunt idgxmlmaker",
     "vivliostyle": "grunt vivliostyle",
     "test": "npm run html"

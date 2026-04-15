@@ -28,6 +28,10 @@
 <% end %>
         <h1 class="side-title"><%=h @book.config.name_of("booktitle") %></h1>
       </div>
+      <div class="lang-toggle" id="lang-toggle">
+        <a href="#" class="lang-btn" data-lang="ja">日本語</a>
+        <a href="#" class="lang-btn" data-lang="en">English</a>
+      </div>
       <div class="search-box">
         <input type="text" id="search-input" placeholder="Search..." autocomplete="off" />
         <div id="search-results" class="search-results"></div>
@@ -199,6 +203,27 @@
     });
     return snippet;
   }
+})();
+
+// --- Language Toggle ---
+(function() {
+  var path = location.pathname;
+  var langMatch = path.match(/\/(ja|en)\//);
+  var currentLang = langMatch ? langMatch[1] : 'ja';
+
+  // Highlight active language
+  document.querySelectorAll('.lang-btn').forEach(function(btn) {
+    var lang = btn.getAttribute('data-lang');
+    if (lang === currentLang) {
+      btn.classList.add('lang-active');
+    }
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (lang === currentLang) return;
+      var newPath = path.replace('/' + currentLang + '/', '/' + lang + '/');
+      location.href = newPath + location.hash;
+    });
+  });
 })();
 </script>
 </body>

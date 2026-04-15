@@ -60,6 +60,35 @@ nav.side-content {
   nav.side-content .review-signature a {
     color: #6b7280; }
 
+/* --- Language Toggle --- */
+.lang-toggle {
+  display: flex;
+  gap: 0;
+  margin-bottom: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  overflow: hidden; }
+
+.lang-btn {
+  flex: 1;
+  display: block;
+  padding: 6px 0;
+  text-align: center;
+  font-size: 0.78em;
+  font-weight: 500;
+  color: #6b7280;
+  text-decoration: none;
+  background: #fff;
+  transition: background 0.15s, color 0.15s; }
+.lang-btn:hover {
+  background: #f3f4f6;
+  text-decoration: none; }
+.lang-btn.lang-active {
+  background: #1f2937;
+  color: #fff; }
+.lang-btn + .lang-btn {
+  border-left: 1px solid #d1d5db; }
+
 /* --- Search --- */
 .search-box {
   position: relative;

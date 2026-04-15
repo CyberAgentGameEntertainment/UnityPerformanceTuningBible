@@ -39,11 +39,8 @@ jobs:
       - name: Install gem dependencies
         run: bundle install
 
-      - name: Build web pages
-        run: REVIEW_CONFIG_FILE=config-epub-jp.yml npx grunt web
-
-      - name: Build search index
-        run: node build-search-index.js
+      - name: Build web pages (JP + EN)
+        run: npm run web
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

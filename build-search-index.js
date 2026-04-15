@@ -1,12 +1,12 @@
 "use strict";
 
 // Generates search-index.json from webroot HTML files.
-// Run after review-webmaker: node build-search-index.js
+// Usage: node build-search-index.js [directory]
 
 const fs = require("fs");
 const path = require("path");
 
-const webroot = path.join(__dirname, "articles", "webroot");
+const webroot = process.argv[2] || path.join(__dirname, "articles", "webroot");
 const outFile = path.join(webroot, "search-index.json");
 
 const htmlFiles = fs.readdirSync(webroot).filter(f => f.endsWith(".html") && f !== "index.html" && f !== "titlepage.html");
