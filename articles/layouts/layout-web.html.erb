@@ -17,7 +17,7 @@
 <% if @next.present? %><link rel="next" title="<%= h(@next_title)%>" href="<%= h(@next.id.to_s+"."+@book.config['htmlext']) %>" /><% end %>
 <% if @prev.present? %><link rel="prev" title="<%= h(@prev_title)%>" href="<%= h(@prev.id.to_s+"."+@book.config['htmlext']) %>" /><% end %>
   <meta name="generator" content="Re:VIEW" />
-  <title><%= @title %> | <%=h @book.config.name_of("booktitle")%></title>
+  <title><%= h(@title) %> | <%=h @book.config.name_of("booktitle")%></title>
 </head>
 <body<%= @body_ext %>>
   <div class="book">
@@ -63,17 +63,27 @@
   </div>
   <footer>
     <% if @book.config["copyright"].present? %>
-    <p class="copyright"><%=h @config["copyright"] %></p>
+    <p class="copyright"><%=h @book.config["copyright"] %></p>
     <% end %>
   </footer>
 <script>
 (function() {
-  var currentPage = location.pathname.split('/').pop().replace(/\.html$/, '');
+  function normalizePage(value) {
+    var page = (value || '').split('#')[0].split('?')[0];
+    page = page.replace(/\.html$/, '');
+    if (page === '' || page === '.' || page === './' || page.charAt(page.length - 1) === '/') {
+      return 'index';
+    }
+    var last = page.split('/').pop();
+    return (last === '' || last === '.' || last === 'index') ? 'index' : last;
+  }
+
+  var currentPage = normalizePage(location.pathname);
   var tocItems = document.querySelectorAll('.book-toc > li');
   var headings = document.querySelectorAll('.book-page h2');
 
   function matchPage(href) {
-    return href.replace(/\.html$/, '') === currentPage;
+    return normalizePage(href) === currentPage;
   }
 
   // Fix TOP link to use relative directory path instead of index.html
@@ -138,15 +148,7 @@
   var resultsDiv = document.getElementById('search-results');
   var searchIndex = null;
 
-  input.addEventListener('focus', function() {
-    if (searchIndex) return;
-    fetch('search-index.json')
-      .then(function(r) { return r.json(); })
-      .then(function(data) { searchIndex = data; })
-      .catch(function() { searchIndex = []; });
-  });
-
-  input.addEventListener('input', function() {
+  function runSearch() {
     var q = input.value.trim().toLowerCase();
     if (!q || !searchIndex) {
       resultsDiv.innerHTML = '';
@@ -172,7 +174,17 @@
       }).join('');
     }
     resultsDiv.style.display = 'block';
+  }
+
+  input.addEventListener('focus', function() {
+    if (searchIndex) return;
+    fetch('search-index.json')
+      .then(function(r) { return r.json(); })
+      .then(function(data) { searchIndex = data; runSearch(); })
+      .catch(function() { searchIndex = []; });
   });
+
+  input.addEventListener('input', runSearch);
 
   // Close results on outside click
   document.addEventListener('click', function(e) {

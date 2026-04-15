@@ -36,9 +36,6 @@ jobs:
       - name: Install npm dependencies
         run: npm install --ignore-scripts
 
-      - name: Install gem dependencies
-        run: bundle install
-
       - name: Build web pages (JP + EN)
         run: npm run web
 

@@ -36,14 +36,11 @@ htmlFiles.forEach(file => {
     const text = bodyMatch ? stripTags(bodyMatch[1]).slice(0, 500) : "";
     index.push({ file, title: pageTitle, id: "", text });
   } else {
-    // Index each section
-    const bodyMatch = html.match(/<div class="book-page">([\s\S]*)/);
-    const body = bodyMatch ? bodyMatch[1] : html;
-
+    // Index each section — use positions from full html since headings were matched against it
     for (let i = 0; i < headings.length; i++) {
       const start = headings[i].pos;
-      const end = i + 1 < headings.length ? headings[i + 1].pos : body.length;
-      const sectionHtml = body.slice(start, end);
+      const end = i + 1 < headings.length ? headings[i + 1].pos : html.length;
+      const sectionHtml = html.slice(start, end);
       const text = stripTags(sectionHtml).slice(0, 500);
       sections.push({
         file,
