@@ -20,6 +20,7 @@
 
 require 'fileutils'
 require 'yaml'
+require 'date'
 
 def make_mdre(ch, p2r, path)
   if File.exist?(ch) # re file
