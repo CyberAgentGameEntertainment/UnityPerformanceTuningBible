@@ -31,7 +31,7 @@ end
 
 desc 'run pandoc2review'
 task :pandoc2review do
-  config = YAML.load_file(CONFIG_FILE)
+  config = YAML.load_file(CONFIG_FILE, permitted_classes: [Date])
   if config['contentdir'] == '_refiles'
     path = '_refiles'
     p2r = 'pandoc2review'
