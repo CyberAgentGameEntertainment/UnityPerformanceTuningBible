@@ -3,7 +3,14 @@
 [ ! -z $REVIEW_CONFIG_FILE ] || REVIEW_CONFIG_FILE="config-epub-$REVIEW_LANG.yml"
 
 # コマンド手打ちで作業したい時は以下の通り /book に pwd がマウントされます
-# docker run -i -t -v $(pwd):/book vvakame/review:5.1 /bin/bash
+# docker run -i -t -v $(pwd):/book review-custom:5.11 /bin/bash
+
+DOCKER_IMAGE="review-custom:5.11"
+
+# イメージが存在しない場合はビルドする
+if ! docker image inspect "$DOCKER_IMAGE" > /dev/null 2>&1; then
+  docker build -t "$DOCKER_IMAGE" .
+fi
 
 # reduce size of images
 REVIEW_IMAGE_DIR="articles/images_$REVIEW_LANG"
@@ -12,7 +19,7 @@ IMAGEMAGICK_COMMAND='mogrify -format jpg -quality 75 -background white -alpha re
 docker run -v $(pwd)/articles:/articles --entrypoint=sh dpokidov/imagemagick:7.1.0-47-buster -c "${FIND_COMMAND} | xargs ${IMAGEMAGICK_COMMAND}"
 eval "${FIND_COMMAND}" | xargs rm -fr # PNGファイルを一時的に削除
 
-docker run -t --rm -v $(pwd):/book -v $(pwd)/articles/fonts/bizud:/usr/share/fonts/truetype/bizud vvakame/review:5.1 /bin/bash -ci "cd /book && ./setup.sh && REVIEW_CONFIG_FILE=$REVIEW_CONFIG_FILE npm run pdf"
+docker run -t --rm -v $(pwd):/book -v $(pwd)/articles/fonts/bizud:/usr/share/fonts/truetype/bizud "$DOCKER_IMAGE" /bin/bash -ci "cd /book && npm install --ignore-scripts && bundle install && gem pristine --all && REVIEW_CONFIG_FILE=$REVIEW_CONFIG_FILE npm run pdf"
 
 # restore images
 git restore "$REVIEW_IMAGE_DIR"
