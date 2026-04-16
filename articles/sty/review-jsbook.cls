@@ -384,13 +384,14 @@
 
 %% load hyperref package
 \PassOptionsToPackage{hyphens}{url} % URLにハイフンが含まれる場合でも改行されるようにする
+\PassOptionsToPackage{dvipdfmx}{pxjahyper}
 \RequirePackage[dvipdfmx, \if@pdfhyperlink\else draft,\fi
   bookmarks=true,
   bookmarksnumbered=true,
   hidelinks,
   setpagesize=false,
 ]{hyperref}
-\RequirePackage[dvipdfmx]{pxjahyper}
+\RequirePackage{pxjahyper}
 
 %% more useful macros
 %% ----------

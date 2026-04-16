@@ -2,9 +2,12 @@ name: Build Re:VIEW to make distribution file
 # The workflow is triggered on pushes to the repository.
 on: [push]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build:
-    name: 
+    name:
     runs-on: ubuntu-latest
     steps:
     # uses v2 Stable version

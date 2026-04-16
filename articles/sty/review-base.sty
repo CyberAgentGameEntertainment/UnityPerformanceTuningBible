@@ -1,8 +1,9 @@
 \ProvidesClass{review-base}[2020/12/31]
 \RequirePackage{ifthen}
 \@ifundefined{Hy@Info}{% for jsbook.cls
+  \PassOptionsToPackage{dvipdfmx}{pxjahyper}
   \RequirePackage[dvipdfmx,bookmarks=true,bookmarksnumbered=true]{hyperref}
-  \RequirePackage[dvipdfmx]{pxjahyper}
+  \RequirePackage{pxjahyper}
   \newif\if@reclscover \@reclscovertrue
   \newcommand{\includefullpagegraphics}[2][]{%
     \thispagestyle{empty}%

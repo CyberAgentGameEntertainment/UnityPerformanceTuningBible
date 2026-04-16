@@ -17,7 +17,7 @@ const reviewTextMaker = `${reviewPrefix}rake text ${reviewPostfix}`;
 const reviewIDGXMLMaker = `${reviewPrefix}rake idgxml ${reviewPostfix}`;
 const reviewVivliostyle = `${reviewPrefix}rake vivliostyle ${reviewPostfix}`;
 
-const bookConfig = yaml.safeLoad(fs.readFileSync(`${articles}/${reviewConfig}`, "utf8"));
+const bookConfig = yaml.load(fs.readFileSync(`${articles}/${reviewConfig}`, "utf8"));
 
 module.exports = grunt => {
 	grunt.initConfig({

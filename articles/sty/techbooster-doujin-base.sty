@@ -60,7 +60,7 @@
 \renewcommand{\captionsize}{\fontsize{9}{9}\selectfont}
 \newlength{\captionnumwidth}
 \setlength{\captionnumwidth}{6zw}
-%\newlength{\captionwidth}
+\@ifundefined{captionwidth}{\newlength{\captionwidth}}{}
 \setlength{\captionwidth}{\textwidth}
 \addtolength{\captionwidth}{-\captionnumwidth}
 \def\captionhead{\sffamily{\color{black!30!white}{▲}}}

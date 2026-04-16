@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="<%=h @language %>">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<% if @javascripts.present? %>
+<%   @javascripts.each do |js| %>
+  <%= js %>
+
+<%   end %>
+<% end %>
+<% if @stylesheets.present? %>
+<%   @stylesheets.each do |style| %>
+  <link rel="stylesheet" type="text/css" href="<%=h style %>" />
+<%   end %>
+<% end%>
+<% if @next.present? %><link rel="next" title="<%= h(@next_title)%>" href="<%= h(@next.id.to_s+"."+@book.config['htmlext']) %>" /><% end %>
+<% if @prev.present? %><link rel="prev" title="<%= h(@prev_title)%>" href="<%= h(@prev.id.to_s+"."+@book.config['htmlext']) %>" /><% end %>
+  <meta name="generator" content="Re:VIEW" />
+  <title><%= h(@title) %> | <%=h @book.config.name_of("booktitle")%></title>
+</head>
+<body<%= @body_ext %>>
+  <div class="book">
+    <nav class="side-content">
+      <div class="side-header">
+<% if @book.config["coverimage"].present? %>
+        <a href="./" ><img class="side-cover" src="<%=h @book.config["imagedir"] %>/<%=h @book.config["coverimage"] %>" alt="<%=h @book.config.name_of("booktitle") %>" /></a>
+<% end %>
+        <h1 class="side-title"><%=h @book.config.name_of("booktitle") %></h1>
+      </div>
+      <div class="lang-toggle" id="lang-toggle">
+        <a href="#" class="lang-btn" data-lang="ja">日本語</a>
+        <a href="#" class="lang-btn" data-lang="en">English</a>
+      </div>
+      <div class="search-box">
+        <input type="text" id="search-input" placeholder="Search..." autocomplete="off" aria-label="Search" />
+        <div id="search-results" class="search-results"></div>
+      </div>
+      <%= @toc %>
+      <p class="review-signature">powered by <a href="http://reviewml.org/">Re:VIEW</a></p>
+    </nav>
+    <div class="book-body">
+      <header>
+      </header>
+      <div class="book-page">
+        <%= @body %>
+      </div>
+      <nav class="book-navi book-prev">
+        <% if @prev.present? %>
+        <a href="<%= h(@prev.id.to_s+"."+@book.config['htmlext']) %>">
+          <div class="book-cursor"><span class="cursor-prev">&#9664;</span></div>
+        </a>
+        <% end %>
+      </nav>
+      <nav class="book-navi book-next">
+        <% if @next.present? %>
+        <a href="<%= h(@next.id.to_s+"."+@book.config['htmlext']) %>">
+          <div class="book-cursor"><span class="cursor-next">&#9654;</span></div>
+        </a>
+        <% end %>
+      </nav>
+    </div>
+  </div>
+  <footer>
+    <% if @book.config["copyright"].present? %>
+    <p class="copyright"><%=h @book.config["copyright"] %></p>
+    <% end %>
+  </footer>
+<script>
+(function() {
+  function normalizePage(value) {
+    var page = (value || '').split('#')[0].split('?')[0];
+    page = page.replace(/\.html$/, '');
+    if (page === '' || page === '.' || page === './' || page.charAt(page.length - 1) === '/') {
+      return 'index';
+    }
+    var last = page.split('/').pop();
+    return (last === '' || last === '.' || last === 'index') ? 'index' : last;
+  }
+
+  var currentPage = normalizePage(location.pathname);
+  var tocItems = document.querySelectorAll('.book-toc > li');
+  var headings = document.querySelectorAll('.book-page h2');
+
+  function matchPage(href) {
+    return normalizePage(href) === currentPage;
+  }
+
+  // Fix TOP link to use relative directory path instead of index.html
+  tocItems.forEach(function(li) {
+    var link = li.querySelector('a');
+    if (link && link.getAttribute('href') === 'index.html') {
+      link.setAttribute('href', './');
+    }
+  });
+
+  tocItems.forEach(function(li) {
+    var link = li.querySelector('a');
+    if (!link) return;
+    var href = link.getAttribute('href');
+
+    // Highlight current page
+    if (matchPage(href)) {
+      li.classList.add('toc-active');
+    }
+
+    // Add sub-sections for current page
+    if (matchPage(href) && headings.length > 0) {
+      var subUl = document.createElement('ul');
+      subUl.className = 'toc-sub';
+      headings.forEach(function(h2) {
+        var id = h2.getAttribute('id');
+        if (!id) return;
+        var text = h2.textContent.replace(/^\s+/, '');
+        var subLi = document.createElement('li');
+        var subA = document.createElement('a');
+        subA.href = '#' + id;
+        subA.textContent = text;
+        subLi.appendChild(subA);
+        subUl.appendChild(subLi);
+      });
+      li.appendChild(subUl);
+    }
+  });
+
+  // Scroll-based highlight for sub-sections
+  if (headings.length > 0) {
+    var subLinks = document.querySelectorAll('.toc-sub a');
+    function updateActive() {
+      var scrollY = window.scrollY || document.documentElement.scrollTop;
+      var active = null;
+      headings.forEach(function(h2, i) {
+        if (h2.getBoundingClientRect().top + window.scrollY - 80 <= scrollY) {
+          active = i;
+        }
+      });
+      subLinks.forEach(function(a, i) {
+        a.parentElement.classList.toggle('toc-sub-active', i === active);
+      });
+    }
+    window.addEventListener('scroll', updateActive);
+    updateActive();
+  }
+})();
+
+// --- Search ---
+(function() {
+  var input = document.getElementById('search-input');
+  var resultsDiv = document.getElementById('search-results');
+  var searchIndex = null;
+
+  function runSearch() {
+    var q = input.value.trim().toLowerCase();
+    if (!q || !searchIndex) {
+      resultsDiv.innerHTML = '';
+      resultsDiv.style.display = 'none';
+      return;
+    }
+    var keywords = q.split(/\s+/);
+    var matches = searchIndex.filter(function(entry) {
+      var haystack = (entry.title + ' ' + entry.text).toLowerCase();
+      return keywords.every(function(kw) { return haystack.indexOf(kw) !== -1; });
+    }).slice(0, 15);
+
+    if (matches.length === 0) {
+      resultsDiv.innerHTML = '<div class="search-empty">No results</div>';
+    } else {
+      resultsDiv.innerHTML = matches.map(function(m) {
+        var href = m.id ? m.file + '#' + m.id : m.file;
+        var snippet = highlightSnippet(m.text, keywords);
+        return '<a class="search-result" href="' + href + '">'
+          + '<div class="search-result-title">' + escapeHtml(m.title) + '</div>'
+          + '<div class="search-result-snippet">' + snippet + '</div>'
+          + '</a>';
+      }).join('');
+    }
+    resultsDiv.style.display = 'block';
+  }
+
+  input.addEventListener('focus', function() {
+    if (searchIndex) return;
+    fetch('search-index.json')
+      .then(function(r) { return r.json(); })
+      .then(function(data) { searchIndex = data; runSearch(); })
+      .catch(function() { searchIndex = []; });
+  });
+
+  input.addEventListener('input', runSearch);
+
+  // Close results on outside click
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.search-box')) {
+      resultsDiv.style.display = 'none';
+    }
+  });
+
+  // Close on Escape
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      resultsDiv.style.display = 'none';
+      input.blur();
+    }
+  });
+
+  function escapeHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function highlightSnippet(text, keywords) {
+    // Find the first keyword match position and show context around it
+    var lower = text.toLowerCase();
+    var pos = -1;
+    for (var i = 0; i < keywords.length; i++) {
+      var p = lower.indexOf(keywords[i]);
+      if (p !== -1 && (pos === -1 || p < pos)) pos = p;
+    }
+    var start = Math.max(0, pos - 30);
+    var end = Math.min(text.length, start + 120);
+    var snippet = (start > 0 ? '...' : '') + text.slice(start, end) + (end < text.length ? '...' : '');
+    snippet = escapeHtml(snippet);
+    keywords.forEach(function(kw) {
+      var re = new RegExp('(' + kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+      snippet = snippet.replace(re, '<mark>$1</mark>');
+    });
+    return snippet;
+  }
+})();
+
+// --- Language Toggle ---
+(function() {
+  var path = location.pathname;
+  var langMatch = path.match(/\/(ja|en)\//);
+  var currentLang = langMatch ? langMatch[1] : 'ja';
+
+  // Highlight active language
+  document.querySelectorAll('.lang-btn').forEach(function(btn) {
+    var lang = btn.getAttribute('data-lang');
+    if (lang === currentLang) {
+      btn.classList.add('lang-active');
+    }
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (lang === currentLang) return;
+      var newPath = path.replace('/' + currentLang + '/', '/' + lang + '/');
+      location.href = newPath + location.hash;
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -20,6 +20,7 @@
 
 require 'fileutils'
 require 'yaml'
+require 'date'
 
 def make_mdre(ch, p2r, path)
   if File.exist?(ch) # re file
@@ -31,7 +32,7 @@ end
 
 desc 'run pandoc2review'
 task :pandoc2review do
-  config = YAML.load_file(CONFIG_FILE)
+  config = YAML.safe_load_file(CONFIG_FILE, permitted_classes: [Date])
   if config['contentdir'] == '_refiles'
     path = '_refiles'
     p2r = 'pandoc2review'

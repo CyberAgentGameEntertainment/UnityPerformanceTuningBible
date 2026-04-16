@@ -8,5 +8,6 @@ articles/*.html
 # articles/*.md
 articles/*.xml
 articles/*.txt
+articles/webroot/
 
 .DS_Store
