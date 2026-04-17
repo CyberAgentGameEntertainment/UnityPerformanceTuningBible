@@ -9,7 +9,8 @@
 **Docs** ([日本語](README.md), [English](README_EN.md))
 
 This book is a comprehensive guide to optimizing performance in Unity.  
-The e-book is available for download as a PDF from this repository.  
+The web version is available [here](https://cyberagentgameentertainment.github.io/UnityPerformanceTuningBible/en/index.html).  
+The e-book is also available for download as a PDF from this repository.  
 Please send your comments and suggestions via [Issues](https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/issues) or [Pull Requests](https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/pulls).  
 
 ## How to download the e-book.

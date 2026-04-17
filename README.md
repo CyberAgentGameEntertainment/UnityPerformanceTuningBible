@@ -9,7 +9,8 @@
 **Docs** ([日本語](README.md), [English](README_EN.md))
 
 本書はUnityのパフォーマンスチューニングに関するノウハウを体系的にまとめた書籍です。  
-本リポジトリから電子書籍をPDFとしてダウンロードすることができます。
+Web版は [こちら](https://cyberagentgameentertainment.github.io/UnityPerformanceTuningBible/ja/index.html) から閲覧できます。  
+また、本リポジトリから電子書籍をPDFとしてダウンロードすることができます。
 
 ご意見、ご指摘は [Issues](https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/issues) や [Pull Requests](https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible/pulls) からお願いいたします。
 
