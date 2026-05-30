@@ -109,6 +109,113 @@ div.footnote {
 	}
 }
 
+// Rouge syntax highlighting
+table.highlight,
+.rouge-table {
+	border: 0;
+	width: 100%;
+	margin-bottom: $paragraph-margin-bottom;
+	background: #191a1c;
+	border-radius: 6px;
+	overflow: hidden;
+}
+
+table.highlight td,
+.rouge-table td {
+	border: 0;
+	padding: 0;
+	vertical-align: top;
+}
+
+.rouge-gutter {
+	width: 1%;
+	color: #808080;
+	background: #191a1c;
+	border-right: 1px solid #404040;
+	text-align: right;
+	user-select: none;
+}
+
+.rouge-gutter pre,
+.rouge-code pre {
+	margin: 0;
+	padding: 0.75em 1em;
+	overflow-x: auto;
+}
+
+.rouge-code {
+	width: 99%;
+}
+
+.rouge-code pre {
+	background: #191a1c;
+	color: #bdbdbd;
+}
+
+.highlight .k,
+.highlight .kd,
+.highlight .kn,
+.highlight .kp,
+.highlight .kr {
+	color: #6c95eb;
+	font-weight: 400;
+}
+
+.highlight .kt {
+	color: #6c95eb;
+	font-weight: 400;
+}
+
+.highlight .nc {
+	color: #c191ff;
+}
+
+.highlight .nf {
+	color: #39cc9b;
+}
+
+.highlight .n,
+.highlight .p {
+	color: #bdbdbd;
+}
+
+.highlight .s,
+.highlight .s1,
+.highlight .s2 {
+	color: #c9a26d;
+}
+
+.highlight .m,
+.highlight .mi,
+.highlight .mf {
+	color: #ed94c0;
+}
+
+.highlight .c,
+.highlight .c1,
+.highlight .cm {
+	color: #85c46c;
+	font-style: italic;
+}
+
+.highlight .cp {
+	color: #6c95eb;
+}
+
+.highlight .na,
+.highlight .no,
+.highlight .nv,
+.highlight .vc,
+.highlight .vi,
+.highlight .vg {
+	color: #66c3cc;
+}
+
+.highlight .o,
+.highlight .ow {
+	color: #bdbdbd;
+}
+
 // ヘッダ
 .tb-header {
 	background-image: url(images/html_header.jpg);
