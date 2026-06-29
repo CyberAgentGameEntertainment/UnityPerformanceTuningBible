@@ -9,12 +9,12 @@ mkdir -p "$OUTDIR/ja" "$OUTDIR/en"
 
 # Build Japanese
 echo "=== Building Japanese ==="
-REVIEW_CONFIG_FILE=config-epub-jp.yml npx grunt web
+REVIEW_CONFIG_FILE=config-web-jp.yml npx grunt web
 cp -r "$WEBROOT/"* "$OUTDIR/ja/"
 
 # Build English
 echo "=== Building English ==="
-REVIEW_CONFIG_FILE=config-epub-en.yml npx grunt web
+REVIEW_CONFIG_FILE=config-web-en.yml npx grunt web
 cp -r "$WEBROOT/"* "$OUTDIR/en/"
 
 # Generate search indices
