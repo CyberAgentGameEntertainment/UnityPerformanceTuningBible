@@ -469,8 +469,6 @@ pdfmaker:
 # という構成にする必要がある(インデントさせる)
 #
 webmaker:
-    highlight:
-        html: "rouge"
     stylesheet: ["style.css", "style-web.css"]
 
 # TechBooster Re:VIEW-Template独自設定
