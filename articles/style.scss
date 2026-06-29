@@ -114,10 +114,11 @@ table.highlight,
 .rouge-table {
 	border: 0;
 	width: 100%;
-	margin-bottom: $paragraph-margin-bottom;
+	margin-bottom: $font-size;
 	background: #191a1c;
 	border-radius: 6px;
 	overflow: hidden;
+	font-size: 0.9em;
 }
 
 table.highlight td,
@@ -140,7 +141,10 @@ table.highlight td,
 .rouge-code pre {
 	margin: 0;
 	padding: 0.75em 1em;
+	border: 0;
+	border-radius: 0;
 	overflow-x: auto;
+	line-height: 1.6;
 }
 
 .rouge-code {

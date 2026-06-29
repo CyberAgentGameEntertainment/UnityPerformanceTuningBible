@@ -173,8 +173,8 @@ imagedir: images_jp
 # font_ext: ["ttf", "woff", "otf"]
 
 # ソースコードハイライトを利用する (rouge,pygmentsには外部gemが必要)
-highlight:
-  html: "rouge"
+# highlight:
+#   html: "rouge"
 #   latex: "listings"
 
 # カタログファイル名を指定する
@@ -469,6 +469,8 @@ pdfmaker:
 # という構成にする必要がある(インデントさせる)
 #
 webmaker:
+    highlight:
+        html: "rouge"
     stylesheet: ["style.css", "style-web.css"]
 
 # TechBooster Re:VIEW-Template独自設定
