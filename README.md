@@ -20,10 +20,8 @@ Web版は [こちら](https://cyberagentgameentertainment.github.io/UnityPerform
 2. AssetsからPDFをダウンロードします。
 
 ## ライセンスについて
-本リポジトリにはライセンスは適用していませんが、著作権法は適用されます。  
-詳しくは以下のページを参照してください。
-
-[Licensing a repository > Choosing the right license](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository#choosing-the-right-license)
+本プロジェクトでは[CC BY-NC-ND 4.0ライセンス](LICENSE)を適用しています。
+ただしコントリビューター向けに別途Contributor License Agreement (CLA) を結ぶことで、Pull Requestを受け付けています。
 
 ## 翻訳版について
 ### 背景
