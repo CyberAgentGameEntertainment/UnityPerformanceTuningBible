@@ -1,4 +1,4 @@
-FROM ruby:3.3-bookworm
+FROM ruby:3.4.12-bookworm
 
 # TeX Live + Japanese support for Re:VIEW PDF builds
 RUN apt-get update && apt-get install -y --no-install-recommends \
